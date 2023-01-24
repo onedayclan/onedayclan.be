@@ -20,6 +20,14 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
+navercloud:
+  sms:
+    host: https://sens.apigw.ntruss.com
+    service-url: /sms/v2/services/
+    service-id: ncp:sms:kr:284882888474:ondayclan
+    secret-key: tw0WnPXHv09IUcMl8OHZNRj2givvjpyUYW4t4JPn
+    access-key: tbWUSIAw6cEUyVP4rHEp
+    from: 01033390159
 
 
 ---
