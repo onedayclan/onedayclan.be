@@ -6,6 +6,7 @@ import com.clanone.onedayclan.member.application.service.util.NumberUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 @Transactional
@@ -17,6 +18,8 @@ public class SendAuthorizationNumberService implements SendAuthorizationNumberPo
     public void sendAuthorizationNumber(String to) {
         String authorizationNumber = NumberUtil.generateAuthorizationNumber();
 
-        sendSmsPort.sendSMS(authorizationNumber, to);
+        String result = sendSmsPort.sendSMS(authorizationNumber, to);
+        System.out.println();
+
     }
 }

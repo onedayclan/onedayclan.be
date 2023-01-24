@@ -2,11 +2,13 @@ package com.clanone.onedayclan.member.adapter.out.sms;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Builder
 @Getter
+@ToString
 public class SmsRequestBody {
     private String type; //SMS 타입 (SMS, LMS, MMS)
     private String contentType; //메시지 타입 (COMM : 일반메시지(default), AD : 광고메시지)

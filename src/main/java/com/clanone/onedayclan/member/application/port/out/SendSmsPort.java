@@ -1,5 +1,7 @@
 package com.clanone.onedayclan.member.application.port.out;
 
+import reactor.core.publisher.Mono;
+
 public interface SendSmsPort {
-    void sendSMS(String content, String to);
+    String sendSMS(String content, String to);
 }

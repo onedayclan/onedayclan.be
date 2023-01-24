@@ -22,11 +22,12 @@ spring:
       ddl-auto: create
 navercloud:
   sms:
-    service-url: https://sens.apigw.ntruss.com/sms/v2/services/
-    service-id: ncp:sms:kr:299771253539:oneday_clan
-    secret-key: CHzOSnMeQE8cRaXjysZH7VtJIbhQUpM6eYwR9hUX
-    access-key: hAwn1f8sT569IVFGplxI
-    from: 01085745796
+    host: https://sens.apigw.ntruss.com
+    service-url: /sms/v2/services/
+    service-id: ncp:sms:kr:284882888474:ondayclan
+    secret-key: tw0WnPXHv09IUcMl8OHZNRj2givvjpyUYW4t4JPn
+    access-key: tbWUSIAw6cEUyVP4rHEp
+    from: 01033390159
 
 
 ---

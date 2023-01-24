@@ -1,16 +1,13 @@
 package com.clanone.onedayclan.member.adapter.out.sms;
 
 import com.clanone.onedayclan.member.application.port.out.SendSmsPort;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,6 +20,9 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Slf4j
 public class SmsAdapter implements SendSmsPort {
+    @Value("${navercloud.sms.host}")
+    private String host;
+
     @Value("${navercloud.sms.service-id}")
     private String serviceId;
 
@@ -38,32 +38,32 @@ public class SmsAdapter implements SendSmsPort {
     @Value("${navercloud.sms.from}")
     private String from;
 
-    private final Gson gson;
+    private final WebClient webClient;
 
-    private final RestTemplate restTemplate;
 
-    public void sendSMS(String content, String to) {
+    public String sendSMS(String content, String to) {
         SmsRequestBody body = SmsRequestBody.builder()
                 .type("SMS")
                 .from(from)
                 .content(content)
                 .messages(Collections.singletonList(SmsMessage.builder().to(to).build()))
                 .build();
-
         try {
-            HttpHeaders headers = new HttpHeaders();
             String timestamp = Long.toString(System.currentTimeMillis());
-            headers.set("Content-Type", "application/json; charset=utf-8");
-            headers.set("x-ncp-apigw-timestamp", timestamp);
-            headers.set("x-ncp-iam-access-key", accessKey);
-            headers.set("x-ncp-apigw-signature-v2", makeSignature(timestamp, "POST"));
+            String signature = makeSignature(timestamp, "POST",url + serviceId + "/messages");
 
-            HttpEntity httpEntity = new HttpEntity(body, headers);
+            Mono<String> monoString = webClient.post()
+                    .uri(host + url + serviceId + "/messages")
+                    .headers(headers -> {
+                        headers.add("x-ncp-apigw-timestamp", timestamp);
+                        headers.add("x-ncp-iam-access-key", accessKey);
+                        headers.add("x-ncp-apigw-signature-v2", signature);
+                    })
+                    .body(Mono.just(body), SmsRequestBody.class)
+                    .retrieve()
+                    .bodyToMono(String.class);
 
-            restTemplate.exchange(url+serviceId+"/messages",
-                    HttpMethod.POST,
-                    httpEntity,
-                    String.class);
+            return monoString.block();
 
         } catch (UnsupportedEncodingException e) {
             log.error("지원하지 않는 인코딩 형식입니다. {}", e);
@@ -71,12 +71,14 @@ public class SmsAdapter implements SendSmsPort {
             log.error("알 수 없는 암호화 알고리즘입니다. {}", e);
         } catch (InvalidKeyException e) {
             log.error("유효하지 않은 key 입니다. {}", e);
+        } catch (Exception e) {
+            log.error("{}", e);
         }
 
-
+        return null;
     }
 
-    public String makeSignature(String timestamp, String method) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public String makeSignature(String timestamp, String method, String url) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         String space = " ";					// one space
         String newLine = "\n";					// new line
 
