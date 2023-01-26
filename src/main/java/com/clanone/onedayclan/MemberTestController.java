@@ -11,10 +11,10 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class MemberController {
+public class MemberTestController {
     private final MemberService memberService;
 
-    @GetMapping("/member")
+    /*@GetMapping("/member")
     public ResponseEntity<OnedayclanResponse<Member>> getMember(){
         return ResponseEntity.ok(OnedayclanResponse.of(memberService.getMember()));
     }
@@ -44,5 +44,5 @@ public class MemberController {
     @GetMapping("/member/badrequestexception")
     public ResponseEntity<OnedayclanResponse<Member>> throwException2(){
         return ResponseEntity.ok(OnedayclanResponse.of(memberService.throwBadRequestException()));
-    }
+    }*/
 }
