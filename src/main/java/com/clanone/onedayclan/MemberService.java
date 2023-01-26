@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class MemberService {
-    private final MemberRepository memberRepository;
+    /*private final MemberRepository memberRepository;
 
     public Member getMember(){
         return memberRepository.findById(1L).get();
@@ -37,6 +37,6 @@ public class MemberService {
 
     public Member throwBadRequestException() {
         throw new MemberAlreadyDeletedException(new Exception());
-    }
+    }*/
 
 }
