@@ -28,6 +28,8 @@ navercloud:
     secret-key: tw0WnPXHv09IUcMl8OHZNRj2givvjpyUYW4t4JPn
     access-key: tbWUSIAw6cEUyVP4rHEp
     from: 01033390159
+jwt:
+  secret: dkw92Lei20jNde2Ej223Nd2q2Nej2Le93n1Bjfnq9Ndsla9s
 
 
 ---
