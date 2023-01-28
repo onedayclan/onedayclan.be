@@ -24,7 +24,7 @@ public class AuthorizationNumberService implements AuthorizationNumberPort {
     private final ConfirmAuthorizationNumberPort confirmAuthorizationNumberPort;
     private final SendAuthorizationNumberPort sendAuthorizationNumberPort;
 
-    final int VALID_LIMIT_MIN = 5;
+    private final int VALID_LIMIT_MIN = 5;
 
     public void sendAuthorizationNumber(String to) {
         String authorizationNumber = NumberUtil.generateAuthorizationNumber();
