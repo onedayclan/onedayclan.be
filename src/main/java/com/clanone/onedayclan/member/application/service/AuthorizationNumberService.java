@@ -24,12 +24,13 @@ public class AuthorizationNumberService implements AuthorizationNumberPort {
     private final ConfirmAuthorizationNumberPort confirmAuthorizationNumberPort;
     private final SendAuthorizationNumberPort sendAuthorizationNumberPort;
 
+    final int VALID_LIMIT_MIN = 5;
+
     public void sendAuthorizationNumber(String to) {
         String authorizationNumber = NumberUtil.generateAuthorizationNumber();
 
-        String result = sendSmsPort.sendSMS(authorizationNumber, to);
+        sendSmsPort.sendSMS(authorizationNumber, to);
 
-        final int VALID_LIMIT_MIN = 5;
         LocalDateTime validAt = LocalDateTime.now().plusMinutes(VALID_LIMIT_MIN);
 
         sendAuthorizationNumberPort.saveAuthorizationNumber(to,authorizationNumber,validAt);

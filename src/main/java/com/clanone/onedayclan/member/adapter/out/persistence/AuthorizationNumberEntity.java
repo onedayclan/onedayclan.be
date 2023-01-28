@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,9 +24,9 @@ public class AuthorizationNumberEntity {
 
     private String authorizationNumber;
 
-    // 인증번호 사용여부
     private boolean usedYn;
 
+    @ColumnDefault("false")
     private LocalDateTime validAt;
 
     public void use() {
@@ -33,10 +34,9 @@ public class AuthorizationNumberEntity {
     }
 
     @Builder
-    public AuthorizationNumberEntity(String phoneNumber, String authorizationNumber, boolean usedYn, LocalDateTime validAt) {
+    public AuthorizationNumberEntity(String phoneNumber, String authorizationNumber, LocalDateTime validAt) {
         this.phoneNumber = phoneNumber;
         this.authorizationNumber = authorizationNumber;
-        this.usedYn = false;
         this.validAt = validAt;
     }
 }
