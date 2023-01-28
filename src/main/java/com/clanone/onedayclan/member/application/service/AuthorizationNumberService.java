@@ -29,15 +29,12 @@ public class AuthorizationNumberService implements AuthorizationNumberPort {
 
         String result = sendSmsPort.sendSMS(authorizationNumber, to);
 
-        // 디비에 휴대폰 번호 + 인증번호 저장 + 보낸 시간 + 유효시간
         final int VALID_LIMIT_MIN = 5;
         LocalDateTime validAt = LocalDateTime.now().plusMinutes(VALID_LIMIT_MIN);
-        System.out.println(validAt);
 
         sendAuthorizationNumberPort.saveAuthorizationNumber(to,authorizationNumber,validAt);
     }
 
-    @Transactional
     public SmsConfirmResponse confirmAuthorizationNumber(SmsConfirmRequest smsConfirmRequest) {
         AuthorizationNumberEntity authorizationNumber = confirmAuthorizationNumberPort.getAuthorizationNumber(smsConfirmRequest.getPhoneNumber(), smsConfirmRequest.getAuthorizationNumber(), LocalDateTime.now());
 

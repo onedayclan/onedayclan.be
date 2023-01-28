@@ -20,7 +20,6 @@ public class AuthorizationNumberAdapter implements ConfirmAuthorizationNumberPor
     }
 
     @Override
-    @Transactional
     public void saveAuthorizationNumber(String phoneNumber, String authorizationNumber, LocalDateTime validAt) {
         AuthorizationNumberEntity authorizationNumberEntity = AuthorizationNumberEntity.builder()
                 .authorizationNumber(authorizationNumber)
