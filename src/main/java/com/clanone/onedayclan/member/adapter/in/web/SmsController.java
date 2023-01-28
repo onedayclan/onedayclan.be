@@ -1,7 +1,7 @@
 package com.clanone.onedayclan.member.adapter.in.web;
 
 import com.clanone.onedayclan.OnedayclanResponse;
-import com.clanone.onedayclan.member.application.port.in.SendAuthorizationNumberPort;
+import com.clanone.onedayclan.member.application.port.in.AuthorizationNumberPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class SmsController {
-    private final SendAuthorizationNumberPort sendAuthorizationNumberPort;
+    private final AuthorizationNumberPort authorizationNumberPort;
 
     @PostMapping("/sms/send")
     public ResponseEntity<OnedayclanResponse<Void>> sendMessage(@RequestBody SmsRequest smsRequest) {
-        sendAuthorizationNumberPort.sendAuthorizationNumber(smsRequest.getTo());
+        authorizationNumberPort.sendAuthorizationNumber(smsRequest.getTo());
         return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @PostMapping("/sms/confirm")
+    public ResponseEntity<OnedayclanResponse<SmsConfirmResponse>> confirmSms(@RequestBody SmsConfirmRequest smsConfirmRequest) {
+        return ResponseEntity.ok(OnedayclanResponse.of(authorizationNumberPort.confirmAuthorizationNumber(smsConfirmRequest)));
     }
 }
