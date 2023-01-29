@@ -10,4 +10,9 @@ public class OnedayclanException extends RuntimeException{
         super(message, e);
         this.errorCode = errorCode;
     }
+
+    public OnedayclanException(ErrorCode errorCode, String message){
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

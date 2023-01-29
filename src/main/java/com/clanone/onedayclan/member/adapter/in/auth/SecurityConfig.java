@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.in.auth;
 
+import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final LoginMemberPort loginMemberPort;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**", "/sms/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, loginMemberPort), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

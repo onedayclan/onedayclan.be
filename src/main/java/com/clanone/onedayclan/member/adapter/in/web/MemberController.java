@@ -40,4 +40,15 @@ public class MemberController {
                 memberJoinRequest.getPhone()));
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<OnedayclanResponse<Void>> logout(@RequestBody LogoutRequest logoutRequest) {
+        loginMemberPort.logout(logoutRequest.getAccessToken());
+        return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<OnedayclanResponse<Void>> get() {
+        return ResponseEntity.ok(OnedayclanResponse.success());
+    }
 }

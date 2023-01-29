@@ -39,7 +39,7 @@ public class JwtTokenProvider {
     private TokenResponse createToken(String userId) {
         long now = (new Date()).getTime();
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 300000);
+        Date accessTokenExpiresIn = new Date(now + 1000 * 60 * 5);
         String accessToken = Jwts.builder()
                 .setSubject(userId)
                 .claim("id", userId)
