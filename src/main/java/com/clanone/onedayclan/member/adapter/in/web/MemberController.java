@@ -26,6 +26,11 @@ public class MemberController {
         return ResponseEntity.ok(OnedayclanResponse.of(loginMemberPort.login(memberLoginRequest.getId(), memberLoginRequest.getPassword())));
     }
 
+    @PostMapping("/auth/refresh")
+    public ResponseEntity<OnedayclanResponse<TokenResponse>> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return ResponseEntity.ok(OnedayclanResponse.of(loginMemberPort.refresh(refreshTokenRequest.getRefreshToken())));
+    }
+
     @PostMapping("/auth/join")
     public ResponseEntity<OnedayclanResponse<Void>> joinMember(@RequestBody MemberJoinRequest memberJoinRequest) {
         joinMemberPort.joinMember(new Member(memberJoinRequest.getId(),

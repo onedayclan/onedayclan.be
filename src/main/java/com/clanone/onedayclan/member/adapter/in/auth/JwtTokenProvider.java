@@ -27,14 +27,22 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public TokenResponse refreshToken(String userId) {
+        return this.createToken(userId);
+    }
+
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public TokenResponse generateToken(Authentication authentication) {
+        return this.createToken(authentication.getName());
+    }
+
+    private TokenResponse createToken(String userId) {
         long now = (new Date()).getTime();
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 300000);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim("id", authentication.getName())
+                .setSubject(userId)
+                .claim("id", userId)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
