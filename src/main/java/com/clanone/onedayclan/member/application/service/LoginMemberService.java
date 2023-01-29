@@ -2,7 +2,9 @@ package com.clanone.onedayclan.member.application.service;
 
 import com.clanone.onedayclan.member.adapter.in.auth.JwtTokenProvider;
 import com.clanone.onedayclan.member.adapter.in.web.TokenResponse;
+import com.clanone.onedayclan.member.adapter.out.redis.RefreshToken;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
+import com.clanone.onedayclan.member.application.port.out.AuthTokenPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,7 @@ public class LoginMemberService implements LoginMemberPort {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthTokenPort authTokenPort;
 
     @Override
     public TokenResponse login(String id, String password) {
@@ -28,6 +31,19 @@ public class LoginMemberService implements LoginMemberPort {
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenResponse tokenInfo = jwtTokenProvider.generateToken(authentication);
+        authTokenPort.saveRefreshToken(tokenInfo.getRefreshToken(), id);
+
+        return tokenInfo;
+    }
+
+    @Override
+    public TokenResponse refresh(String refreshToken) {
+        RefreshToken refreshTokenInfo = authTokenPort.getRefreshToken(refreshToken);
+
+        TokenResponse tokenInfo = jwtTokenProvider.refreshToken(refreshTokenInfo.getUserId());
+
+        authTokenPort.saveRefreshToken(tokenInfo.getRefreshToken(), refreshTokenInfo.getUserId());
+        authTokenPort.deleteRefreshToken(refreshTokenInfo);
 
         return tokenInfo;
     }
