@@ -21,7 +21,16 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH }}
         env:
-          override.value: ${{ secrets.DI_FROM_SECRET }}
+          spring.datasource.url: jdbc.mysql://${{ secrets.DATASOURCE_HOST }}:${{ secrets.DATASOURCE_PORT }}/${{ secrets.DATASOURCE_DATABASE }}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+          spring.datasource.username: ${{ secrets.DATASOURCE_USERNAME }}
+          spring.datasource.password: ${{ secrets.DATASOURCE_PASSWORD }}
+          spring.mail.username: ${{ secrets.MAIL_USERNAME }}
+          spring.mail.password: ${{ secrets.MAIL_PASSWORD }}
+          navercloud.sms.service-id: ${{ secrets.SMS_SERVICE_ID}}
+          navercloud.sms.secret-key: ${{ secrets.SMS_SECRET_KEY }}
+          navercloud.sms.access-key: ${{ secrets.SMS_ACCESS_KEY }}
+          navercloud.sms.from: ${{ secret.SMS_FROM }}
+          jwt.secret: ${{ secret.JWT_SECRET }}
       
       - name: Build with Maven
         run : mvn -B package --file pom.xml
