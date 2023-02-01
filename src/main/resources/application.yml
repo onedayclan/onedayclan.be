@@ -8,10 +8,10 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://{{datasource.host}}:{{datasource.port}}/{{datasource.dbname}}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${datasource.host}:${datasource.port}/${datasource.dbname}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: {{datasource.username}}
-    password: {{datasource.password}}
+    username: ${datasource.username}
+    password: ${datasource.password}
   jpa:
     #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
@@ -23,8 +23,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: {{mail.username}}
-    password: {{mail.password}}
+    username: ${mail.username}
+    password: ${mail.password}
     properties:
       mail:
         smtp:
@@ -35,12 +35,12 @@ navercloud:
   sms:
     host: https://sens.apigw.ntruss.com
     service-url: /sms/v2/services/
-    service-id: {{sms.service_id}}
-    secret-key: {{sms.secret_key}}
-    access-key: {{sms.access_key}}
-    from: {{sms.from}}
+    service-id: ${sms.service_id}
+    secret-key: ${sms.secret_key}
+    access-key: ${sms.access_key}
+    from: ${sms.from}
 jwt:
-  secret: {{jwt.secret}}
+  secret: ${jwt.secret}
 
 
 ---
