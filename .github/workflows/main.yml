@@ -29,8 +29,8 @@ jobs:
           navercloud.sms.service-id: ${{ secrets.SMS_SERVICE_ID}}
           navercloud.sms.secret-key: ${{ secrets.SMS_SECRET_KEY }}
           navercloud.sms.access-key: ${{ secrets.SMS_ACCESS_KEY }}
-          navercloud.sms.from: ${{ secret.SMS_FROM }}
-          jwt.secret: ${{ secret.JWT_SECRET }}
+          navercloud.sms.from: ${{ secrets.SMS_FROM }}
+          jwt.secret: ${{ secrets.JWT_SECRET }}
       
       - name: Build with Maven
         run : mvn -B package --file pom.xml
