@@ -2,6 +2,9 @@ name: onedayclan
 
 on:
   workflow_dispatch
+
+env:
+  RESOURCE_PATH: /src/main/resources/application.yml
   
 jobs:
   build:
