@@ -52,7 +52,7 @@ public class MemberController {
     }
 
     @PostMapping("/auth/find/id")
-    public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findPassword(@RequestBody FindIdRequest findIdRequest) {
+    public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@RequestBody FindIdRequest findIdRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
     }
 }

@@ -37,7 +37,7 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     public String findUserId(String name, String phone) {
         Optional<MemberEntity> findMember = memberEntityRepository.findByNameAndPhone(name,phone);
         MemberEntity member = findMember.orElseThrow(() -> {
-            throw new MemberNotFoundException("일치하는 회원정보가 없습니다.");
+            throw new MemberNotFoundException();
         });
         String userId = member.getUserId();
 
