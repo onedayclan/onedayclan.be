@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://{{datasource.host}}:{{datasource.port}}/{{datasource.dbname}}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: {{datasource.username}}
+    password: {{datasource.password}}
+  jpa:
+    #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: {{mail.username}}
+    password: {{mail.password}}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+navercloud:
+  sms:
+    host: https://sens.apigw.ntruss.com
+    service-url: /sms/v2/services/
+    service-id: {{sms.service_id}}
+    secret-key: {{sms.secret_key}}
+    access-key: {{sms.access_key}}
+    from: {{sms.from}}
+jwt:
+  secret: {{jwt.secret}}
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: real
