@@ -6,4 +6,8 @@ public class MemberNotFoundException extends OnedayclanException{
     public MemberNotFoundException(Exception e) {
         super(ERROR_CODE, ERROR_CODE.getResultMessage(), e);
     }
+
+    public MemberNotFoundException(String message) {
+        super(ERROR_CODE, message);
+    }
 }
