@@ -1,9 +1,4 @@
 spring:
-  profiles:
-    active: local
-
----
-spring:
   config:
     activate:
       on-profile: local
@@ -41,16 +36,3 @@ navercloud:
     from: ${SMS_FROM}
 jwt:
   secret: ${JWT_SECRET}
-
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
----
-spring:
-  config:
-    activate:
-      on-profile: real
