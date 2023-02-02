@@ -26,7 +26,7 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH }}
         env:
-          spring.datasource.url: jdbc:mysql://${{ secrets.DATASOURCE_HOST }}:${{ secrets.DATASOURCE_PORT }}/${{ secrets.DATASOURCE_DATABASE }}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+          spring.datasource.url: ${{ secrets.DATASOURCE_URL }}
           spring.datasource.username: ${{ secrets.DATASOURCE_USERNAME }}
           spring.datasource.password: ${{ secrets.DATASOURCE_PASSWORD }}
           spring.mail.username: ${{ secrets.MAIL_USERNAME }}
