@@ -82,6 +82,18 @@ public class OnedayclanResponse<T> {
                 .build();
     }
 
+    public static OnedayclanResponse<Void> ofCodeMessage(HttpStatus httpStatus, String message) {
+        return OnedayclanResponse.<Void>builder()
+                .header(
+                        Header.builder()
+                                .isSuccessful(false)
+                                .statusCode(httpStatus)
+                                .resultMessage(message)
+                                .build()
+                )
+                .build();
+    }
+
     @Builder
     @ToString
     public static class Header {
