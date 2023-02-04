@@ -1,6 +1,9 @@
-package com.clanone.onedayclan;
+package com.clanone.onedayclan.member.application.exception;
 
-public class MemberNotFoundException extends OnedayclanException{
+import com.clanone.onedayclan.ErrorCode;
+import com.clanone.onedayclan.OnedayclanException;
+
+public class MemberNotFoundException extends OnedayclanException {
     private static final ErrorCode ERROR_CODE = ErrorCode.MEMBER_NOT_FOUND;
 
     public MemberNotFoundException(Exception e) {

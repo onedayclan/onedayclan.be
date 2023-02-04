@@ -15,9 +15,7 @@ public class FindMemberService implements FindMemberPort {
 
     @Override
     public MemberFindResponse findId(FindIdRequest findIdRequest) {
-        String name = findIdRequest.getName();
-        String phone = findIdRequest.getPhone();
-        String userId = findUserIdPort.findUserId(name, phone);
+        String userId = findUserIdPort.findUserId(findIdRequest.getName(), findIdRequest.getPhone());
 
         return MemberFindResponse.builder()
                 .email(userId)
