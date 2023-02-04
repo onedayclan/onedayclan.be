@@ -1,5 +1,7 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
+import com.clanone.onedayclan.member.application.port.out.FindUserIdPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
 import com.clanone.onedayclan.member.application.port.out.SaveMemberPort;
 import com.clanone.onedayclan.member.domain.Member;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class MemberAdapter implements SaveMemberPort, GetMemberPort {
+public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdPort {
 
     private final MemberEntityRepository memberEntityRepository;
 
@@ -29,5 +31,13 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort {
 
     public Optional<MemberEntity> getMemberById(String id) {
         return memberEntityRepository.findByUserId(id);
+    }
+
+    @Override
+    public String findUserId(String name, String phone) {
+        MemberEntity member = memberEntityRepository.findByNameAndPhone(name, phone)
+                                                    .orElseThrow(() -> {throw new MemberNotFoundException();});
+
+        return member.getUserId();
     }
 }

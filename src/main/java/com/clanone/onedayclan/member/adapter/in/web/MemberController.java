@@ -1,13 +1,11 @@
 package com.clanone.onedayclan.member.adapter.in.web;
 
 import com.clanone.onedayclan.OnedayclanResponse;
+import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
-import com.clanone.onedayclan.member.application.service.util.SecurityUtil;
 import com.clanone.onedayclan.member.domain.Member;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
-import org.apache.el.parser.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +18,7 @@ public class MemberController {
 
     private final JoinMemberPort joinMemberPort;
     private final LoginMemberPort loginMemberPort;
+    private final FindMemberPort findMemberPort;
 
     @PostMapping("/auth/login")
     public ResponseEntity<OnedayclanResponse<TokenResponse>> login(@RequestBody MemberLoginRequest memberLoginRequest) {
@@ -50,5 +49,10 @@ public class MemberController {
     @GetMapping("/get")
     public ResponseEntity<OnedayclanResponse<Void>> get() {
         return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @PostMapping("/auth/find/id")
+    public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@RequestBody FindIdRequest findIdRequest) {
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
     }
 }
