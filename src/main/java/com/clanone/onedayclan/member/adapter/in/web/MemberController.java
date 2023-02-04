@@ -35,7 +35,7 @@ public class MemberController {
         joinMemberPort.joinMember(new Member(memberJoinRequest.getId(),
                 memberJoinRequest.getName(),
                 memberJoinRequest.getPassword(),
-                memberJoinRequest.getEmail(),
+                memberJoinRequest.getOrganization(),
                 memberJoinRequest.getPhone()));
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
