@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,42 +8,39 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
 @Table(name = "member")
 @Getter
 @NoArgsConstructor
-public class MemberEntity implements UserDetails {
+public class MemberEntity extends AbstractUpdatableEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column
+    @Column(nullable = false)
     private String userId;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private String name;
-
-    @Column
-    private String email;
 
     @Column
     private String phone;
 
-    private LocalDateTime createdDatetime;
+    @Column
+    private String organization;
 
     @Builder
-    public MemberEntity(String userId, String password, String name, String email, String phone) {
+    public MemberEntity(String userId, String password, String name, String phone, String organization) {
         this.userId = userId;
         this.password = password;
         this.name = name;
-        this.email = email;
         this.phone = phone;
+        this.organization = organization;
     }
 
     @Override

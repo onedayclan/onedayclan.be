@@ -23,8 +23,8 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
                                 .userId(member.getId())
                                 .password(member.getPassword())
                                 .name(member.getName())
-                                .email(member.getEmail())
                                 .phone(member.getPhone())
+                                .organization(member.getOrganization())
                                 .build();
         memberEntityRepository.save(memberEntity);
     }
