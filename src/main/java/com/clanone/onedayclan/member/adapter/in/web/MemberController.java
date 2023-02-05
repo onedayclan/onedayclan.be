@@ -5,12 +5,14 @@ import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
 import com.clanone.onedayclan.member.domain.Member;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class MemberController {
     }
 
     @PostMapping("/auth/join")
-    public ResponseEntity<OnedayclanResponse<Void>> joinMember(@RequestBody MemberJoinRequest memberJoinRequest) {
+    public ResponseEntity<OnedayclanResponse<Void>> joinMember(@Valid @RequestBody MemberJoinRequest memberJoinRequest) {
         joinMemberPort.joinMember(new Member(memberJoinRequest.getId(),
                 memberJoinRequest.getName(),
                 memberJoinRequest.getPassword(),
