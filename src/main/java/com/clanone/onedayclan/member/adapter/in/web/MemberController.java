@@ -8,10 +8,7 @@ import com.clanone.onedayclan.member.domain.Member;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -56,5 +53,10 @@ public class MemberController {
     @PostMapping("/auth/find/id")
     public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
+    }
+
+    @GetMapping("/auth/email/check")
+    public ResponseEntity<OnedayclanResponse<EmailCheckResponse>> checkEmail(@RequestParam String email) {
+        return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.checkAvailableEmail(email)));
     }
 }
