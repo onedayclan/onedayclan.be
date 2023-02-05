@@ -5,12 +5,14 @@ import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
 import com.clanone.onedayclan.member.domain.Member;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @AllArgsConstructor
@@ -21,17 +23,17 @@ public class MemberController {
     private final FindMemberPort findMemberPort;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<OnedayclanResponse<TokenResponse>> login(@RequestBody MemberLoginRequest memberLoginRequest) {
+    public ResponseEntity<OnedayclanResponse<TokenResponse>> login(@Valid @RequestBody MemberLoginRequest memberLoginRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(loginMemberPort.login(memberLoginRequest.getId(), memberLoginRequest.getPassword())));
     }
 
     @PostMapping("/auth/refresh")
-    public ResponseEntity<OnedayclanResponse<TokenResponse>> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<OnedayclanResponse<TokenResponse>> refresh(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(loginMemberPort.refresh(refreshTokenRequest.getRefreshToken())));
     }
 
     @PostMapping("/auth/join")
-    public ResponseEntity<OnedayclanResponse<Void>> joinMember(@RequestBody MemberJoinRequest memberJoinRequest) {
+    public ResponseEntity<OnedayclanResponse<Void>> joinMember(@Valid @RequestBody MemberJoinRequest memberJoinRequest) {
         joinMemberPort.joinMember(new Member(memberJoinRequest.getId(),
                 memberJoinRequest.getName(),
                 memberJoinRequest.getPassword(),
@@ -41,7 +43,7 @@ public class MemberController {
     }
 
     @PostMapping("/auth/logout")
-    public ResponseEntity<OnedayclanResponse<Void>> logout(@RequestBody LogoutRequest logoutRequest) {
+    public ResponseEntity<OnedayclanResponse<Void>> logout(@Valid @RequestBody LogoutRequest logoutRequest) {
         loginMemberPort.logout(logoutRequest.getAccessToken());
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
@@ -52,7 +54,7 @@ public class MemberController {
     }
 
     @PostMapping("/auth/find/id")
-    public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@RequestBody FindIdRequest findIdRequest) {
+    public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
     }
 }
