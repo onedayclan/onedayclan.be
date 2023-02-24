@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .shouldFilterAllDispatcherTypes(false)
-                        .requestMatchers("/auth/**", "/sms/**", "/health").permitAll()
+                        .requestMatchers("/auth/**", "/sms/**", "/health", "/image/upload").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, loginMemberPort), UsernamePasswordAuthenticationFilter.class);
