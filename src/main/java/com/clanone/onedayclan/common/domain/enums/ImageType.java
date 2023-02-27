@@ -7,7 +7,8 @@ public enum ImageType {
     CLASS_REVIEW("클래스 리뷰"),
     CLASS_POSTER("클래스 포스터"),
     CLASS_THUMBNAIL("클래스 썸네일"),
-    NOTICE("공지사항 이미지");
+    NOTICE("공지사항 이미지"),
+    NONE("사용되지 않음");
 
     private String name;
 

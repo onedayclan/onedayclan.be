@@ -22,13 +22,13 @@ public class ClassReviewImageEntity {
     @JoinColumn(name = "class_review_seq", referencedColumnName = "seq")
     private ClassReviewEntity review;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_seq", referencedColumnName = "seq")
-    private List<ImageEntity> images;
+    private ImageEntity image;
 
     @Builder
-    public ClassReviewImageEntity(ClassReviewEntity review, List<ImageEntity> images) {
+    public ClassReviewImageEntity(ClassReviewEntity review, ImageEntity image) {
         this.review = review;
-        this.images = images;
+        this.image = image;
     }
 }

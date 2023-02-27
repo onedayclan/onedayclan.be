@@ -22,16 +22,14 @@ public class ImageEntity extends AbstractUpdatableEntity {
     @Column(nullable = false, length = 500)
     private String url;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ImageType type;
-
-    @Column(nullable = false)
-    private boolean usedYn;
 
     @Builder
     public ImageEntity(String fileName, String url) {
         this.fileName = fileName;
         this.url = url;
+        this.type = ImageType.NONE;
     }
 }
