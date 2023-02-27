@@ -1,8 +1,8 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.AuthorizationNumberEntity;
 import com.clanone.onedayclan.member.application.port.out.ConfirmAuthorizationNumberPort;
 import com.clanone.onedayclan.member.application.port.out.SendAuthorizationNumberPort;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
