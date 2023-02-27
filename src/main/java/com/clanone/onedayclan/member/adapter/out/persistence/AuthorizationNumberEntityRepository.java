@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.AuthorizationNumberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

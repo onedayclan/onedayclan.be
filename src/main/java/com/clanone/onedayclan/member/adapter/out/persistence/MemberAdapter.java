@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
 import com.clanone.onedayclan.member.application.port.out.CheckEmailPort;
 import com.clanone.onedayclan.member.application.port.out.FindUserIdPort;
@@ -25,7 +26,6 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
                                 .password(member.getPassword())
                                 .name(member.getName())
                                 .phone(member.getPhone())
-                                .organization(member.getOrganization())
                                 .build();
         memberEntityRepository.save(memberEntity);
     }

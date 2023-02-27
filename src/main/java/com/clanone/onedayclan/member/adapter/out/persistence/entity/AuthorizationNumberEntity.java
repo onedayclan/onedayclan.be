@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.member.adapter.out.persistence;
+package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -20,13 +20,16 @@ public class AuthorizationNumberEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(nullable = false, length = 15)
     private String phoneNumber;
 
+    @Column(nullable = false, length = 45)
     private String authorizationNumber;
 
+    @Column(nullable = false)
     private boolean usedYn;
 
-    @ColumnDefault("false")
+    @Column(nullable = false)
     private LocalDateTime validAt;
 
     public void use() {
