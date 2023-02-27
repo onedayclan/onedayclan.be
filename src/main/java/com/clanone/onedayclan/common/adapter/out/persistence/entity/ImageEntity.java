@@ -3,6 +3,7 @@ package com.clanone.onedayclan.common.adapter.out.persistence.entity;
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.common.domain.enums.ImageType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,10 +22,16 @@ public class ImageEntity extends AbstractUpdatableEntity {
     @Column(nullable = false, length = 500)
     private String url;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
     @Column(nullable = false)
     private boolean usedYn;
+
+    @Builder
+    public ImageEntity(String fileName, String url) {
+        this.fileName = fileName;
+        this.url = url;
+    }
 }

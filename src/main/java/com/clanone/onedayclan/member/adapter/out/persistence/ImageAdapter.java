@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import com.clanone.onedayclan.member.application.port.out.ImagePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,9 @@ public class ImageAdapter implements ImagePort {
         ImageEntity image = ImageEntity.builder()
                 .fileName(fileName)
                 .url(url)
-                .type("image(미정)")
                 .build();
 
         ImageEntity savedImage = imageEntityRepository.save(image);
-        return savedImage.getId();
+        return savedImage.getSeq();
     }
 }
