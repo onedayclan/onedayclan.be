@@ -7,6 +7,8 @@ import com.clanone.onedayclan.member.application.port.out.FindUserIdPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
 import com.clanone.onedayclan.member.application.port.out.SaveMemberPort;
 import com.clanone.onedayclan.member.domain.Member;
+import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
+import com.clanone.onedayclan.member.domain.enums.MemberType;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,8 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
                                 .password(member.getPassword())
                                 .name(member.getName())
                                 .phone(member.getPhone())
+                                .organizationStatus(MemberOrganizationStatus.WAITING)
+                                .type(MemberType.NORMAL)
                                 .build();
         memberEntityRepository.save(memberEntity);
     }
