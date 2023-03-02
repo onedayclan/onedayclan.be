@@ -1,7 +1,7 @@
 package com.clanone.onedayclan.member.application.service;
 
-import com.clanone.onedayclan.member.adapter.in.web.SmsConfirmRequest;
-import com.clanone.onedayclan.member.adapter.in.web.SmsConfirmResponse;
+import com.clanone.onedayclan.member.adapter.in.web.request.SmsConfirmRequest;
+import com.clanone.onedayclan.member.adapter.in.web.response.SmsConfirmResponse;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.AuthorizationNumberEntity;
 import com.clanone.onedayclan.member.application.port.in.AuthorizationNumberPort;
 import com.clanone.onedayclan.member.application.port.out.ConfirmAuthorizationNumberPort;

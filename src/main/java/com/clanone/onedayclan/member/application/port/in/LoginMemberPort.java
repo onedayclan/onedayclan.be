@@ -1,6 +1,6 @@
 package com.clanone.onedayclan.member.application.port.in;
 
-import com.clanone.onedayclan.member.adapter.in.web.TokenResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
 
 public interface LoginMemberPort {
     TokenResponse login(String id, String password);

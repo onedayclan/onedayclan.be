@@ -1,6 +1,6 @@
 package com.clanone.onedayclan.member.adapter.in.auth;
 
-import com.clanone.onedayclan.member.adapter.in.web.TokenResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
