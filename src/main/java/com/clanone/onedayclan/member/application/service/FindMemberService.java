@@ -1,7 +1,7 @@
 package com.clanone.onedayclan.member.application.service;
 
-import com.clanone.onedayclan.member.adapter.in.web.FindIdRequest;
-import com.clanone.onedayclan.member.adapter.in.web.MemberFindResponse;
+import com.clanone.onedayclan.member.adapter.in.web.request.FindIdRequest;
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.out.FindUserIdPort;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.clanone.onedayclan.member.application.port.out;
 
-import com.clanone.onedayclan.member.adapter.out.redis.RefreshToken;
+import com.clanone.onedayclan.member.adapter.out.redis.model.RefreshToken;
 
 import java.util.Optional;
 

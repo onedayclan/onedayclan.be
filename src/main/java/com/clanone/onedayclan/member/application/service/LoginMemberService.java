@@ -1,10 +1,8 @@
 package com.clanone.onedayclan.member.application.service;
 
-import com.clanone.onedayclan.ErrorCode;
-import com.clanone.onedayclan.OnedayclanException;
 import com.clanone.onedayclan.member.adapter.in.auth.JwtTokenProvider;
-import com.clanone.onedayclan.member.adapter.in.web.TokenResponse;
-import com.clanone.onedayclan.member.adapter.out.redis.RefreshToken;
+import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
+import com.clanone.onedayclan.member.adapter.out.redis.model.RefreshToken;
 import com.clanone.onedayclan.member.application.exception.InvalidAccessTokenException;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
 import com.clanone.onedayclan.member.application.port.out.AuthTokenPort;

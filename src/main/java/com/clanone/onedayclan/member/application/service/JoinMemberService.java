@@ -1,6 +1,6 @@
 package com.clanone.onedayclan.member.application.service;
 
-import com.clanone.onedayclan.member.adapter.in.web.EmailCheckResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.EmailCheckResponse;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.out.CheckEmailPort;
 import com.clanone.onedayclan.member.application.port.out.SaveMemberPort;

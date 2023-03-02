@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.AuthorizationNumberEntity;
+import com.clanone.onedayclan.member.adapter.out.persistence.repository.AuthorizationNumberEntityRepository;
 import com.clanone.onedayclan.member.application.port.out.ConfirmAuthorizationNumberPort;
 import com.clanone.onedayclan.member.application.port.out.SendAuthorizationNumberPort;
 import lombok.AllArgsConstructor;
