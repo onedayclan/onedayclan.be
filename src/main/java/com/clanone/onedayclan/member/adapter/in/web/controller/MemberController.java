@@ -8,6 +8,7 @@ import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
+import com.clanone.onedayclan.member.application.port.in.PasswordPort;
 import com.clanone.onedayclan.member.domain.Member;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class MemberController {
     private final JoinMemberPort joinMemberPort;
     private final LoginMemberPort loginMemberPort;
     private final FindMemberPort findMemberPort;
+    private final PasswordPort passwordPort;
 
     @PostMapping("/auth/login")
     public ResponseEntity<OnedayclanResponse<TokenResponse>> login(@Valid @RequestBody MemberLoginRequest memberLoginRequest) {
@@ -62,5 +64,11 @@ public class MemberController {
     @GetMapping("/auth/email/check")
     public ResponseEntity<OnedayclanResponse<EmailCheckResponse>> checkEmail(@RequestParam String email) {
         return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.checkAvailableEmail(email)));
+    }
+
+    @PostMapping("/auth/password/reset")
+    public ResponseEntity<OnedayclanResponse<Void>> changePassword(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
+        passwordPort.resetPassword(passwordResetRequest);
+        return ResponseEntity.ok(OnedayclanResponse.success());
     }
 }

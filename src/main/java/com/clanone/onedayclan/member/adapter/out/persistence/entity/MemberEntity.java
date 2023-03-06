@@ -86,6 +86,10 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
         this.type = type;
     }
 
+    public void changePassword(String password){
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
