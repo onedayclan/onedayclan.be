@@ -9,5 +9,4 @@ import java.time.LocalDateTime;
 @Repository
 public interface AuthorizationNumberEntityRepository extends JpaRepository<AuthorizationNumberEntity, Long> {
     AuthorizationNumberEntity findByPhoneNumberAndAuthorizationNumberAndValidAtAfterAndUsedYn(String phoneNumber, String authorizationNumber, LocalDateTime now, boolean usedYn);
-
 }
