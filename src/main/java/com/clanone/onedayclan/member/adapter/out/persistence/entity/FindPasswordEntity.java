@@ -25,7 +25,7 @@ public class FindPasswordEntity extends AbstractUpdatableEntity {
     private String authorizationCode;
 
     @Column(nullable = false)
-    private Boolean usedYn;
+    private boolean usedYn;
 
     @Column(nullable = false)
     private LocalDateTime validAt;

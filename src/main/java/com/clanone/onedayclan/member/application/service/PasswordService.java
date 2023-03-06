@@ -20,6 +20,7 @@ public class PasswordService implements PasswordPort {
     @Transactional
     public void resetPassword(PasswordResetRequest passwordResetRequest) {
         FindPasswordEntity memberByAuthorizationCode = getMemberPort.findMemberByAuthorizationCode(passwordResetRequest.getAuthorizationCode());
+
         updateMemberInfoPort.resetPassword(memberByAuthorizationCode.getEmail(),passwordResetRequest.getPassword());
         memberByAuthorizationCode.changeUsedYn();
     }
