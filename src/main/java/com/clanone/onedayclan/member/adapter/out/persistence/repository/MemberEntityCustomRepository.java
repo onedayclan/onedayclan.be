@@ -3,6 +3,7 @@ package com.clanone.onedayclan.member.adapter.out.persistence.repository;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
+import com.clanone.onedayclan.member.domain.enums.MemberType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -49,11 +50,13 @@ public class MemberEntityCustomRepository {
                 .fetch();
         long count = jpaQueryFactory.select(memberEntity.count())
                 .from(memberEntity)
+                .leftJoin(organizationEntity).on(organizationEntity.seq.eq(memberEntity.confirmOrganization.seq))
                 .where(eqMemberUserId(optionModel.getUserId()),
                         eqMemberName(optionModel.getName()),
                         eqMemberStatus(optionModel.getStatus()),
                         betweenCreatedAt(optionModel.getSearchStartAt(), optionModel.getSearchEndAt()),
-                        eqOrganizationSeq(optionModel.getOrganizationSeq())
+                        eqOrganizationSeq(optionModel.getOrganizationSeq()),
+                        eqNormalMember()
                 ).fetchOne();
         return new PageImpl<>(result, pageable, count);
     }
@@ -76,5 +79,9 @@ public class MemberEntityCustomRepository {
 
     private BooleanExpression eqOrganizationSeq(long organizationSeq) {
         return organizationSeq == 0 ? null : organizationEntity.seq.eq(organizationSeq);
+    }
+
+    private BooleanExpression eqNormalMember() {
+        return memberEntity.type.eq(MemberType.NORMAL);
     }
 }

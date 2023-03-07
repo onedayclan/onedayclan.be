@@ -16,4 +16,12 @@ public class MemberSearchResponse {
     private LocalDateTime createdAt;
     private MemberStatusType status;
     private String memo;
+
+    public String getOrganizationStatus() {
+        return this.organizationStatus.getName();
+    }
+
+    public String getStatus() {
+        return this.status.getName();
+    }
 }
