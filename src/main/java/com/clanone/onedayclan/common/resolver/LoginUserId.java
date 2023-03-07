@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.member.adapter.in.auth;
+package com.clanone.onedayclan.common.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

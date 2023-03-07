@@ -1,7 +1,6 @@
 package com.clanone.onedayclan.member.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
-import com.clanone.onedayclan.member.adapter.in.auth.LoginUserId;
 import com.clanone.onedayclan.member.adapter.in.web.request.*;
 import com.clanone.onedayclan.member.adapter.in.web.response.EmailCheckResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;

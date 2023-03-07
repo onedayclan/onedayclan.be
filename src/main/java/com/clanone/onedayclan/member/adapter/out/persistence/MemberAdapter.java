@@ -7,7 +7,7 @@ import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.FindPasswordEntityRepository;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityCustomRepository;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityRepository;
-import com.clanone.onedayclan.member.application.exception.InvalidLinkException;
+import com.clanone.onedayclan.member.application.exception.InvalidAccessException;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
 import com.clanone.onedayclan.member.application.port.out.*;
 import com.clanone.onedayclan.member.domain.Member;
@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdPort, CheckEmailPort, UpdateMemberInfoPort {
+public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdPort, CheckEmailPort, UpdateMemberInfoPort, CheckMemberInfoPort{
 
     private final MemberEntityRepository memberEntityRepository;
     private final FindPasswordEntityRepository findPasswordEntityRepository;
@@ -50,15 +50,15 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     @Override
     public FindPasswordEntity findMemberByAuthorizationCode(String authorizationCode) {
         FindPasswordEntity findPasswordMember = findPasswordEntityRepository.findByAuthorizationCode(authorizationCode).orElseThrow(() -> {
-            throw new InvalidLinkException("해당 회원을 찾을 수 없습니다.");
+            throw new InvalidAccessException("해당 회원을 찾을 수 없습니다.");
         });
 
         if (findPasswordMember.getValidAt().isBefore(LocalDateTime.now())) {
-            throw new InvalidLinkException("유효시간이 지났습니다.");
+            throw new InvalidAccessException("유효시간이 지났습니다.");
         }
 
         if (findPasswordMember.isUsedYn()){
-            throw new InvalidLinkException("이미 사용한 링크입니다.");
+            throw new InvalidAccessException("이미 사용한 링크입니다.");
         }
 
         return findPasswordMember;
@@ -88,5 +88,10 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
             throw new MemberNotFoundException();
         });
         member.changePassword(password);
+    }
+
+    @Override
+    public boolean checkPassword(String userId, String password) {
+        return memberEntityRepository.existsByUserIdAndPassword(userId, password);
     }
 }

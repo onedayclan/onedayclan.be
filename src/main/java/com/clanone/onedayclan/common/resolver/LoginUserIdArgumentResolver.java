@@ -1,6 +1,5 @@
-package com.clanone.onedayclan.member.adapter.in.auth;
+package com.clanone.onedayclan.common.resolver;
 
-import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
