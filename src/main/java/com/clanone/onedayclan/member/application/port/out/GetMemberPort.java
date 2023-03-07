@@ -13,4 +13,5 @@ public interface GetMemberPort {
     Optional<MemberEntity> getMemberById(String id);
     FindPasswordEntity findMemberByAuthorizationCode(String authorizationCode);
     Page<MemberSearchResponse> searchMemberList(MemberSearchModel searchModel, Pageable pageable);
+    Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable);
 }

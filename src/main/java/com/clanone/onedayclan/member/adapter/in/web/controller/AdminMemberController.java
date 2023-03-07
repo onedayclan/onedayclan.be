@@ -46,4 +46,22 @@ public class AdminMemberController {
                 .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
+
+    @GetMapping("/organization")
+    public ResponseEntity<OnedayclanResponse<PagingResult<MemberSearchResponse>>> getOrganizationMemberList(@RequestParam(required = false) String userId,
+                                                                                                       @RequestParam(required = false) String name,
+                                                                                                       @RequestParam(required = false) MemberStatusType status,
+                                                                                                       @RequestParam(required = false) String createdStartAt,
+                                                                                                       @RequestParam(required = false) String createdEndAt,
+                                                                                                       @RequestParam(defaultValue = "1") int pageNo,
+                                                                                                       @RequestParam(defaultValue = "10") int pageSize) {
+        Page<MemberSearchResponse> result = findMemberPort.searchOrganizationMemberList(MemberSearchRequest.builder()
+                .userId(userId)
+                .name(name)
+                .status(status)
+                .searchStartAt(Objects.isNull(createdStartAt) ? null : LocalDateTime.parse(createdStartAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .searchEndAt(Objects.isNull(createdEndAt) ? null : LocalDateTime.parse(createdEndAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build(), PageRequest.of(pageNo-1, pageSize));
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
 }

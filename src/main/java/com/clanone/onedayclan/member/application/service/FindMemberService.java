@@ -40,4 +40,15 @@ public class FindMemberService implements FindMemberPort {
                         .organizationSeq(request.getOrganizationSeq())
                         .build(), pageable);
     }
+
+    @Override
+    public Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchRequest request, Pageable pageable) {
+        return getMemberPort.searchOrganizationMemberList(MemberSearchModel.builder()
+                        .userId(request.getUserId())
+                        .name(request.getName())
+                        .status(request.getStatus())
+                        .searchStartAt(request.getSearchStartAt())
+                        .searchEndAt(request.getSearchEndAt())
+                        .build(), pageable);
+    }
 }
