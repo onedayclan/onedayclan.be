@@ -13,4 +13,5 @@ import java.time.LocalDateTime;
 public interface FindMemberPort {
     MemberFindResponse findId(FindIdRequest findIdRequest);
     Page<MemberSearchResponse> searchMemberList(MemberSearchRequest request, Pageable pageable);
+    Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchRequest request, Pageable pageable);
 }

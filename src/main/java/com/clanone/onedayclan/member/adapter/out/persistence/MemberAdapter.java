@@ -66,7 +66,12 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
 
     @Override
     public Page<MemberSearchResponse> searchMemberList(MemberSearchModel searchModel, Pageable pageable) {
-        return memberEntityCustomRepository.findMember(searchModel, pageable);
+        return memberEntityCustomRepository.findMemberList(searchModel, pageable);
+    }
+
+    @Override
+    public Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable) {
+        return memberEntityCustomRepository.findOrganizationMemberList(searchModel, pageable);
     }
 
     @Override

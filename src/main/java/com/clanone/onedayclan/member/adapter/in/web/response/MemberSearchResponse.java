@@ -5,6 +5,7 @@ import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 public class MemberSearchResponse {
@@ -16,8 +17,12 @@ public class MemberSearchResponse {
     private LocalDateTime createdAt;
     private MemberStatusType status;
     private String memo;
+    private long memberCount;
 
     public String getOrganizationStatus() {
+        if(Objects.isNull(this.organizationStatus)) {
+            return null;
+        }
         return this.organizationStatus.getName();
     }
 
