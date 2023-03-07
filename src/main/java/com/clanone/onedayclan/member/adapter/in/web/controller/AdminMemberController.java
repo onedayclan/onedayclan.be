@@ -2,7 +2,9 @@ package com.clanone.onedayclan.member.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.OnedayclanResponse.PagingResult;
+import com.clanone.onedayclan.common.application.service.utils.DateUtil;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
@@ -10,10 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,11 +39,16 @@ public class AdminMemberController {
                 .userId(userId)
                 .name(name)
                 .status(status)
-                .searchStartAt(Objects.isNull(createdStartAt) ? null : LocalDateTime.parse(createdStartAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .searchEndAt(Objects.isNull(createdEndAt) ? null : LocalDateTime.parse(createdEndAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .searchStartAt(Objects.isNull(createdStartAt) ? null : DateUtil.parseLocalDateTimeByYYYYMMDD(createdStartAt))
+                .searchEndAt(Objects.isNull(createdEndAt) ? null : DateUtil.parseLocalDateTimeByYYYYMMDD(createdEndAt))
                 .organizationSeq(organizationSeq)
                 .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
+
+    @GetMapping("/normal/{memberSeq}")
+    public ResponseEntity<OnedayclanResponse<MemberDetailResponse>> getNormalMember(@PathVariable long memberSeq) {
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findMember(memberSeq)));
     }
 
     @GetMapping("/organization")
@@ -59,8 +63,8 @@ public class AdminMemberController {
                 .userId(userId)
                 .name(name)
                 .status(status)
-                .searchStartAt(Objects.isNull(createdStartAt) ? null : LocalDateTime.parse(createdStartAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .searchEndAt(Objects.isNull(createdEndAt) ? null : LocalDateTime.parse(createdEndAt + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .searchStartAt(Objects.isNull(createdStartAt) ? null : DateUtil.parseLocalDateTimeByYYYYMMDD(createdStartAt))
+                .searchEndAt(Objects.isNull(createdEndAt) ? null : DateUtil.parseLocalDateTimeByYYYYMMDD(createdEndAt))
                 .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
