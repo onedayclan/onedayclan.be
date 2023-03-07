@@ -1,8 +1,11 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.FindPasswordEntityRepository;
+import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityCustomRepository;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityRepository;
 import com.clanone.onedayclan.member.application.exception.InvalidLinkException;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
@@ -12,6 +15,8 @@ import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
 import com.clanone.onedayclan.member.domain.enums.MemberType;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -23,6 +28,7 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
 
     private final MemberEntityRepository memberEntityRepository;
     private final FindPasswordEntityRepository findPasswordEntityRepository;
+    private final MemberEntityCustomRepository memberEntityCustomRepository;
 
     @Transactional
     public void joinMember(Member member) {
@@ -56,6 +62,11 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
         }
 
         return findPasswordMember;
+    }
+
+    @Override
+    public Page<MemberSearchResponse> searchMemberList(MemberSearchModel searchModel, Pageable pageable) {
+        return memberEntityCustomRepository.findMember(searchModel, pageable);
     }
 
     @Override

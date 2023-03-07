@@ -2,6 +2,7 @@ package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
+import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import com.clanone.onedayclan.member.domain.enums.MemberType;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -47,7 +48,8 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
     private MemberOrganizationStatus organizationStatus;
 
     @Column(nullable = false)
-    private boolean activeYn;
+    @Enumerated(EnumType.STRING)
+    private MemberStatusType status;
 
     private LocalDateTime inactiveAt;
 
@@ -78,7 +80,7 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
         this.confirmOrganization = confirmOrganization;
         this.requestOrganization = requestOrganization;
         this.organizationStatus = organizationStatus;
-        this.activeYn = true;
+        this.status = MemberStatusType.NORMAL;
         this.displayMessage = displayMessage;
         this.displayMessageStartAt = displayMessageStartAt;
         this.displayMessageEndAt = displayMessageEndAt;
