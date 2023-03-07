@@ -51,11 +51,6 @@ public class MemberController {
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<OnedayclanResponse<Void>> get() {
-        return ResponseEntity.ok(OnedayclanResponse.success());
-    }
-
     @PostMapping("/auth/find/id")
     public ResponseEntity<OnedayclanResponse<MemberFindResponse>> findId(@Valid @RequestBody FindIdRequest findIdRequest) {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
@@ -67,7 +62,7 @@ public class MemberController {
     }
 
     @PostMapping("/auth/password/reset")
-    public ResponseEntity<OnedayclanResponse<Void>> changePassword(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
+    public ResponseEntity<OnedayclanResponse<Void>> resetPassword(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
         passwordPort.resetPassword(passwordResetRequest);
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
