@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.application.port.out;
 
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
@@ -14,4 +15,5 @@ public interface GetMemberPort {
     FindPasswordEntity findMemberByAuthorizationCode(String authorizationCode);
     Page<MemberSearchResponse> searchMemberList(MemberSearchModel searchModel, Pageable pageable);
     Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable);
+    MemberDetailResponse findMember(long memberSeq);
 }

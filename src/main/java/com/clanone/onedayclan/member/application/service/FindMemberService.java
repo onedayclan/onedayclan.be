@@ -2,6 +2,7 @@ package com.clanone.onedayclan.member.application.service;
 
 import com.clanone.onedayclan.member.adapter.in.web.request.FindIdRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
@@ -50,5 +51,10 @@ public class FindMemberService implements FindMemberPort {
                         .searchStartAt(request.getSearchStartAt())
                         .searchEndAt(request.getSearchEndAt())
                         .build(), pageable);
+    }
+
+    @Override
+    public MemberDetailResponse findMember(long memberSeq) {
+        return getMemberPort.findMember(memberSeq);
     }
 }

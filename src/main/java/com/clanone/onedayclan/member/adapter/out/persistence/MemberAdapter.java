@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence;
 
+import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
@@ -72,6 +73,11 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     @Override
     public Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable) {
         return memberEntityCustomRepository.findOrganizationMemberList(searchModel, pageable);
+    }
+
+    @Override
+    public MemberDetailResponse findMember(long memberSeq) {
+         return MemberDetailResponse.of(memberEntityRepository.findById(memberSeq).orElseThrow(() -> {throw new MemberNotFoundException();}));
     }
 
     @Override
