@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.member.adapter.out.persistence;
+package com.clanone.onedayclan.member.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdPort, CheckEmailPort, UpdateMemberInfoPort, CheckMemberInfoPort{
+public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailPort, UpdateMemberInfoPort, CheckMemberInfoPort{
 
     private final MemberEntityRepository memberEntityRepository;
     private final FindPasswordEntityRepository findPasswordEntityRepository;
@@ -95,7 +95,7 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     }
 
     @Override
-    public String findUserId(String name, String phone) {
+    public String getUserId(String name, String phone) {
         MemberEntity member = memberEntityRepository.findByNameAndPhone(name, phone)
                                                     .orElseThrow(() -> {throw new MemberNotFoundException();});
 

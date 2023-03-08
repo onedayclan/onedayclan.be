@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.member.adapter.out.persistence;
+package com.clanone.onedayclan.member.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.AuthorizationNumberEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.AuthorizationNumberEntityRepository;

@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GetMemberPort {
+    String getUserId(String name, String phone);
     Optional<MemberEntity> getMemberById(String id);
     FindPasswordEntity findMemberByAuthorizationCode(String authorizationCode);
     Page<MemberSearchResponse> searchMemberList(MemberSearchModel searchModel, Pageable pageable);
     Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable);
-    MemberDetailResponse findMember(long memberSeq);
+    MemberEntity findMember(long memberSeq);
     List<OrganizationResponse> getOrganizationList();
 }

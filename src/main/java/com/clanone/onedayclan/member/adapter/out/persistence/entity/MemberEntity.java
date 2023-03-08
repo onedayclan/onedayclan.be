@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -103,11 +106,22 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
             this.displayMessageStartAt = displayMessageAt[0];
             this.displayMessageEndAt = displayMessageAt[1];
         }
-        if(request.getPenaltyAt() != null && !this.penaltyEndAt.equals(request.getPenaltyAt())) {
-            this.penaltyEndAt = request.getPenaltyAt();
-            this.penaltyStartAt = LocalDateTime.now();
+        if(isPenaltyChanged(request.getPenaltyAt())) {
+            if(Objects.isNull(request.getPenaltyAt())) {
+                this.penaltyEndAt = null;
+                this.penaltyStartAt = null;
+            }
+            this.penaltyEndAt = LocalDateTime.of(LocalDate.parse(request.getPenaltyAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.parse("23:59:59"));
+            this.penaltyStartAt = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00:00"));
         }
         this.memo = request.getMemo();
+    }
+
+    public boolean isPenaltyChanged(String penaltyAt) {
+        if(this.penaltyEndAt == null) {
+            return Objects.nonNull(penaltyAt);
+        }
+        return !this.penaltyEndAt.equals(LocalDateTime.of(LocalDate.parse(penaltyAt, DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.MAX));
     }
 
     public void updateOrganization(OrganizationEntity organization) {

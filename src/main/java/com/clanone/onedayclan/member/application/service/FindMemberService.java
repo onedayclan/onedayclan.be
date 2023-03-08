@@ -7,7 +7,6 @@ import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
-import com.clanone.onedayclan.member.application.port.out.FindUserIdPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,12 +17,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FindMemberService implements FindMemberPort {
 
-    private final FindUserIdPort findUserIdPort;
     private final GetMemberPort getMemberPort;
 
     @Override
     public MemberFindResponse findId(FindIdRequest findIdRequest) {
-        String userId = findUserIdPort.findUserId(findIdRequest.getName(), findIdRequest.getPhone());
+        String userId = getMemberPort.getUserId(findIdRequest.getName(), findIdRequest.getPhone());
 
         return MemberFindResponse.builder()
                 .email(userId)

@@ -57,7 +57,7 @@ public class AdminMemberController {
 
     @PatchMapping("/normal/{memberSeq}")
     public ResponseEntity<OnedayclanResponse<MemberDetailResponse>> updateNormalMember(@PathVariable long memberSeq, @Valid @RequestBody MemberUpdateRequest request) {
-        return null;
+        return ResponseEntity.ok(OnedayclanResponse.of(manageMemberPort.updateNormalMember(request, memberSeq)));
     }
 
     @GetMapping("/organization")

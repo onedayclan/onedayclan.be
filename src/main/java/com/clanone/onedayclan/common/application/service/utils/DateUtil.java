@@ -11,6 +11,6 @@ public class DateUtil {
     }
 
     public static LocalDateTime[] parseDurationByYYYYMMDD(String start, String end) {
-        return new LocalDateTime[]{LocalDateTime.parse(start + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), LocalDateTime.parse(start + " 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))};
+        return new LocalDateTime[]{LocalDateTime.parse(start + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), LocalDateTime.parse(end + " 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))};
     }
 }

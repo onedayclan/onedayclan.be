@@ -5,6 +5,8 @@ import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailRespons
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.port.in.ManageMemberPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
+import com.clanone.onedayclan.member.application.port.out.GetOrganizationPort;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +14,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ManageMemberService implements ManageMemberPort {
     private final GetMemberPort getMemberPort;
+    private final GetOrganizationPort getOrganizationPort;
 
     @Override
+    @Transactional
     public MemberDetailResponse updateNormalMember(MemberUpdateRequest request, long memberSeq) {
         MemberEntity member = getMemberPort.findMember(memberSeq);
         member.updateMemberInfo(request);
 
         if(member.isOrganizationChanged(request.getOrganizationSeq())) {
-
+            member.updateOrganization(request.getOrganizationSeq() == null ?
+                    null : getOrganizationPort.getOrganizationBySeq(request.getOrganizationSeq()));
         }
-        return null;
+        return MemberDetailResponse.of(member);
     }
 }
