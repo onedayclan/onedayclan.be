@@ -4,6 +4,7 @@ import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.member.adapter.in.web.request.*;
 import com.clanone.onedayclan.member.adapter.in.web.response.EmailCheckResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
@@ -14,6 +15,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -43,6 +46,11 @@ public class MemberController {
                 memberJoinRequest.getOrganization(),
                 memberJoinRequest.getPhone()));
         return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @GetMapping("/auth/organization")
+    public ResponseEntity<OnedayclanResponse<List<OrganizationResponse>>> organizationList() {
+        return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.getOrganizationList()));
     }
 
     @PostMapping("/auth/logout")
