@@ -101,11 +101,13 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
     public void updateMemberInfo(MemberUpdateRequest request) {
         this.status = request.getStatus();
         this.displayMessage = request.getDisplayMessage();
+
         if(Objects.nonNull(request.getDisplayMessageStartAt()) && Objects.nonNull(request.getDisplayMessageEndAt())) {
             LocalDateTime[] displayMessageAt = DateUtil.parseDurationByYYYYMMDD(request.getDisplayMessageStartAt(), request.getDisplayMessageEndAt());
             this.displayMessageStartAt = displayMessageAt[0];
             this.displayMessageEndAt = displayMessageAt[1];
         }
+
         if(isPenaltyChanged(request.getPenaltyAt())) {
             if(Objects.isNull(request.getPenaltyAt())) {
                 this.penaltyEndAt = null;
@@ -114,6 +116,7 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
             this.penaltyEndAt = LocalDateTime.of(LocalDate.parse(request.getPenaltyAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.parse("23:59:59"));
             this.penaltyStartAt = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00:00"));
         }
+
         this.memo = request.getMemo();
     }
 
