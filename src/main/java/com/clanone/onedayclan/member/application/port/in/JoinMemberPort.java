@@ -1,6 +1,8 @@
 package com.clanone.onedayclan.member.application.port.in;
 
+import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationCreateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.EmailCheckResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.domain.Member;
 
@@ -10,4 +12,5 @@ public interface JoinMemberPort {
     void joinMember(Member member);
     EmailCheckResponse checkAvailableEmail(String email);
     List<OrganizationResponse> getOrganizationList();
+    OrganizationMemberDetailResponse insertOrganizationMember(OrganizationCreateRequest request);
 }

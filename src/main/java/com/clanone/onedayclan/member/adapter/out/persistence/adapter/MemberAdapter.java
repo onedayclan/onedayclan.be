@@ -50,6 +50,11 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
         memberEntityRepository.save(memberEntity);
     }
 
+    @Override
+    public MemberEntity saveMember(MemberEntity member) {
+        return memberEntityRepository.save(member);
+    }
+
     public Optional<MemberEntity> getMemberById(String id) {
         return memberEntityRepository.findByUserId(id);
     }
