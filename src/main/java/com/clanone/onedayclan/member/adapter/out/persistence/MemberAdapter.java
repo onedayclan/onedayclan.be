@@ -2,12 +2,15 @@ package com.clanone.onedayclan.member.adapter.out.persistence;
 
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.OrganizationEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.FindPasswordEntityRepository;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityCustomRepository;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityRepository;
+import com.clanone.onedayclan.member.adapter.out.persistence.repository.OrganizationEntityRepository;
 import com.clanone.onedayclan.member.application.exception.InvalidAccessException;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
 import com.clanone.onedayclan.member.application.port.out.*;
@@ -21,7 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
@@ -30,6 +35,7 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     private final MemberEntityRepository memberEntityRepository;
     private final FindPasswordEntityRepository findPasswordEntityRepository;
     private final MemberEntityCustomRepository memberEntityCustomRepository;
+    private final OrganizationEntityRepository organizationEntityRepository;
 
     @Transactional
     public void joinMember(Member member) {
@@ -78,6 +84,14 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     @Override
     public MemberDetailResponse findMember(long memberSeq) {
          return MemberDetailResponse.of(memberEntityRepository.findById(memberSeq).orElseThrow(() -> {throw new MemberNotFoundException();}));
+    }
+
+    @Override
+    public List<OrganizationResponse> getOrganizationList() {
+        List<OrganizationEntity> all = organizationEntityRepository.findAll();
+        return all.stream()
+                .map(OrganizationResponse::of)
+                .collect(Collectors.toList());
     }
 
     @Override
