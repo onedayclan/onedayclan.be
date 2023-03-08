@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.customer.adapter.out.entity;
+package com.clanone.onedayclan.customer.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractImmutableEntity;
 import com.clanone.onedayclan.customer.domain.enums.TermsType;
