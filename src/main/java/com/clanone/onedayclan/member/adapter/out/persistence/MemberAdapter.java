@@ -82,8 +82,8 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, FindUserIdP
     }
 
     @Override
-    public MemberDetailResponse findMember(long memberSeq) {
-         return MemberDetailResponse.of(memberEntityRepository.findById(memberSeq).orElseThrow(() -> {throw new MemberNotFoundException();}));
+    public MemberEntity findMember(long memberSeq) {
+         return memberEntityRepository.findById(memberSeq).orElseThrow(() -> {throw new MemberNotFoundException();});
     }
 
     @Override

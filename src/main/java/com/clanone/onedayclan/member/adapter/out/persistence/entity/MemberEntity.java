@@ -1,6 +1,8 @@
 package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
+import com.clanone.onedayclan.common.application.service.utils.DateUtil;
+import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import com.clanone.onedayclan.member.domain.enums.MemberType;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "member")
@@ -90,6 +93,32 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
 
     public void changePassword(String password){
         this.password = password;
+    }
+
+    public void updateMemberInfo(MemberUpdateRequest request) {
+        this.status = request.getStatus();
+        this.displayMessage = request.getDisplayMessage();
+        if(Objects.nonNull(request.getDisplayMessageStartAt()) && Objects.nonNull(request.getDisplayMessageEndAt())) {
+            LocalDateTime[] displayMessageAt = DateUtil.parseDurationByYYYYMMDD(request.getDisplayMessageStartAt(), request.getDisplayMessageEndAt());
+            this.displayMessageStartAt = displayMessageAt[0];
+            this.displayMessageEndAt = displayMessageAt[1];
+        }
+        if(request.getPenaltyAt() != null && !this.penaltyEndAt.equals(request.getPenaltyAt())) {
+            this.penaltyEndAt = request.getPenaltyAt();
+            this.penaltyStartAt = LocalDateTime.now();
+        }
+        this.memo = request.getMemo();
+    }
+
+    public void updateOrganization(OrganizationEntity organization) {
+        this.confirmOrganization = organization;
+    }
+
+    public boolean isOrganizationChanged(Long organizationSeq) {
+        if(this.confirmOrganization == null) {
+            return organizationSeq != null;
+        }
+        return this.confirmOrganization.getSeq() != organizationSeq;
     }
 
     @Override

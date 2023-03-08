@@ -55,6 +55,6 @@ public class FindMemberService implements FindMemberPort {
 
     @Override
     public MemberDetailResponse findMember(long memberSeq) {
-        return getMemberPort.findMember(memberSeq);
+        return MemberDetailResponse.of(getMemberPort.findMember(memberSeq));
     }
 }
