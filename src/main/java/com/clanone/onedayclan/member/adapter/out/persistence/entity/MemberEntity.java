@@ -1,6 +1,8 @@
 package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
+import com.clanone.onedayclan.common.application.service.utils.DateUtil;
+import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import com.clanone.onedayclan.member.domain.enums.MemberType;
@@ -11,8 +13,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "member")
@@ -90,6 +96,46 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
 
     public void changePassword(String password){
         this.password = password;
+    }
+
+    public void updateMemberInfo(MemberUpdateRequest request) {
+        this.status = request.getStatus();
+        this.displayMessage = request.getDisplayMessage();
+
+        if(Objects.nonNull(request.getDisplayMessageStartAt()) && Objects.nonNull(request.getDisplayMessageEndAt())) {
+            LocalDateTime[] displayMessageAt = DateUtil.parseDurationByYYYYMMDD(request.getDisplayMessageStartAt(), request.getDisplayMessageEndAt());
+            this.displayMessageStartAt = displayMessageAt[0];
+            this.displayMessageEndAt = displayMessageAt[1];
+        }
+
+        if(isPenaltyChanged(request.getPenaltyAt())) {
+            if(Objects.isNull(request.getPenaltyAt())) {
+                this.penaltyEndAt = null;
+                this.penaltyStartAt = null;
+            }
+            this.penaltyEndAt = LocalDateTime.of(LocalDate.parse(request.getPenaltyAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.parse("23:59:59"));
+            this.penaltyStartAt = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00:00"));
+        }
+
+        this.memo = request.getMemo();
+    }
+
+    public boolean isPenaltyChanged(String penaltyAt) {
+        if(this.penaltyEndAt == null) {
+            return Objects.nonNull(penaltyAt);
+        }
+        return !this.penaltyEndAt.equals(LocalDateTime.of(LocalDate.parse(penaltyAt, DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.MAX));
+    }
+
+    public void updateOrganization(OrganizationEntity organization) {
+        this.confirmOrganization = organization;
+    }
+
+    public boolean isOrganizationChanged(Long organizationSeq) {
+        if(this.confirmOrganization == null) {
+            return organizationSeq != null;
+        }
+        return this.confirmOrganization.getSeq() != organizationSeq;
     }
 
     @Override

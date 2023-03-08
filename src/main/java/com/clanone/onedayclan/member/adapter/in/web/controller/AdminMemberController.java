@@ -4,10 +4,13 @@ import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.OnedayclanResponse.PagingResult;
 import com.clanone.onedayclan.common.application.service.utils.DateUtil;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
+import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
+import com.clanone.onedayclan.member.application.port.in.ManageMemberPort;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +28,7 @@ import java.util.Objects;
 public class AdminMemberController {
 
     private final FindMemberPort findMemberPort;
+    private final ManageMemberPort manageMemberPort;
 
     @GetMapping("/normal")
     public ResponseEntity<OnedayclanResponse<PagingResult<MemberSearchResponse>>> getNormalMemberList(@RequestParam(required = false) String userId,
@@ -49,6 +53,11 @@ public class AdminMemberController {
     @GetMapping("/normal/{memberSeq}")
     public ResponseEntity<OnedayclanResponse<MemberDetailResponse>> getNormalMember(@PathVariable long memberSeq) {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findMember(memberSeq)));
+    }
+
+    @PatchMapping("/normal/{memberSeq}")
+    public ResponseEntity<OnedayclanResponse<MemberDetailResponse>> updateNormalMember(@PathVariable long memberSeq, @Valid @RequestBody MemberUpdateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(manageMemberPort.updateNormalMember(request, memberSeq)));
     }
 
     @GetMapping("/organization")
