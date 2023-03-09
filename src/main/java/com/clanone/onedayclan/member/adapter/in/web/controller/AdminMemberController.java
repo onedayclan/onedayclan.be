@@ -6,6 +6,7 @@ import com.clanone.onedayclan.common.application.service.utils.DateUtil;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationCreateRequest;
+import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationMemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
@@ -56,7 +57,7 @@ public class AdminMemberController {
 
     @GetMapping("/normal/{memberSeq}")
     public ResponseEntity<OnedayclanResponse<MemberDetailResponse>> getNormalMember(@PathVariable long memberSeq) {
-        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findMember(memberSeq)));
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.getMember(memberSeq)));
     }
 
     @PatchMapping("/normal/{memberSeq}")
@@ -85,5 +86,15 @@ public class AdminMemberController {
     @PostMapping("/organization")
     public ResponseEntity<OnedayclanResponse<OrganizationMemberDetailResponse>> insertOrganizationMember(@Valid @RequestBody OrganizationCreateRequest request) {
         return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.insertOrganizationMember(request)));
+    }
+
+    @GetMapping("/organization/{memberSeq}")
+    public ResponseEntity<OnedayclanResponse<OrganizationMemberDetailResponse>> getOrganizationMember(@PathVariable long memberSeq) {
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.getOrganizationMember(memberSeq)));
+    }
+
+    @PatchMapping("/organization/{memberSeq}")
+    public ResponseEntity<OnedayclanResponse<OrganizationMemberDetailResponse>> updateOrganizationMember(@PathVariable long memberSeq, @RequestBody OrganizationMemberUpdateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(manageMemberPort.updateOrganizationMember(request, memberSeq)));
     }
 }

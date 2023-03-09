@@ -23,4 +23,15 @@ public class OrganizationMemberDetailResponse {
                 .phone(member.getPhone())
                 .build();
     }
+
+    public static OrganizationMemberDetailResponse of(MemberEntity member, long memberCount) {
+        return OrganizationMemberDetailResponse.builder()
+                .seq(member.getSeq())
+                .userId(member.getUserId())
+                .name(member.getName())
+                .organization(OrganizationResponse.of(member.getConfirmOrganization()))
+                .phone(member.getPhone())
+                .memberCount(memberCount)
+                .build();
+    }
 }

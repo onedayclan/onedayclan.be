@@ -23,4 +23,8 @@ public class OrganizationEntity extends AbstractImmutableEntity {
     public OrganizationEntity(String name) {
         this.name = name;
     }
+
+    public void updateOrganizationName(String name){
+        this.name = name;
+    }
 }

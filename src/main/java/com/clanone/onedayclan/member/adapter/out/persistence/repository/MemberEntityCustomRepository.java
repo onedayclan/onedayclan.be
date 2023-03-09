@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.member.adapter.out.persistence.repository;
 
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.QMemberEntity;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
@@ -140,5 +141,9 @@ public class MemberEntityCustomRepository {
 
     private BooleanExpression eqOrganizationName(String name) {
         return isEmpty(name) ? null : organizationEntity.name.contains(name);
+    }
+
+    private BooleanExpression eqMemberSeq(long memberSeq) {
+        return memberSeq == 0 ? null : memberEntity.seq.eq(memberSeq);
     }
 }

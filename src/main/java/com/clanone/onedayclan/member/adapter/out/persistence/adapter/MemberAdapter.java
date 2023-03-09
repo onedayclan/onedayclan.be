@@ -2,6 +2,7 @@ package com.clanone.onedayclan.member.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
@@ -97,6 +98,19 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
         return all.stream()
                 .map(OrganizationResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrganizationMemberDetailResponse getOrganizationMember(long memberSeq) {
+        MemberEntity member = memberEntityRepository.findById(memberSeq)
+                .orElseThrow(() -> {throw new MemberNotFoundException();});
+        long organizationMemberCount = memberEntityRepository.countByConfirmOrganizationSeqAndType(member.getConfirmOrganization().getSeq(), MemberType.NORMAL);
+        return OrganizationMemberDetailResponse.of(member, organizationMemberCount);
+    }
+
+    @Override
+    public long countMemberByOrganizationSeq(long organizationSeq) {
+        return memberEntityRepository.countByConfirmOrganizationSeqAndType(organizationSeq, MemberType.NORMAL);
     }
 
     @Override

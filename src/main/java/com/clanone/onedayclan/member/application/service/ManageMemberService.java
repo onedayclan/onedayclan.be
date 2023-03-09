@@ -1,7 +1,9 @@
 package com.clanone.onedayclan.member.application.service;
 
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
+import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationMemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.port.in.ManageMemberPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
@@ -27,5 +29,15 @@ public class ManageMemberService implements ManageMemberPort {
                     null : getOrganizationPort.getOrganizationBySeq(request.getOrganizationSeq()));
         }
         return MemberDetailResponse.of(member);
+    }
+
+    @Override
+    @Transactional
+    public OrganizationMemberDetailResponse updateOrganizationMember(OrganizationMemberUpdateRequest request, long memberSeq) {
+        MemberEntity member = getMemberPort.findMember(memberSeq);
+        member.updateOrganizationMemberInfo(request);
+
+        long memberCount = getMemberPort.countMemberByOrganizationSeq(member.getConfirmOrganization().getSeq());
+        return OrganizationMemberDetailResponse.of(member, memberCount);
     }
 }
