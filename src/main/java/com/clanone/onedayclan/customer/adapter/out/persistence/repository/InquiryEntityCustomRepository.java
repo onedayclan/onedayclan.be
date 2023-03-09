@@ -1,8 +1,7 @@
 package com.clanone.onedayclan.customer.adapter.out.persistence.repository;
 
-import com.clanone.onedayclan.customer.adapter.in.web.response.*;
-import com.clanone.onedayclan.customer.adapter.in.web.response.QInquiryAnswerResponse;
-import com.clanone.onedayclan.customer.adapter.in.web.response.QInquiryDto;
+import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryAnswerEntity;
+import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,16 +17,8 @@ public class InquiryEntityCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public InquiryDto getInquiry(String userId, Long seq) {
-        return jpaQueryFactory.select(
-                        new QInquiryDto(
-                                inquiryEntity.title,
-                                inquiryEntity.content,
-                                inquiryEntity.answerYn,
-                                inquiryEntity.createdAt
-                        )
-                )
-                .from(inquiryEntity)
+    public InquiryEntity getInquiry(String userId, Long seq) {
+        return jpaQueryFactory.selectFrom(inquiryEntity)
                 .where(
                         inquiryEntity.member.userId.eq(userId),
                         inquiryEntity.seq.eq(seq)
@@ -35,15 +26,8 @@ public class InquiryEntityCustomRepository {
                 .fetchOne();
     }
 
-    public List<InquiryAnswerResponse> getInquiryAnswer(Long seq){
-        return jpaQueryFactory.select(
-                new QInquiryAnswerResponse(
-                        inquiryAnswerEntity.seq,
-                        inquiryAnswerEntity.content,
-                        inquiryAnswerEntity.createdAt
-                    )
-                )
-                .from(inquiryAnswerEntity)
+    public List<InquiryAnswerEntity> getInquiryAnswer(Long seq){
+        return jpaQueryFactory.selectFrom(inquiryAnswerEntity)
                 .where(inquiryAnswerEntity.inquiry.seq.eq(seq))
                 .fetch();
     }

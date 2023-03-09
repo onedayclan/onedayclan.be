@@ -43,12 +43,19 @@ public class GetInquiryAdapter implements SaveInquiryPort, GetInquiryPort {
 
     @Override
     public InquiryDto getInquiry(String userId, Long seq) {
-        return inquiryEntityCustomRepository.getInquiry(userId, seq);
+        InquiryEntity inquiry = inquiryEntityCustomRepository.getInquiry(userId, seq);
+        return InquiryDto.builder()
+                .title(inquiry.getTitle())
+                .content(inquiry.getContent())
+                .answerYn(inquiry.isAnswerYn())
+                .createdAt(inquiry.getCreatedAt())
+                .build();
     }
 
     @Override
     public List<InquiryAnswerResponse> getInquiryAnswer(Long seq) {
-        return inquiryEntityCustomRepository.getInquiryAnswer(seq);
+        return inquiryEntityCustomRepository.getInquiryAnswer(seq)
+                .stream().map(InquiryAnswerResponse::of).collect(Collectors.toList());
     }
 
     @Override

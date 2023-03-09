@@ -1,6 +1,6 @@
 package com.clanone.onedayclan.customer.adapter.in.web.response;
 
-import com.querydsl.core.annotations.QueryProjection;
+import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryAnswerEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,11 +13,11 @@ public class InquiryAnswerResponse {
     private String content;
     private LocalDateTime createdAt;
 
-    @QueryProjection
-    public InquiryAnswerResponse(long seq, String content, LocalDateTime createdAt) {
-        this.seq = seq;
-        this.content = content;
-        this.createdAt = createdAt;
+    public static InquiryAnswerResponse of(InquiryAnswerEntity inquiryAnswer) {
+        return InquiryAnswerResponse.builder()
+                .seq(inquiryAnswer.getSeq())
+                .content(inquiryAnswer.getContent())
+                .createdAt(inquiryAnswer.getCreatedAt())
+                .build();
     }
-
 }
