@@ -3,6 +3,7 @@ package com.clanone.onedayclan.customer.adapter.out.persistence;
 import com.clanone.onedayclan.customer.adapter.in.web.request.PostInquiryRequest;
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryAnswerResponse;
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryDto;
+import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryListResponse;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEntity;
 import com.clanone.onedayclan.customer.adapter.out.persistence.repository.InquiryEntityCustomRepository;
 import com.clanone.onedayclan.customer.adapter.out.persistence.repository.InquiryRepository;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
@@ -47,5 +49,11 @@ public class GetInquiryAdapter implements SaveInquiryPort, GetInquiryPort {
     @Override
     public List<InquiryAnswerResponse> getInquiryAnswer(Long seq) {
         return inquiryEntityCustomRepository.getInquiryAnswer(seq);
+    }
+
+    @Override
+    public List<InquiryListResponse> getInquiryList(String userId) {
+        return inquiryRepository.findByMemberUserId(userId)
+                .stream().map(InquiryListResponse::of).collect(Collectors.toList());
     }
 }
