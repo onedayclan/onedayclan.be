@@ -77,6 +77,7 @@ public class MemberEntityCustomRepository {
                         memberEntity.createdAt,
                         memberEntity.status,
                         memberEntity.memo,
+                        memberEntity.organizationStatus,
                         ExpressionUtils.as(
                                 JPAExpressions.select(subMember.seq.count().add(-1))
                                         .from(subMember)

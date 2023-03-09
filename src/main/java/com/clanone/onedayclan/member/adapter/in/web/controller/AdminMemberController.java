@@ -5,9 +5,12 @@ import com.clanone.onedayclan.OnedayclanResponse.PagingResult;
 import com.clanone.onedayclan.common.application.service.utils.DateUtil;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
+import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationCreateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
+import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.ManageMemberPort;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import jakarta.validation.Valid;
@@ -29,6 +32,7 @@ public class AdminMemberController {
 
     private final FindMemberPort findMemberPort;
     private final ManageMemberPort manageMemberPort;
+    private final JoinMemberPort joinMemberPort;
 
     @GetMapping("/normal")
     public ResponseEntity<OnedayclanResponse<PagingResult<MemberSearchResponse>>> getNormalMemberList(@RequestParam(required = false) String userId,
@@ -76,5 +80,10 @@ public class AdminMemberController {
                 .searchEndAt(Objects.isNull(createdEndAt) ? null : DateUtil.parseLocalDateTimeByYYYYMMDD(createdEndAt))
                 .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
+
+    @PostMapping("/organization")
+    public ResponseEntity<OnedayclanResponse<OrganizationMemberDetailResponse>> insertOrganizationMember(@Valid @RequestBody OrganizationCreateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.insertOrganizationMember(request)));
     }
 }
