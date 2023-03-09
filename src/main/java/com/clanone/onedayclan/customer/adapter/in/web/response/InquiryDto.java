@@ -1,20 +1,16 @@
 package com.clanone.onedayclan.customer.adapter.in.web.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
-public class InquiryResponse {
+public class InquiryDto {
     private String title;
     private String content;
+    private boolean answerYn;
     private LocalDateTime createdAt;
-    private List<InquiryAnswerResponse> answers;
-
-    public void updateAnswerList(List<InquiryAnswerResponse> answerList) {
-        this.answers = answerList;
-    }
 }

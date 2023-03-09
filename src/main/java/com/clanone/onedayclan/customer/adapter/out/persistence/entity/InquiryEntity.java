@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.customer.adapter.out.entity;
+package com.clanone.onedayclan.customer.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
@@ -29,11 +29,15 @@ public class InquiryEntity extends AbstractUpdatableEntity {
     @Column(nullable = false)
     private boolean answerYn;
 
+//    @Column(nullable = false)
+//    private boolean deleteYn;
+
     @Builder
     public InquiryEntity(MemberEntity member, String title, String content, boolean answerYn) {
         this.member = member;
         this.title = title;
         this.content = content;
         this.answerYn = answerYn;
+//        this.deleteYn = false;
     }
 }
