@@ -13,13 +13,14 @@ import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityRepository;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class GetInquiryAdapter implements SaveInquiryPort, GetInquiryPort {
 
     private final InquiryRepository inquiryRepository;

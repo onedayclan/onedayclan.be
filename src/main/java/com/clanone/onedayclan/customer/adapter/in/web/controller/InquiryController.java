@@ -7,14 +7,14 @@ import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryListRespon
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryResponse;
 import com.clanone.onedayclan.customer.application.port.in.InquiryPort;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InquiryController {
 
     private final InquiryPort inquiryPort;
