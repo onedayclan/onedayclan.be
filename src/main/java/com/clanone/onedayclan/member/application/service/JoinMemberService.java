@@ -6,6 +6,7 @@ import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberD
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.OrganizationEntity;
+import com.clanone.onedayclan.member.application.exception.AlreadyExistsUserIdException;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.out.CheckEmailPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
@@ -31,6 +32,9 @@ public class JoinMemberService implements JoinMemberPort {
 
     @Override
     public void joinMember(Member member) {
+        if(checkEmailPort.existsEmail(member.getId())) {
+            throw new AlreadyExistsUserIdException();
+        }
         saveMemberPort.joinMember(member);
     }
 

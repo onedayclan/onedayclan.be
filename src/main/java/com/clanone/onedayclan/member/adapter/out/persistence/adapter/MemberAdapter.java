@@ -14,6 +14,7 @@ import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEn
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.OrganizationEntityRepository;
 import com.clanone.onedayclan.member.application.exception.InvalidAccessException;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
+import com.clanone.onedayclan.member.application.exception.OrganizationNotFoundException;
 import com.clanone.onedayclan.member.application.port.out.*;
 import com.clanone.onedayclan.member.domain.Member;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
@@ -45,6 +46,7 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
                                 .password(member.getPassword())
                                 .name(member.getName())
                                 .phone(member.getPhone())
+                                .requestOrganization(organizationEntityRepository.findById(member.getOrganization()).orElseThrow(() -> {throw new OrganizationNotFoundException();}))
                                 .organizationStatus(MemberOrganizationStatus.WAITING)
                                 .type(MemberType.NORMAL)
                                 .build();
