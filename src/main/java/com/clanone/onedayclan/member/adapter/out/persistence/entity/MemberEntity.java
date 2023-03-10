@@ -3,6 +3,7 @@ package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.common.application.service.utils.DateUtil;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
+import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationMemberUpdateRequest;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import com.clanone.onedayclan.member.domain.enums.MemberType;
@@ -117,6 +118,14 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
             this.penaltyStartAt = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00:00"));
         }
 
+        this.memo = request.getMemo();
+    }
+
+    public void updateOrganizationMemberInfo(OrganizationMemberUpdateRequest request) {
+        this.name = request.getName();
+        this.phone = request.getPhone();
+        this.status = request.getStatus();
+        this.confirmOrganization.updateOrganizationName(request.getOrganizationName());
         this.memo = request.getMemo();
     }
 

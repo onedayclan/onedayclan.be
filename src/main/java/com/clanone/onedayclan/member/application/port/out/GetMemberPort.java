@@ -2,6 +2,7 @@ package com.clanone.onedayclan.member.application.port.out;
 
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
@@ -20,4 +21,6 @@ public interface GetMemberPort {
     Page<MemberSearchResponse> searchOrganizationMemberList(MemberSearchModel searchModel, Pageable pageable);
     MemberEntity findMember(long memberSeq);
     List<OrganizationResponse> getOrganizationList();
+    OrganizationMemberDetailResponse getOrganizationMember(long memberSeq);
+    long countMemberByOrganizationSeq(long organizationSeq);
 }
