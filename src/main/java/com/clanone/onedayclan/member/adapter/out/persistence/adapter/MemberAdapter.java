@@ -1,9 +1,6 @@
 package com.clanone.onedayclan.member.adapter.out.persistence.adapter;
 
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.*;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.FindPasswordEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
@@ -14,6 +11,7 @@ import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEn
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.OrganizationEntityRepository;
 import com.clanone.onedayclan.member.application.exception.InvalidAccessException;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
+import com.clanone.onedayclan.member.application.exception.OrganizationNotFoundException;
 import com.clanone.onedayclan.member.application.port.out.*;
 import com.clanone.onedayclan.member.domain.Member;
 import com.clanone.onedayclan.member.domain.enums.MemberOrganizationStatus;
@@ -21,6 +19,7 @@ import com.clanone.onedayclan.member.domain.enums.MemberType;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -111,6 +110,12 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
     @Override
     public long countMemberByOrganizationSeq(long organizationSeq) {
         return memberEntityRepository.countByConfirmOrganizationSeqAndType(organizationSeq, MemberType.NORMAL);
+    }
+
+    @Override
+    public Page<OrganizationConfirmResponse> getOrganizationConfirmList(Pageable pageable) {
+        Page<MemberEntity> confirmList = memberEntityRepository.findByOrganizationStatus(MemberOrganizationStatus.WAITING, pageable);
+        return new PageImpl<>(confirmList.getContent().stream().map(OrganizationConfirmResponse::of).collect(Collectors.toList()), pageable, confirmList.getTotalElements());
     }
 
     @Override

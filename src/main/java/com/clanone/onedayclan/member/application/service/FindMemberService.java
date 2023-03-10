@@ -2,10 +2,7 @@ package com.clanone.onedayclan.member.application.service;
 
 import com.clanone.onedayclan.member.adapter.in.web.request.FindIdRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.*;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
@@ -60,5 +57,10 @@ public class FindMemberService implements FindMemberPort {
     @Override
     public OrganizationMemberDetailResponse getOrganizationMember(long memberSeq) {
         return getMemberPort.getOrganizationMember(memberSeq);
+    }
+
+    @Override
+    public Page<OrganizationConfirmResponse> getOrganizationConfirmList(Pageable pageable) {
+        return getMemberPort.getOrganizationConfirmList(pageable);
     }
 }

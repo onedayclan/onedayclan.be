@@ -40,4 +40,18 @@ public class ManageMemberService implements ManageMemberPort {
         long memberCount = getMemberPort.countMemberByOrganizationSeq(member.getConfirmOrganization().getSeq());
         return OrganizationMemberDetailResponse.of(member, memberCount);
     }
+
+    @Override
+    @Transactional
+    public void acceptOrganizationMember(long memberSeq) {
+        MemberEntity member = getMemberPort.findMember(memberSeq);
+        member.acceptOrganization();
+    }
+
+    @Override
+    @Transactional
+    public void rejectOrganizationMember(long memberSeq) {
+        MemberEntity member = getMemberPort.findMember(memberSeq);
+        member.rejectOrganization();
+    }
 }

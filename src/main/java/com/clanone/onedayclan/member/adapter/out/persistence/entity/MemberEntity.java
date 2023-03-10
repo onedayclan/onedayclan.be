@@ -147,6 +147,15 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
         return this.confirmOrganization.getSeq() != organizationSeq;
     }
 
+    public void acceptOrganization() {
+        this.confirmOrganization = this.requestOrganization;
+        this.organizationStatus = MemberOrganizationStatus.ASSIGNED;
+    }
+
+    public void rejectOrganization() {
+        this.organizationStatus = MemberOrganizationStatus.NON_ASSIGNED;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
