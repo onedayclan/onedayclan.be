@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Entity
@@ -29,8 +30,9 @@ public class InquiryEntity extends AbstractUpdatableEntity {
     @Column(nullable = false)
     private boolean answerYn;
 
-//    @Column(nullable = false)
-//    private boolean deleteYn;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleteYn;
 
     @Builder
     public InquiryEntity(MemberEntity member, String title, String content, boolean answerYn) {
@@ -38,6 +40,9 @@ public class InquiryEntity extends AbstractUpdatableEntity {
         this.title = title;
         this.content = content;
         this.answerYn = answerYn;
-//        this.deleteYn = false;
+    }
+
+    public void deleteInquiry() {
+        this.deleteYn = true;
     }
 }

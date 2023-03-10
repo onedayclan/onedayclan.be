@@ -8,7 +8,8 @@ import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEnt
 import java.util.List;
 
 public interface GetInquiryPort {
-    InquiryDto getInquiry(String userId, Long seq);
-    List<InquiryAnswerResponse> getInquiryAnswer(Long seq);
+    InquiryDto getInquiryDto(String userId, long seq);
+    List<InquiryAnswerResponse> getInquiryAnswer(long seq);
     List<InquiryListResponse> getInquiryList(String userId);
+    InquiryEntity getInquiry(long seq);
 }

@@ -26,12 +26,18 @@ public class InquiryController {
     }
 
     @GetMapping("/inquiry/{seq}")
-    public ResponseEntity<OnedayclanResponse<InquiryResponse>> inquiryAnswer(@PathVariable("seq") Long seq, @LoginUserId String userId){
+    public ResponseEntity<OnedayclanResponse<InquiryResponse>> inquiryAnswer(@PathVariable("seq") long seq, @LoginUserId String userId){
         return ResponseEntity.ok(OnedayclanResponse.of(inquiryPort.inquiryAnswer(seq, userId)));
     }
 
     @GetMapping("/inquiry")
     public ResponseEntity<OnedayclanResponse<List<InquiryListResponse>>> getInquiryList(@LoginUserId String userId) {
         return ResponseEntity.ok(OnedayclanResponse.of(inquiryPort.inquiryList(userId)));
+    }
+
+    @DeleteMapping("/inquiry/{seq}")
+    public ResponseEntity<OnedayclanResponse<Void>> deleteInquiry(@LoginUserId String userId,@PathVariable("seq") long seq) {
+        inquiryPort.deleteInquiry(userId, seq);
+        return ResponseEntity.ok(OnedayclanResponse.success());
     }
 }

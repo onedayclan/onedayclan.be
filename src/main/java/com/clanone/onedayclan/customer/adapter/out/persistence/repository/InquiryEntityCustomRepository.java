@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.clanone.onedayclan.customer.adapter.out.persistence.entity.QInquiryAnswerEntity.inquiryAnswerEntity;
 import static com.clanone.onedayclan.customer.adapter.out.persistence.entity.QInquiryEntity.inquiryEntity;
@@ -17,13 +18,15 @@ public class InquiryEntityCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public InquiryEntity getInquiry(String userId, Long seq) {
-        return jpaQueryFactory.selectFrom(inquiryEntity)
+    public Optional<InquiryEntity> getInquiry(String userId, Long seq) {
+        InquiryEntity inquiry = jpaQueryFactory.selectFrom(inquiryEntity)
                 .where(
                         inquiryEntity.member.userId.eq(userId),
-                        inquiryEntity.seq.eq(seq)
+                        inquiryEntity.seq.eq(seq),
+                        inquiryEntity.deleteYn.eq(false)
                 )
                 .fetchOne();
+        return Optional.ofNullable(inquiry);
     }
 
     public List<InquiryAnswerEntity> getInquiryAnswer(Long seq){
