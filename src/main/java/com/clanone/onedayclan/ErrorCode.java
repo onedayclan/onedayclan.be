@@ -10,7 +10,8 @@ public enum ErrorCode {
     MEMBER_ALREADY_DELETED(HttpStatus.BAD_REQUEST,"삭제할 수 없는 회원입니다."),
     INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST,"유효하지 않은 액세스 토큰입니다."),
     INVALID_LINK(HttpStatus.BAD_REQUEST,"유효하지 않은 링크입니다."),
-    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 기관번호입니다.");
+    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 기관번호입니다."),
+    FAQ_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 FAQ 입니다.");
 
     private final HttpStatus httpStatus;
     private final String resultMessage;

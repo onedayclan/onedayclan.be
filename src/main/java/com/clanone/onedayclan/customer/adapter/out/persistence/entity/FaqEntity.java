@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.customer.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
+import com.clanone.onedayclan.customer.adapter.in.web.request.FaqManageRequest;
 import com.clanone.onedayclan.customer.domain.enums.FaqCategory;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -35,5 +36,12 @@ public class FaqEntity extends AbstractUpdatableEntity {
         this.category = category;
         this.content = content;
         this.showYn = showYn;
+    }
+
+    public void update(FaqManageRequest request) {
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.category = request.getCategory();
+        this.showYn = request.isShowYn();
     }
 }
