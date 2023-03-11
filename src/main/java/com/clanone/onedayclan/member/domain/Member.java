@@ -7,7 +7,7 @@ public class Member {
 
     private String password;
 
-    private String organization;
+    private long organizationSeq;
 
     private String phone;
 
@@ -23,19 +23,19 @@ public class Member {
         return this.password;
     }
 
-    public String getOrganization() {
-        return this.organization;
+    public long getOrganization() {
+        return this.organizationSeq;
     }
 
     public String getPhone() {
         return this.phone;
     }
 
-    public Member(String id, String name, String password, String organization, String phone) {
+    public Member(String id, String name, String password, long organizationSeq, String phone) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.organization = organization;
+        this.organizationSeq = organizationSeq;
         this.phone = phone;
     }
 }
