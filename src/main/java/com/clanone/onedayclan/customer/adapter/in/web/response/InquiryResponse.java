@@ -14,7 +14,7 @@ public class InquiryResponse {
     private LocalDateTime createdAt;
     private List<InquiryAnswerResponse> answers;
 
-    public void updateAnswerList(List<InquiryAnswerResponse> answerList) {
+    public void addAnswerList(List<InquiryAnswerResponse> answerList) {
         this.answers = answerList;
     }
 }

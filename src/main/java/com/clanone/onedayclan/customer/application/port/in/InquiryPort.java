@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface InquiryPort {
     void postInquiry(PostInquiryRequest inquiryRequest, String userId);
-    InquiryResponse inquiryAnswer(Long seq, String userId);
+    InquiryResponse inquiryAnswer(long seq, String userId);
     List<InquiryListResponse> inquiryList(String userId);
+    void deleteInquiry(String userId, long seq);
 }
