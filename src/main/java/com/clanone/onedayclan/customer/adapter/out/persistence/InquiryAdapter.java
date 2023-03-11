@@ -5,7 +5,7 @@ import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryAnswerResp
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryDto;
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryListResponse;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEntity;
-import com.clanone.onedayclan.customer.adapter.out.persistence.repository.InquiryEntityCustomRepository;
+import com.clanone.onedayclan.customer.adapter.out.persistence.repository.InquiryAnswerRepository;
 import com.clanone.onedayclan.customer.adapter.out.persistence.repository.InquiryRepository;
 import com.clanone.onedayclan.customer.application.exception.InquiryNotFoundException;
 import com.clanone.onedayclan.customer.application.port.out.GetInquiryPort;
@@ -13,19 +13,19 @@ import com.clanone.onedayclan.customer.application.port.out.SaveInquiryPort;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.repository.MemberEntityRepository;
 import com.clanone.onedayclan.member.application.exception.MemberNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class InquiryAdapter implements SaveInquiryPort, GetInquiryPort {
 
     private final InquiryRepository inquiryRepository;
+    private final InquiryAnswerRepository inquiryAnswerRepository;
     private final MemberEntityRepository memberEntityRepository;
-    private final InquiryEntityCustomRepository inquiryEntityCustomRepository;
 
     @Override
     public void saveInquiry(PostInquiryRequest inquiryRequest, String userId) {
@@ -44,7 +44,7 @@ public class InquiryAdapter implements SaveInquiryPort, GetInquiryPort {
 
     @Override
     public InquiryDto getInquiryDto(String userId, long seq) {
-        InquiryEntity inquiry = inquiryEntityCustomRepository.getInquiry(userId, seq).orElseThrow(() -> {
+        InquiryEntity inquiry = inquiryRepository.findByMemberUserIdAndSeqAndDeleteYn(userId, seq,false).orElseThrow(() -> {
             throw new InquiryNotFoundException();
         });
 
@@ -58,7 +58,7 @@ public class InquiryAdapter implements SaveInquiryPort, GetInquiryPort {
 
     @Override
     public List<InquiryAnswerResponse> getInquiryAnswer(long seq) {
-        return inquiryEntityCustomRepository.getInquiryAnswer(seq)
+        return inquiryAnswerRepository.findByInquirySeq(seq)
                 .stream().map(InquiryAnswerResponse::of).collect(Collectors.toList());
     }
 

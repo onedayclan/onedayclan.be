@@ -5,7 +5,6 @@ import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryDto;
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryListResponse;
 import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryResponse;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEntity;
-import com.clanone.onedayclan.customer.application.exception.InquiryNotFoundException;
 import com.clanone.onedayclan.customer.application.exception.InvalidPostingMemberException;
 import com.clanone.onedayclan.customer.application.port.in.InquiryPort;
 import com.clanone.onedayclan.customer.application.port.out.GetInquiryPort;
@@ -58,6 +57,6 @@ public class InquiryService implements InquiryPort {
         if (!inquiry.getMember().getUserId().equals(userId)) {
             throw new InvalidPostingMemberException();
         }
-        inquiry.deleteInquiry();
+        inquiry.delete();
     }
 }
