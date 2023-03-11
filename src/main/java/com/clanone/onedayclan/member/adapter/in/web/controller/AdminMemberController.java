@@ -9,6 +9,7 @@ import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationCreateRe
 import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationMemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberSearchResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationConfirmResponse;
 import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberDetailResponse;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
@@ -96,5 +97,24 @@ public class AdminMemberController {
     @PatchMapping("/organization/{memberSeq}")
     public ResponseEntity<OnedayclanResponse<OrganizationMemberDetailResponse>> updateOrganizationMember(@PathVariable long memberSeq, @RequestBody OrganizationMemberUpdateRequest request) {
         return ResponseEntity.ok(OnedayclanResponse.of(manageMemberPort.updateOrganizationMember(request, memberSeq)));
+    }
+
+    @GetMapping("/normal/organization-confirm")
+    public ResponseEntity<OnedayclanResponse<PagingResult<OrganizationConfirmResponse>>> getOrganizationConfirmList(@RequestParam(defaultValue = "1") int pageNo,
+                                                                                                                    @RequestParam(defaultValue = "10") int pageSize) {
+        Page<OrganizationConfirmResponse> result = findMemberPort.getOrganizationConfirmList(PageRequest.of(pageNo-1, pageSize));
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), 0, result.getTotalElements()));
+    }
+
+    @PatchMapping("/normal/organization-confirm/{memberSeq}/accept")
+    public ResponseEntity<OnedayclanResponse<Void>> acceptOrganizationMember(@PathVariable long memberSeq) {
+        manageMemberPort.acceptOrganizationMember(memberSeq);
+        return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @PatchMapping("/normal/organization-confirm/{memberSeq}/reject")
+    public ResponseEntity<OnedayclanResponse<Void>> rejectOrganizationMember(@PathVariable long memberSeq) {
+        manageMemberPort.rejectOrganizationMember(memberSeq);
+        return ResponseEntity.ok(OnedayclanResponse.success());
     }
 }

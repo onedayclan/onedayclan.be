@@ -8,4 +8,6 @@ import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationMemberD
 public interface ManageMemberPort {
     MemberDetailResponse updateNormalMember(MemberUpdateRequest request, long memberSeq);
     OrganizationMemberDetailResponse updateOrganizationMember(OrganizationMemberUpdateRequest request, long memberSeq);
+    void acceptOrganizationMember(long memberSeq);
+    void rejectOrganizationMember(long memberSeq);
 }
