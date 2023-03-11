@@ -42,7 +42,7 @@ public class InquiryEntity extends AbstractUpdatableEntity {
         this.answerYn = answerYn;
     }
 
-    public void deleteInquiry() {
+    public void delete() {
         this.deleteYn = true;
     }
 }

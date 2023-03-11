@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface InquiryRepository extends JpaRepository<InquiryEntity, Long> {
     List<InquiryEntity> findByMemberUserIdAndDeleteYn(String userId, boolean deleteYn);
     Optional<InquiryEntity> findBySeqAndDeleteYn(long seq, boolean deleteYn);
+    Optional<InquiryEntity> findByMemberUserIdAndSeqAndDeleteYn(String userId, long seq, boolean deleteYn);
 }
