@@ -25,7 +25,8 @@ public class FaqCustomRepositoryImpl implements FaqCustomRepository{
     public Page<FaqEntity> getFaqListForAdmin(FaqSearchModel model, Pageable pageable) {
         List<FaqEntity> faqList = jpaQueryFactory.selectFrom(faqEntity)
                 .where(
-                        containsTitle(model.getTitle())
+                        containsTitle(model.getTitle()),
+                        betweenCreatedAt(model.getSearchStartAt(), model.getSearchEndAt())
                 )
                 .orderBy(faqEntity.seq.desc())
                 .offset(pageable.getOffset())
