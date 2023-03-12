@@ -30,12 +30,15 @@ public class FaqEntity extends AbstractUpdatableEntity {
     @Column(nullable = false)
     private boolean showYn;
 
+    private Integer orderNo;
+
     @Builder
-    public FaqEntity(String title, FaqCategory category, String content, boolean showYn) {
+    public FaqEntity(String title, FaqCategory category, String content, boolean showYn, Integer orderNo) {
         this.title = title;
         this.category = category;
         this.content = content;
         this.showYn = showYn;
+        this.orderNo = orderNo;
     }
 
     public void update(FaqManageRequest request) {
@@ -43,5 +46,7 @@ public class FaqEntity extends AbstractUpdatableEntity {
         this.content = request.getContent();
         this.category = request.getCategory();
         this.showYn = request.isShowYn();
+        this.orderNo = request.getOrderNo();
+
     }
 }

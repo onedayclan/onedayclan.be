@@ -32,6 +32,7 @@ public class FaqCustomRepositoryImpl implements FaqCustomRepository{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+
         long count = jpaQueryFactory.select(faqEntity.count())
                 .from(faqEntity)
                 .where(

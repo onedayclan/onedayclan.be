@@ -17,4 +17,6 @@ public class FaqManageRequest {
     private FaqCategory category;
 
     private boolean showYn;
+
+    private Integer orderNo;
 }
