@@ -14,6 +14,7 @@ public class AdminFaqResponse {
     private String title;
     private FaqCategory category;
     private boolean showYn;
+    private Integer orderNo;
     private LocalDateTime createdAt;
 
     public static AdminFaqResponse of(FaqEntity faq) {
@@ -23,6 +24,7 @@ public class AdminFaqResponse {
                 .category(faq.getCategory())
                 .showYn(faq.isShowYn())
                 .createdAt(faq.getCreatedAt())
+                .orderNo(faq.getOrderNo())
                 .build();
     }
 

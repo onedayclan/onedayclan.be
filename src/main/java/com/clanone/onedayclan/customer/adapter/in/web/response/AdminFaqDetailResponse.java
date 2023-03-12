@@ -13,6 +13,7 @@ public class AdminFaqDetailResponse {
     private String content;
     private FaqCategory category;
     private boolean showYn;
+    private Integer orderNo;
 
     public static AdminFaqDetailResponse of(FaqEntity faq) {
         return AdminFaqDetailResponse.builder()
@@ -21,6 +22,7 @@ public class AdminFaqDetailResponse {
                 .content(faq.getContent())
                 .category(faq.getCategory())
                 .showYn(faq.isShowYn())
+                .orderNo(faq.getOrderNo())
                 .build();
     }
 

@@ -53,6 +53,7 @@ public class FaqService implements FaqPort{
                 .content(request.getContent())
                 .category(request.getCategory())
                 .showYn(request.isShowYn())
+                .orderNo(request.getOrderNo())
                 .build()));
     }
 
