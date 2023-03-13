@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.member.application.service;
 
+import com.clanone.onedayclan.member.adapter.in.web.request.ChangePhoneRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.OrganizationMemberUpdateRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.MemberDetailResponse;
@@ -11,6 +12,8 @@ import com.clanone.onedayclan.member.application.port.out.GetOrganizationPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +56,12 @@ public class ManageMemberService implements ManageMemberPort {
     public void rejectOrganizationMember(long memberSeq) {
         MemberEntity member = getMemberPort.findMember(memberSeq);
         member.rejectOrganization();
+    }
+
+    @Override
+    @Transactional
+    public void changePhone(String userId, ChangePhoneRequest changePhoneRequest) {
+        MemberEntity memberByUserId = getMemberPort.getMemberByUserId(userId);
+        memberByUserId.changePhone(changePhoneRequest.getPhone());
     }
 }
