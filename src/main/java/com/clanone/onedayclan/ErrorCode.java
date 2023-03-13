@@ -13,7 +13,8 @@ public enum ErrorCode {
     ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 기관번호입니다."),
     FAQ_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 FAQ 입니다."),
     INVALID_INQUIRY(HttpStatus.NOT_FOUND, "존재하지 않는 문의입니다."),
-    INVALID_POSTING_MEMBER(HttpStatus.BAD_REQUEST, "작성자 정보가 일치하지 않습니다.");
+    INVALID_POSTING_MEMBER(HttpStatus.BAD_REQUEST, "작성자 정보가 일치하지 않습니다."),
+    INVALID_NOTICE(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다.");
 
     private final HttpStatus httpStatus;
     private final String resultMessage;
