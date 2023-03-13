@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.customer.application;
+package com.clanone.onedayclan.customer.application.exception;
 
 import com.clanone.onedayclan.ErrorCode;
 import com.clanone.onedayclan.OnedayclanException;
