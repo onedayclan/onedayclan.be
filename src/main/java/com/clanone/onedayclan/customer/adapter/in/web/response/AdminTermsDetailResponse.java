@@ -7,19 +7,18 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class TermResponse {
-    private TermsType type;
+public class AdminTermsDetailResponse {
+    private long seq;
+    private String title;
     private String content;
+    private TermsType type;
 
-    public static TermResponse of(TermsEntity termsEntity) {
-        return TermResponse.builder()
-                .type(termsEntity.getType())
+    public static AdminTermsDetailResponse of(TermsEntity termsEntity) {
+        return AdminTermsDetailResponse.builder()
+                .seq(termsEntity.getSeq())
+                .title(termsEntity.getTitle())
                 .content(termsEntity.getContent())
+                .type(termsEntity.getType())
                 .build();
     }
-
-    public String getType() {
-        return type.getName();
-    }
-
 }

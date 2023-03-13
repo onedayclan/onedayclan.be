@@ -14,6 +14,7 @@ public enum ErrorCode {
     FAQ_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 FAQ 입니다."),
     INVALID_INQUIRY(HttpStatus.NOT_FOUND, "존재하지 않는 문의입니다."),
     INVALID_POSTING_MEMBER(HttpStatus.BAD_REQUEST, "작성자 정보가 일치하지 않습니다."),
+    TERMS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 약관입니다."),
     INVALID_NOTICE(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다.");
 
     private final HttpStatus httpStatus;

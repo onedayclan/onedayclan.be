@@ -16,6 +16,9 @@ public class TermsEntity extends AbstractImmutableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long seq;
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
@@ -24,7 +27,8 @@ public class TermsEntity extends AbstractImmutableEntity {
     private TermsType type;
 
     @Builder
-    public TermsEntity(String content, TermsType type) {
+    public TermsEntity(String title, String content, TermsType type) {
+        this.title = title;
         this.content = content;
         this.type = type;
     }

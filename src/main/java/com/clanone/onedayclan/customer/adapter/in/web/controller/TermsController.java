@@ -1,8 +1,8 @@
 package com.clanone.onedayclan.customer.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
-import com.clanone.onedayclan.customer.adapter.in.web.response.TermResponse;
-import com.clanone.onedayclan.customer.application.port.in.TermPort;
+import com.clanone.onedayclan.customer.adapter.in.web.response.TermsResponse;
+import com.clanone.onedayclan.customer.application.port.in.TermsPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TermsController {
 
-    private final TermPort termPort;
+    private final TermsPort termPort;
 
     @GetMapping("/terms")
-    public ResponseEntity<OnedayclanResponse<List<TermResponse>>> getTerm(){
-        return ResponseEntity.ok(OnedayclanResponse.of(termPort.getTerm()));
+    public ResponseEntity<OnedayclanResponse<List<TermsResponse>>> getTerms(){
+        return ResponseEntity.ok(OnedayclanResponse.of(termPort.getTerms()));
     }
 }

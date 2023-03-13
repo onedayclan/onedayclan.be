@@ -1,4 +1,4 @@
-package com.clanone.onedayclan.customer.adapter.out.persistence;
+package com.clanone.onedayclan.customer.adapter.out.adapter;
 
 import com.clanone.onedayclan.customer.adapter.in.web.request.InquiryAnswerCreateRequest;
 import com.clanone.onedayclan.customer.adapter.in.web.request.PostInquiryRequest;

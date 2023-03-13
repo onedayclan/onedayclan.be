@@ -1,14 +1,12 @@
-package com.clanone.onedayclan.customer.adapter.out.persistence;
+package com.clanone.onedayclan.customer.adapter.out.adapter;
 
 import com.clanone.onedayclan.customer.adapter.in.web.response.AdminFaqResponse;
-import com.clanone.onedayclan.customer.adapter.in.web.response.FaqResponse;
 import com.clanone.onedayclan.customer.adapter.out.model.FaqSearchModel;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.FaqEntity;
 import com.clanone.onedayclan.customer.adapter.out.persistence.repository.FaqRepository;
-import com.clanone.onedayclan.customer.application.FaqNotFoundException;
+import com.clanone.onedayclan.customer.application.exception.FaqNotFoundException;
 import com.clanone.onedayclan.customer.application.port.out.GetFaqPort;
 import com.clanone.onedayclan.customer.application.port.out.ManageFaqPort;
-import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationConfirmResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
