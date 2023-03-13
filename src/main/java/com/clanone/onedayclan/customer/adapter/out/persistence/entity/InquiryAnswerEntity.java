@@ -2,6 +2,7 @@ package com.clanone.onedayclan.customer.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class InquiryAnswerEntity extends AbstractUpdatableEntity {
 
     @Column(nullable = false, length = 500)
     private String content;
+
+    @Builder
+    public InquiryAnswerEntity(InquiryEntity inquiry, String content) {
+        this.inquiry = inquiry;
+        this.content = content;
+    }
 }

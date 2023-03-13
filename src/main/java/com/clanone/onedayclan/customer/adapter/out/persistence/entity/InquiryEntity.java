@@ -45,4 +45,11 @@ public class InquiryEntity extends AbstractUpdatableEntity {
     public void delete() {
         this.deleteYn = true;
     }
+
+    public void answered() {
+        this.answerYn = true;
+    }
+    public void notAnswered(){
+        this.answerYn = false;
+    }
 }

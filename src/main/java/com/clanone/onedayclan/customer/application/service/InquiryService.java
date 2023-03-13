@@ -1,16 +1,19 @@
 package com.clanone.onedayclan.customer.application.service;
 
+import com.clanone.onedayclan.customer.adapter.in.web.request.InquiryAnswerCreateRequest;
+import com.clanone.onedayclan.customer.adapter.in.web.request.InquirySearchRequest;
 import com.clanone.onedayclan.customer.adapter.in.web.request.PostInquiryRequest;
-import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryDto;
-import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryListResponse;
-import com.clanone.onedayclan.customer.adapter.in.web.response.InquiryResponse;
+import com.clanone.onedayclan.customer.adapter.in.web.response.*;
+import com.clanone.onedayclan.customer.adapter.out.model.InquirySearchModel;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.InquiryEntity;
 import com.clanone.onedayclan.customer.application.exception.InvalidPostingMemberException;
 import com.clanone.onedayclan.customer.application.port.in.InquiryPort;
 import com.clanone.onedayclan.customer.application.port.out.GetInquiryPort;
-import com.clanone.onedayclan.customer.application.port.out.SaveInquiryPort;
+import com.clanone.onedayclan.customer.application.port.out.ManageInquiryPort;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +23,12 @@ import java.util.List;
 @AllArgsConstructor
 public class InquiryService implements InquiryPort {
 
-    private final SaveInquiryPort saveInquiryPort;
+    private final ManageInquiryPort manageInquiryPort;
     private final GetInquiryPort getInquiryPort;
 
     @Override
     public void postInquiry(PostInquiryRequest inquiryRequest, String userId) {
-        saveInquiryPort.saveInquiry(inquiryRequest, userId);
+        manageInquiryPort.saveInquiry(inquiryRequest, userId);
     }
 
     @Override
@@ -59,4 +62,39 @@ public class InquiryService implements InquiryPort {
         }
         inquiry.delete();
     }
+
+    @Override
+    public Page<AdminInquiryResponse> getInquiryListForAdmin(InquirySearchRequest request, Pageable pageable) {
+        return getInquiryPort.getInquiryListForAdmin(InquirySearchModel.builder()
+                        .userId(request.getUserId())
+                        .name(request.getName())
+                        .searchStartAt(request.getSearchStartAt())
+                        .searchEndAt(request.getSearchEndAt())
+                        .answerYn(request.getAnswerYn())
+                        .deleteYn(request.getDeleteYn())
+                        .build(), pageable);
+    }
+
+    @Override
+    public AdminInquiryDetailResponse getInquiryForAdmin(long inquirySeq) {
+        return getInquiryPort.getInquiryForAdmin(inquirySeq);
+    }
+
+    @Override
+    @Transactional
+    public void insertInquiryAnswer(long inquirySeq, InquiryAnswerCreateRequest request) {
+        InquiryEntity inquiry = getInquiryPort.getInquiry(inquirySeq);
+        manageInquiryPort.saveInquiryAnswer(request, inquiry);
+        inquiry.answered();
+    }
+
+    @Override
+    @Transactional
+    public void deleteInquiryAnswer(long inquirySeq) {
+        InquiryEntity inquiry = getInquiryPort.getInquiry(inquirySeq);
+        manageInquiryPort.deleteInquiryAnswer(inquirySeq);
+        inquiry.notAnswered();
+    }
+
+
 }

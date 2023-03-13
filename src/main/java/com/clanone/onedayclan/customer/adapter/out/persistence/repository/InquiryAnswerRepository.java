@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface InquiryAnswerRepository extends JpaRepository<InquiryAnswerEntity, Long> {
     List<InquiryAnswerEntity> findByInquirySeq(long seq);
+    void deleteAllByInquirySeq(long inquirySeq);
 }
