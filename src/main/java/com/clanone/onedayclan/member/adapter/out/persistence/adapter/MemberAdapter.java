@@ -120,6 +120,13 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
     }
 
     @Override
+    public MemberEntity getMemberByUserId(String userId) {
+        return memberEntityRepository.findByUserId(userId).orElseThrow(() -> {
+            throw new MemberNotFoundException();
+        });
+    }
+
+    @Override
     public String getUserId(String name, String phone) {
         MemberEntity member = memberEntityRepository.findByNameAndPhone(name, phone)
                                                     .orElseThrow(() -> {throw new MemberNotFoundException();});
