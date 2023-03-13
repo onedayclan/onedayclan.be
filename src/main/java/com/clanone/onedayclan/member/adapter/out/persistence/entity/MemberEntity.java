@@ -156,6 +156,10 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
         this.organizationStatus = MemberOrganizationStatus.NON_ASSIGNED;
     }
 
+    public void changePhone(String phone){
+        this.phone = phone;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
