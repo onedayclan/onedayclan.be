@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @Entity
 @Table(name = "notice")
@@ -35,5 +37,13 @@ public class NoticeEntity extends AbstractUpdatableEntity {
         this.title = title;
         this.content = content;
         this.showYn = showYn;
+    }
+
+    public boolean hasImage() {
+        return Objects.nonNull(this.image);
+    }
+
+    public void connectImage(ImageEntity image) {
+        this.image = image;
     }
 }

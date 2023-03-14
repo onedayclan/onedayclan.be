@@ -16,6 +16,7 @@ public enum ErrorCode {
     INVALID_POSTING_MEMBER(HttpStatus.BAD_REQUEST, "작성자 정보가 일치하지 않습니다."),
     TERMS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 약관입니다."),
     INVALID_NOTICE(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다."),
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이미지입니다."),
     INVALID_TOGETHER_CLASS(HttpStatus.NOT_FOUND, "존재하지 않는 신청입니다.");
 
     private final HttpStatus httpStatus;
