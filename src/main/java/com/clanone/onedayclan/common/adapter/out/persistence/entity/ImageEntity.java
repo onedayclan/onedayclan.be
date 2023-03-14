@@ -32,4 +32,8 @@ public class ImageEntity extends AbstractUpdatableEntity {
         this.url = url;
         this.type = ImageType.NONE;
     }
+
+    public void connectNotice() {
+        this.type = ImageType.NOTICE;
+    }
 }
