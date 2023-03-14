@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @Table(name = "together_class")
@@ -33,16 +35,18 @@ public class TogetherClassEntity extends AbstractUpdatableEntity {
     @Column(nullable = false, length = 500)
     private String content;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String answer;
 
+    @Column(columnDefinition = "DATETIME")
+    private LocalDateTime answerCreatedAt;
+
     @Builder
-    public TogetherClassEntity(MemberEntity member, String title, TogetherClassCategory category, int limitPeople, String content, String answer) {
+    public TogetherClassEntity(MemberEntity member, String title, TogetherClassCategory category, int limitPeople, String content) {
         this.member = member;
         this.title = title;
         this.category = category;
         this.limitPeople = limitPeople;
         this.content = content;
-        this.answer = answer;
     }
 }
