@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface NoticeRepository extends JpaRepository<NoticeEntity, Long> {
+public interface NoticeRepository extends JpaRepository<NoticeEntity, Long>, NoticeCustomRepository{
     List<NoticeEntity> findByShowYnOrderByCreatedAtDesc(boolean showYn);
     Optional<NoticeEntity> findBySeqAndShowYn(long seq, boolean showYn);
 }
