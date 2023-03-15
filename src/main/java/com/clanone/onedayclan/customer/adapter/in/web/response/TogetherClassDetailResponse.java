@@ -24,7 +24,7 @@ public class TogetherClassDetailResponse {
                 .createdAt(togetherClassEntity.getCreatedAt())
                 .category(togetherClassEntity.getCategory())
                 .content(togetherClassEntity.getContent())
-                .answer(Objects.isNull(togetherClassEntity.getAnswer()) ? "미답변" : "답변완료")
+                .answer(togetherClassEntity.getAnswer())
                 .answerCreatedAt(togetherClassEntity.getAnswerCreatedAt())
                 .build();
     }

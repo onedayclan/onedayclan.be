@@ -36,13 +36,7 @@ public class TogetherClassService implements TogetherClassPort {
 
     @Override
     public List<TogetherClassResponse> getTogetherClass(String userId) {
-        return getTogetherClassPort.getTogetherClassList(userId).stream().map(togetherClassEntity -> TogetherClassResponse.builder()
-                    .seq(togetherClassEntity.getSeq())
-                    .title(togetherClassEntity.getTitle())
-                    .createdAt(togetherClassEntity.getCreatedAt())
-                    .answerYn(togetherClassEntity.getAnswer() == null ? "미답변" : "답변완료")
-                    .build()
-        ).collect(Collectors.toList());
+        return getTogetherClassPort.getTogetherClassList(userId).stream().map(TogetherClassResponse::of).collect(Collectors.toList());
     }
 
     @Override
