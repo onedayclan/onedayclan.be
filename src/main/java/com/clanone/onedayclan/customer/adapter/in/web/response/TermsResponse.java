@@ -19,7 +19,7 @@ public class TermsResponse {
     }
 
     public String getType() {
-        return type.getName();
+        return this.type.getName();
     }
 
 }
