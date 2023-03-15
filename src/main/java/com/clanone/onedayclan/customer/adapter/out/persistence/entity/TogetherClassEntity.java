@@ -49,4 +49,14 @@ public class TogetherClassEntity extends AbstractUpdatableEntity {
         this.limitPeople = limitPeople;
         this.content = content;
     }
+
+    public void answer(String answer) {
+        this.answer = answer;
+        this.answerCreatedAt = LocalDateTime.now();
+    }
+
+    public void deleteAnswer() {
+        this.answer = null;
+        this.answerCreatedAt = null;
+    }
 }
