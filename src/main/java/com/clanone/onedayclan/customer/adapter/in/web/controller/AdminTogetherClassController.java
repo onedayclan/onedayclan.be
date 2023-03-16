@@ -52,13 +52,13 @@ public class AdminTogetherClassController {
         return ResponseEntity.ok(OnedayclanResponse.of(togetherClassPort.getTogetherClassForAdmin(togetherClassSeq)));
     }
 
-    @PatchMapping("/{togetherClassSeq}/answer/apply")
+    @PostMapping("/{togetherClassSeq}/answer/apply")
     public ResponseEntity<OnedayclanResponse<Void>> applyTogetherClassAnswer(@PathVariable long togetherClassSeq, @Valid @RequestBody TogetherClassAnswerCreateRequest request) {
         togetherClassPort.applyTogetherClassAnswer(togetherClassSeq, request);
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
 
-    @PatchMapping("/{togetherClassSeq}/answer/delete")
+    @DeleteMapping("/{togetherClassSeq}/answer/delete")
     public ResponseEntity<OnedayclanResponse<Void>> deleteTogetherClassAnswer(@PathVariable long togetherClassSeq) {
         togetherClassPort.deleteTogetherClassAnswer(togetherClassSeq);
         return ResponseEntity.ok(OnedayclanResponse.success());
