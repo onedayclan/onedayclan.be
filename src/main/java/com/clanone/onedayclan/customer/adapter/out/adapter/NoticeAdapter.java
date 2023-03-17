@@ -36,6 +36,11 @@ public class NoticeAdapter implements GetNoticePort, ManageNoticePort {
     }
 
     @Override
+    public NoticeEntity getNoticeForAdmin(long seq) {
+        return noticeRepository.findById(seq).orElseThrow(() -> {throw new NoticeNotFoundException();});
+    }
+
+    @Override
     public NoticeEntity saveNotice(NoticeEntity notice) {
         return noticeRepository.save(notice);
     }

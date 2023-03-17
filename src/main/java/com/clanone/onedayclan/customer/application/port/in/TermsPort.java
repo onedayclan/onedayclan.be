@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.customer.application.port.in;
 
+import com.clanone.onedayclan.customer.adapter.in.web.request.TermsCreateRequest;
 import com.clanone.onedayclan.customer.adapter.in.web.response.AdminTermsDetailResponse;
 import com.clanone.onedayclan.customer.adapter.in.web.response.AdminTermsResponse;
 import com.clanone.onedayclan.customer.adapter.in.web.response.TermsResponse;
@@ -12,4 +13,5 @@ public interface TermsPort {
     List<TermsResponse> getTerms();
     Page<AdminTermsResponse> getTermsList(Pageable pageable);
     AdminTermsDetailResponse getTermsForAdmin(long termsSeq);
+    AdminTermsDetailResponse updateTermsForAdmin(long termsSeq, TermsCreateRequest request);
 }

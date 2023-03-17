@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.customer.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractImmutableEntity;
+import com.clanone.onedayclan.customer.adapter.in.web.request.TermsCreateRequest;
 import com.clanone.onedayclan.customer.domain.enums.TermsType;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -31,5 +32,10 @@ public class TermsEntity extends AbstractImmutableEntity {
         this.title = title;
         this.content = content;
         this.type = type;
+    }
+
+    public void update(TermsCreateRequest request) {
+        this.title = request.getContent();
+        this.type = request.getType();
     }
 }

@@ -53,4 +53,10 @@ public class AdminNoticeController {
         noticePort.deleteNotice(noticeSeq);
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
+
+    @PutMapping("/{noticeSeq}")
+    public ResponseEntity<OnedayclanResponse<AdminNoticeDetailResponse>> updateNotice(@PathVariable long noticeSeq,
+                                                                                      @Valid @RequestBody NoticeCreateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(noticePort.updateNotice(noticeSeq, request)));
+    }
 }
