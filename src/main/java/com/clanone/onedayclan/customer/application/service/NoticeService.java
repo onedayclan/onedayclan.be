@@ -87,6 +87,24 @@ public class NoticeService implements NoticePort {
         manageNoticePort.deleteNotice(noticeSeq);
     }
 
+    @Override
+    @Transactional
+    public AdminNoticeDetailResponse updateNotice(long noticeSeq, NoticeCreateRequest request) {
+        NoticeEntity notice = getNoticePort.getNoticeForAdmin(noticeSeq);
+        boolean isImageChanged = notice.isImageChanged(request.getImageSeq());
+        notice.updateInfo(request);
+
+        if (isImageChanged) {
+            ImageEntity image = null;
+            if(request.hasImage()){
+                image = imagePort.getImage(request.getImageSeq());
+            }
+            notice.updateImage(image);
+        }
+
+        return AdminNoticeDetailResponse.of(notice);
+    }
+
     private void connectNoticeImage(NoticeEntity notice, long imageSeq) {
         ImageEntity image = imagePort.getImage(imageSeq);
         notice.connectImage(image);

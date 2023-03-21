@@ -2,9 +2,11 @@ package com.clanone.onedayclan.customer.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.OnedayclanResponse.PagingResult;
+import com.clanone.onedayclan.customer.adapter.in.web.request.TermsCreateRequest;
 import com.clanone.onedayclan.customer.adapter.in.web.response.AdminTermsDetailResponse;
 import com.clanone.onedayclan.customer.adapter.in.web.response.AdminTermsResponse;
 import com.clanone.onedayclan.customer.application.port.in.TermsPort;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
@@ -28,5 +30,11 @@ public class AdminTermsController {
     @GetMapping("/{termsSeq}")
     public ResponseEntity<OnedayclanResponse<AdminTermsDetailResponse>> getTerms(@PathVariable long termsSeq) {
         return ResponseEntity.ok(OnedayclanResponse.of(termsPort.getTermsForAdmin(termsSeq)));
+    }
+
+    @PutMapping("/{termsSeq}")
+    public ResponseEntity<OnedayclanResponse<AdminTermsDetailResponse>> updateTerms(@PathVariable long termsSeq,
+                                                                                    @Valid @RequestBody TermsCreateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(termsPort.updateTermsForAdmin(termsSeq,request)));
     }
 }
