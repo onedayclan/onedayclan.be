@@ -4,15 +4,14 @@ import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.common.resolver.LoginUserId;
 import com.clanone.onedayclan.member.adapter.in.web.request.ChangePhoneRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.PasswordChangeRequest;
+import com.clanone.onedayclan.member.adapter.in.web.response.MyPageMemberInfoResponse;
+import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.ManageMemberPort;
 import com.clanone.onedayclan.member.application.port.in.PasswordPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class MyPageController {
 
     private final PasswordPort passwordPort;
     private final ManageMemberPort manageMemberPort;
+    private final FindMemberPort findMemberPort;
 
     @PatchMapping("/change/password")
     public ResponseEntity<OnedayclanResponse<Void>> changePassword(@LoginUserId String userId, @Valid @RequestBody PasswordChangeRequest passwordChangeRequest) {
@@ -33,4 +33,10 @@ public class MyPageController {
         manageMemberPort.changePhone(userId, changePhoneRequest);
         return ResponseEntity.ok(OnedayclanResponse.success());
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<OnedayclanResponse<MyPageMemberInfoResponse>> memberInfo(@LoginUserId String userId){
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.getMyPageMemberInformation(userId)));
+    }
+
 }
