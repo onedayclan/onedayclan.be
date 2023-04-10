@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -34,9 +36,9 @@ public class ClassEntity extends AbstractUpdatableEntity {
     @Column(nullable = false, length = 200)
     private String name;
 
-    @Column(nullable = false)
-    private int organizationFee;
+    private Integer organizationFee;
 
+    @Column(nullable = false)
     private int normalFee;
 
     @Column(nullable = false, length = 20)
@@ -84,7 +86,7 @@ public class ClassEntity extends AbstractUpdatableEntity {
     private ClassStatus status;
 
     @Builder
-    public ClassEntity(ImageEntity poster, ImageEntity thumbnail, ClassCategoryEntity category, String name, int organizationFee, int normalFee, String teacherName, int limitPeople, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applicationEndAt, boolean offlineYn, String offlineLink, long latitude, long longitude, String location, String description, String progress, String rule, boolean showYn, ClassStatus status) {
+    public ClassEntity(ImageEntity poster, ImageEntity thumbnail, ClassCategoryEntity category, String name, Integer organizationFee, int normalFee, String teacherName, int limitPeople, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applicationEndAt, boolean offlineYn, String offlineLink, long latitude, long longitude, String location, String description, String progress, String rule, boolean showYn, ClassStatus status) {
         this.poster = poster;
         this.thumbnail = thumbnail;
         this.category = category;
@@ -106,5 +108,39 @@ public class ClassEntity extends AbstractUpdatableEntity {
         this.rule = rule;
         this.showYn = showYn;
         this.status = status;
+    }
+
+    public static ClassEntity of(AdminClassCreateRequest request, ClassCategoryEntity category, ImageEntity thumbnail) {
+        ClassEntity classEntity = ClassEntity.builder()
+                .name(request.getName())
+                .category(category)
+                .organizationFee(request.getOrganizationFee())
+                .normalFee(request.getNormalFee())
+                .teacherName(request.getTeacherName())
+                .limitPeople(request.getLimitPeople())
+                .startAt(request.getStartAt())
+                .endAt(request.getEndAt())
+                .applicationEndAt(request.getApplicationEndAt())
+                .offlineYn(request.isOfflineYn())
+                .offlineLink(request.getOfflineLink())
+                .latitude(request.getLatitude())
+                .longitude(request.getLongitude())
+                .location(request.getLocation())
+                .description(request.getDescription())
+                .progress(request.getProgress())
+                .rule(request.getRule())
+                .showYn(request.isShowYn())
+                .status(ClassStatus.IN_PROGRESS)
+                .build();
+
+        if(Objects.nonNull(thumbnail)) {
+            classEntity.updateThumbnail(thumbnail);
+        }
+
+        return classEntity;
+    }
+
+    public void updateThumbnail(ImageEntity thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
