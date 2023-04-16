@@ -2,6 +2,7 @@ package com.clanone.onedayclan.clazz.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Getter
@@ -20,10 +22,6 @@ public class ClassEntity extends AbstractUpdatableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long seq;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "poster_seq", referencedColumnName = "seq")
-    private ImageEntity poster;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "thumbnail_seq", referencedColumnName = "seq")
@@ -62,12 +60,15 @@ public class ClassEntity extends AbstractUpdatableEntity {
     @Column(length = 500)
     private String offlineLink;
 
-    private long latitude;
+    private double latitude;
 
-    private long longitude;
+    private double longitude;
 
     @Column(length = 500)
     private String location;
+
+    @Column(length = 100)
+    private String locationDetail;
 
     @Column(nullable = false, length = 500)
     private String description;
@@ -86,8 +87,7 @@ public class ClassEntity extends AbstractUpdatableEntity {
     private ClassStatus status;
 
     @Builder
-    public ClassEntity(ImageEntity poster, ImageEntity thumbnail, ClassCategoryEntity category, String name, Integer organizationFee, int normalFee, String teacherName, int limitPeople, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applicationEndAt, boolean offlineYn, String offlineLink, long latitude, long longitude, String location, String description, String progress, String rule, boolean showYn, ClassStatus status) {
-        this.poster = poster;
+    public ClassEntity(ImageEntity thumbnail, ClassCategoryEntity category, String name, Integer organizationFee, int normalFee, String teacherName, int limitPeople, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime applicationEndAt, boolean offlineYn, String offlineLink, double latitude, double longitude, String location, String locationDetail, String description, String progress, String rule, boolean showYn, ClassStatus status) {
         this.thumbnail = thumbnail;
         this.category = category;
         this.name = name;
@@ -103,6 +103,7 @@ public class ClassEntity extends AbstractUpdatableEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.location = location;
+        this.locationDetail = locationDetail;
         this.description = description;
         this.progress = progress;
         this.rule = rule;
@@ -118,14 +119,15 @@ public class ClassEntity extends AbstractUpdatableEntity {
                 .normalFee(request.getNormalFee())
                 .teacherName(request.getTeacherName())
                 .limitPeople(request.getLimitPeople())
-                .startAt(request.getStartAt())
-                .endAt(request.getEndAt())
-                .applicationEndAt(request.getApplicationEndAt())
+                .startAt(LocalDateTime.parse(request.getStartAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .endAt(LocalDateTime.parse(request.getEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .applicationEndAt(LocalDateTime.parse(request.getApplicationEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .offlineYn(request.isOfflineYn())
                 .offlineLink(request.getOfflineLink())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
                 .location(request.getLocation())
+                .locationDetail(request.getLocationDetail())
                 .description(request.getDescription())
                 .progress(request.getProgress())
                 .rule(request.getRule())
@@ -142,5 +144,35 @@ public class ClassEntity extends AbstractUpdatableEntity {
 
     public void updateThumbnail(ImageEntity thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public void update(AdminClassUpdateRequest request, ClassCategoryEntity category, ImageEntity thumbnail) {
+        if(Objects.nonNull(thumbnail)) {
+            this.thumbnail = thumbnail;
+        }
+        this.category = category;
+        this.name = request.getName();
+        this.organizationFee = request.getOrganizationFee();
+        this.normalFee = request.getNormalFee();
+        this.teacherName = request.getTeacherName();
+        this.limitPeople = request.getLimitPeople();
+        this.startAt = LocalDateTime.parse(request.getStartAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.endAt = LocalDateTime.parse(request.getEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.applicationEndAt = LocalDateTime.parse(request.getApplicationEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));;
+        this.offlineYn = request.isOfflineYn();
+        this.offlineLink = request.getOfflineLink();
+        this.latitude = request.getLatitude();
+        this.longitude = request.getLongitude();
+        this.location = request.getLocation();
+        this.locationDetail = request.getLocationDetail();
+        this.description = request.getDescription();
+        this.progress = request.getProgress();
+        this.rule = request.getRule();
+        this.showYn = request.isShowYn();
+    }
+
+    public void finish() {
+        this.status = ClassStatus.END_BEFORE_CHECK;
+        this.updatedAt = LocalDateTime.now();
     }
 }

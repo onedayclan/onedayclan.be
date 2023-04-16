@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @Table(name = "class_member")
@@ -44,4 +46,19 @@ public class ClassMemberEntity extends AbstractUpdatableEntity {
         this.cancelMessage = cancelMessage;
     }
 
+    public void cancel(String cancelMessage) {
+        this.cancelYn = true;
+        this.cancelMessage = cancelMessage;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void attendance() {
+        this.attendanceCheck = AttendanceCheck.ATTENDANCE;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void absent() {
+        this.attendanceCheck = AttendanceCheck.ABSENT;
+        this.updatedAt = LocalDateTime.now();
+    }
 }

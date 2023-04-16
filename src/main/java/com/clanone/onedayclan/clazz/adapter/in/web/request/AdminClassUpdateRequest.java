@@ -3,7 +3,7 @@ package com.clanone.onedayclan.clazz.adapter.in.web.request;
 import lombok.Getter;
 
 @Getter
-public class AdminClassCreateRequest {
+public class AdminClassUpdateRequest {
     private String name;
     private long categorySeq;
     private Integer organizationFee;
@@ -19,7 +19,7 @@ public class AdminClassCreateRequest {
     private String locationDetail;
     private double longitude;
     private double latitude;
-    private long thumbnailSeq;
+    private Long thumbnailSeq;
     private String tag;
     private String description;
     private String progress;

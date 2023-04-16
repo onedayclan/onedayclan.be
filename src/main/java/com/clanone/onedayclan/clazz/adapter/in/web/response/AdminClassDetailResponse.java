@@ -2,6 +2,7 @@ package com.clanone.onedayclan.clazz.adapter.in.web.response;
 
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.clanone.onedayclan.common.application.service.utils.ImageUtil;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 public class AdminClassDetailResponse {
     private String name;
+    private ClassStatus status;
     private long categorySeq;
     private Integer organizationFee;
     private int normalFee;
@@ -25,8 +27,8 @@ public class AdminClassDetailResponse {
     private boolean offlineYn;
     private String offlineLink;
     private String location;
-    private long longitude;
-    private long latitude;
+    private double longitude;
+    private double latitude;
     private String thumbnailUrl;
     private String tag;
     private String description;
@@ -37,6 +39,7 @@ public class AdminClassDetailResponse {
     public static AdminClassDetailResponse of(ClassEntity clazz, List<ClassTagEntity> tagList) {
         return AdminClassDetailResponse.builder()
                 .name(clazz.getName())
+                .status(clazz.getStatus())
                 .categorySeq(clazz.getCategory().getSeq())
                 .organizationFee(clazz.getOrganizationFee())
                 .normalFee(clazz.getNormalFee())
