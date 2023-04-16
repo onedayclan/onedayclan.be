@@ -12,6 +12,7 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -141,5 +143,10 @@ public class ClassService implements ClassPort {
     @Override
     public Page<AdminClassResponse> searchClassList(AdminClassSearchRequest request, Pageable pageable) {
         return getClassPort.searchClassList(ClassSearchModel.of(request), pageable);
+    }
+    
+    @Override
+    public List<LatestClassResponse> getLatestClass() {
+        return getClassPort.getFiveLatestClass().stream().map(LatestClassResponse::of).collect(Collectors.toList());
     }
 }

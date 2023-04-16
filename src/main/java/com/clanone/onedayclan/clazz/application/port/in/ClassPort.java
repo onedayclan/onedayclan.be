@@ -9,6 +9,9 @@ import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResp
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
+
+import java.util.List;
 
 public interface ClassPort {
     AdminClassDetailResponse insertClass(AdminClassCreateRequest request);
@@ -21,4 +24,5 @@ public interface ClassPort {
     void absentClassMember(long classSeq, long memberSeq);
     AdminClassCopyResponse copyClass(long classSeq);
     Page<AdminClassResponse> searchClassList(AdminClassSearchRequest request, Pageable pageable);
+    List<LatestClassResponse> getLatestClass();
 }
