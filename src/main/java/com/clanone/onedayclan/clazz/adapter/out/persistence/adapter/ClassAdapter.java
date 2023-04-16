@@ -1,9 +1,11 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
+import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassCategoryRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassRepository;
@@ -15,6 +17,8 @@ import com.clanone.onedayclan.clazz.application.service.exception.ClassInfoNotFo
 import com.clanone.onedayclan.clazz.application.service.exception.ClassMemberNotFoundException;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -61,6 +65,11 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public ClassMemberEntity getClassMember(long classSeq, long memberSeq) {
         return classMemberRepository.findByClazzSeqAndMemberSeq(classSeq, memberSeq).orElseThrow(() -> {throw new ClassMemberNotFoundException();});
+    }
+    
+    @Override
+    public Page<AdminClassResponse> searchClassList(ClassSearchModel optionModel, Pageable pageable) {
+        return classRepository.searchMemberList(optionModel, pageable);
     }
     
     @Override

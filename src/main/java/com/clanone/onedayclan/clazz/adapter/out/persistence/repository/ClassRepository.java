@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClassRepository extends JpaRepository<ClassEntity, Long> {
+public interface ClassRepository extends JpaRepository<ClassEntity, Long>, ClassCustomRepository {
     List<ClassEntity> findTop5ByStatusOrderByCreatedAtDesc(ClassStatus status);
 }
