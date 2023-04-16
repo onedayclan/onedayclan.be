@@ -1,11 +1,9 @@
 package com.clanone.onedayclan.member.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
+import com.clanone.onedayclan.common.resolver.LoginUserId;
 import com.clanone.onedayclan.member.adapter.in.web.request.*;
-import com.clanone.onedayclan.member.adapter.in.web.response.EmailCheckResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.MemberFindResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.OrganizationResponse;
-import com.clanone.onedayclan.member.adapter.in.web.response.TokenResponse;
+import com.clanone.onedayclan.member.adapter.in.web.response.*;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.in.JoinMemberPort;
 import com.clanone.onedayclan.member.application.port.in.LoginMemberPort;
@@ -73,5 +71,10 @@ public class MemberController {
     public ResponseEntity<OnedayclanResponse<Void>> resetPassword(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
         passwordPort.resetPassword(passwordResetRequest);
         return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @GetMapping("/user/info")
+    public ResponseEntity<OnedayclanResponse<MemberInfoResponse>> memberInfo(@LoginUserId String userId){
+        return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.getMemberInfo(userId)));
     }
 }
