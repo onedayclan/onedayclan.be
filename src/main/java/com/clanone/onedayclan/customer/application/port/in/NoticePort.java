@@ -19,4 +19,6 @@ public interface NoticePort {
     AdminNoticeDetailResponse insertNotice(NoticeCreateRequest request);
     void deleteNotice(long noticeSeq);
     AdminNoticeDetailResponse updateNotice(long noticeSeq, NoticeCreateRequest request);
+
+    List<NoticeResponse> getMainNoticeList();
 }

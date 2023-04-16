@@ -6,10 +6,7 @@ import com.clanone.onedayclan.customer.adapter.in.web.response.NoticeResponse;
 import com.clanone.onedayclan.customer.application.port.in.NoticePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +18,13 @@ public class NoticeController {
     private final NoticePort noticePort;
 
     @GetMapping("")
-    public ResponseEntity<OnedayclanResponse<List<NoticeResponse>>> getNoticeList() {
-        return ResponseEntity.ok(OnedayclanResponse.of(noticePort.getNoticeList()));
+    public ResponseEntity<OnedayclanResponse<List<NoticeResponse>>> getNoticeList(@RequestParam(required = false) boolean main) {
+        if (main) {
+            return ResponseEntity.ok(OnedayclanResponse.of(noticePort.getMainNoticeList()));
+        }
+        else {
+            return ResponseEntity.ok(OnedayclanResponse.of(noticePort.getNoticeList()));
+        }
     }
 
     @GetMapping("/{seq}")

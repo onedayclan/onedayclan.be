@@ -14,4 +14,6 @@ public interface GetNoticePort {
     NoticeEntity getNotice(long seq);
     Page<AdminNoticeResponse> getNoticeListForAdmin(NoticeSearchModel model, Pageable pageable);
     NoticeEntity getNoticeForAdmin(long seq);
+
+    List<NoticeEntity> getTop2NoticeList();
 }

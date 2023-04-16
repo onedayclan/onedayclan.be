@@ -70,25 +70,12 @@ public class FindMemberService implements FindMemberPort {
     @Override
     public MemberInfoResponse getMemberInfo(String userId) {
         MemberEntity member = getMemberPort.getMemberByUserId(userId);
-
-        return MemberInfoResponse.builder()
-                .name(member.getName())
-                .organization(Objects.nonNull(member.getConfirmOrganization()) ?
-                        member.getConfirmOrganization().getName() : "")
-                .build();
+        return MemberInfoResponse.of(member);
     }
 
     @Override
     public MyPageMemberInfoResponse getMyPageMemberInformation(String userId) {
         MemberEntity member = getMemberPort.getMemberByUserId(userId);
-
-        return MyPageMemberInfoResponse.builder()
-                .name(member.getName())
-                .userId(member.getUserId())
-                .organizationStatus(member.getOrganizationStatus().getName())
-                .organizationName(Objects.nonNull(member.getConfirmOrganization()) ?
-                                  member.getConfirmOrganization().getName() : "")
-                .phone(member.getPhone())
-                .build();
+        return MyPageMemberInfoResponse.of(member);
     }
 }
