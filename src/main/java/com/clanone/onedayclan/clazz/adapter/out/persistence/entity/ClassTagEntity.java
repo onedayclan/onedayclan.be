@@ -27,4 +27,8 @@ public class ClassTagEntity {
         this.clazz = clazz;
         this.name = name;
     }
+
+    public static ClassTagEntity of(String name, ClassEntity clazz) {
+        return ClassTagEntity.builder().clazz(clazz).name(name).build();
+    }
 }

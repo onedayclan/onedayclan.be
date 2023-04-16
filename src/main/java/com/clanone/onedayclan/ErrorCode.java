@@ -18,7 +18,9 @@ public enum ErrorCode {
     INVALID_NOTICE(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다."),
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이미지입니다."),
     INVALID_TOGETHER_CLASS(HttpStatus.NOT_FOUND, "존재하지 않는 게시글입니다."),
-    CLASS_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다.");
+    CLASS_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
+    CLASS_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 클래스입니다."),
+    CLASS_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "신청하지 않은 회원입니다.");
 
     private final HttpStatus httpStatus;
     private final String resultMessage;
