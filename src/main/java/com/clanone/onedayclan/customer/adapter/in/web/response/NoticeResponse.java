@@ -4,6 +4,7 @@ import com.clanone.onedayclan.customer.adapter.out.persistence.entity.NoticeEnti
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,12 +12,14 @@ import java.time.LocalDateTime;
 public class NoticeResponse {
     private long seq;
     private String title;
+    private boolean newYn;
     private LocalDateTime createdAt;
 
     public static NoticeResponse of(NoticeEntity noticeEntity) {
         return NoticeResponse.builder()
                 .seq(noticeEntity.getSeq())
                 .title(noticeEntity.getTitle())
+                .newYn(noticeEntity.getCreatedAt().plusDays(5).isAfter(LocalDateTime.now()))
                 .createdAt(noticeEntity.getCreatedAt())
                 .build();
     }

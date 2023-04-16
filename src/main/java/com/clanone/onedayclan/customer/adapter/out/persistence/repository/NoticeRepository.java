@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface NoticeRepository extends JpaRepository<NoticeEntity, Long>, NoticeCustomRepository{
     List<NoticeEntity> findByShowYnOrderByCreatedAtDesc(boolean showYn);
     Optional<NoticeEntity> findBySeqAndShowYn(long seq, boolean showYn);
+    List<NoticeEntity> findTop2ByShowYnOrderByCreatedAtDesc(boolean showYn);
 }
