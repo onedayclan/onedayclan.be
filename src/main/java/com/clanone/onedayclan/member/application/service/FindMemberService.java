@@ -4,12 +4,15 @@ import com.clanone.onedayclan.member.adapter.in.web.request.FindIdRequest;
 import com.clanone.onedayclan.member.adapter.in.web.request.MemberSearchRequest;
 import com.clanone.onedayclan.member.adapter.in.web.response.*;
 import com.clanone.onedayclan.member.adapter.out.model.MemberSearchModel;
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.port.in.FindMemberPort;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +65,17 @@ public class FindMemberService implements FindMemberPort {
     @Override
     public Page<OrganizationConfirmResponse> getOrganizationConfirmList(Pageable pageable) {
         return getMemberPort.getOrganizationConfirmList(pageable);
+    }
+
+    @Override
+    public MemberInfoResponse getMemberInfo(String userId) {
+        MemberEntity member = getMemberPort.getMemberByUserId(userId);
+        return MemberInfoResponse.of(member);
+    }
+
+    @Override
+    public MyPageMemberInfoResponse getMyPageMemberInformation(String userId) {
+        MemberEntity member = getMemberPort.getMemberByUserId(userId);
+        return MyPageMemberInfoResponse.of(member);
     }
 }

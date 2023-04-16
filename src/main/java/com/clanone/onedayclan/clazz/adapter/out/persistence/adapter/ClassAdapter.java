@@ -13,6 +13,7 @@ import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassCategoryNotFoundException;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassInfoNotFoundException;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassMemberNotFoundException;
+import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -60,5 +61,10 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public ClassMemberEntity getClassMember(long classSeq, long memberSeq) {
         return classMemberRepository.findByClazzSeqAndMemberSeq(classSeq, memberSeq).orElseThrow(() -> {throw new ClassMemberNotFoundException();});
+    }
+    
+    @Override
+    public List<ClassEntity> getFiveLatestClass() {
+        return classRepository.findTop5ByStatusOrderByCreatedAtDesc(ClassStatus.IN_PROGRESS);
     }
 }

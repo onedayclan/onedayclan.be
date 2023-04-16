@@ -12,4 +12,5 @@ public interface GetClassPort {
     ClassEntity getClass(long classSeq);
     List<ClassTagEntity> getClassTagList(long classSeq);
     ClassMemberEntity getClassMember(long classSeq, long memberSeq);
+    List<ClassEntity> getFiveLatestClass();
 }

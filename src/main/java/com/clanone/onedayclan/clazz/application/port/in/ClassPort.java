@@ -4,6 +4,9 @@ import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMembe
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
+
+import java.util.List;
 
 public interface ClassPort {
     AdminClassDetailResponse insertClass(AdminClassCreateRequest request);
@@ -14,4 +17,5 @@ public interface ClassPort {
     void finishClass(long classSeq);
     void attendanceClassMember(long classSeq, long memberSeq);
     void absentClassMember(long classSeq, long memberSeq);
+    List<LatestClassResponse> getLatestClass();
 }

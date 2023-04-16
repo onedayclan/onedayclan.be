@@ -105,6 +105,11 @@ public class NoticeService implements NoticePort {
         return AdminNoticeDetailResponse.of(notice);
     }
 
+    @Override
+    public List<NoticeResponse> getMainNoticeList() {
+        return getNoticePort.getTop2NoticeList().stream().map(NoticeResponse::of).collect(Collectors.toList());
+    }
+
     private void connectNoticeImage(NoticeEntity notice, long imageSeq) {
         ImageEntity image = imagePort.getImage(imageSeq);
         notice.connectImage(image);

@@ -41,6 +41,11 @@ public class NoticeAdapter implements GetNoticePort, ManageNoticePort {
     }
 
     @Override
+    public List<NoticeEntity> getTop2NoticeList() {
+        return noticeRepository.findTop2ByShowYnOrderByCreatedAtDesc(true);
+    }
+
+    @Override
     public NoticeEntity saveNotice(NoticeEntity notice) {
         return noticeRepository.save(notice);
     }
