@@ -16,8 +16,8 @@ public class LatestClassResponse {
     private LocalDateTime startAt;
     private String description;
     private String category;
-    private int organizationFee;
-    private int normalFee;
+    private Integer organizationFee;
+    private Integer normalFee;
 
     public static LatestClassResponse of(ClassEntity classEntity){
         return LatestClassResponse.builder()
