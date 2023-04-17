@@ -1,18 +1,12 @@
 package com.clanone.onedayclan.clazz.application.service;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassCopyResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
@@ -148,5 +142,10 @@ public class ClassService implements ClassPort {
     @Override
     public List<LatestClassResponse> getLatestClass() {
         return getClassPort.getFiveLatestClass().stream().map(LatestClassResponse::of).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
+        return getClassPort.getMainClassList(classSearchRequest, pageable);
     }
 }

@@ -1,6 +1,8 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
+import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
@@ -75,5 +77,10 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public List<ClassEntity> getFiveLatestClass() {
         return classRepository.findTop5ByStatusOrderByCreatedAtDesc(ClassStatus.IN_PROGRESS);
+    }
+
+    @Override
+    public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
+        return classRepository.searchClassList(classSearchRequest, pageable);
     }
 }

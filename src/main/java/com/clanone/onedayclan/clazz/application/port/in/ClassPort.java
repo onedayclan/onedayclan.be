@@ -1,15 +1,9 @@
 package com.clanone.onedayclan.clazz.application.port.in;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassCopyResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
 
 import java.util.List;
 
@@ -25,4 +19,6 @@ public interface ClassPort {
     AdminClassCopyResponse copyClass(long classSeq);
     Page<AdminClassResponse> searchClassList(AdminClassSearchRequest request, Pageable pageable);
     List<LatestClassResponse> getLatestClass();
+
+    Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable);
 }
