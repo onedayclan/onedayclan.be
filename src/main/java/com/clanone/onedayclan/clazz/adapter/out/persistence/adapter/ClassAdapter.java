@@ -76,4 +76,9 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     public List<ClassEntity> getFiveLatestClass() {
         return classRepository.findTop5ByStatusOrderByCreatedAtDesc(ClassStatus.IN_PROGRESS);
     }
+
+    @Override
+    public Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable) {
+        return classMemberRepository.findByClazzSeq(classSeq, pageable);
+    }
 }
