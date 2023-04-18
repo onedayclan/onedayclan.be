@@ -1,14 +1,12 @@
 package com.clanone.onedayclan.clazz.application.service;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
@@ -153,5 +151,10 @@ public class ClassService implements ClassPort {
         Page<ClassMemberEntity> pageClassMemberList = getClassPort.getClassMemberList(classSeq, pageable);
         List<AdminClassMemberResponse> classMemberList = pageClassMemberList.getContent().stream().map(AdminClassMemberResponse::of).collect(Collectors.toList());
         return new PageImpl<>(classMemberList,pageable,pageClassMemberList.getTotalElements());
+    }
+
+    @Override
+    public Page<AdminClassMemberListResponse> searchClassMemberList(AdminClassMemberSearchRequest request, Pageable pageable) {
+        return getClassPort.searchClassMemberList(ClassMemberSearchModel.of(request), pageable);
     }
 }

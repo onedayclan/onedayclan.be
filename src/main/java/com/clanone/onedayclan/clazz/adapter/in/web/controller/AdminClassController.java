@@ -2,14 +2,8 @@ package com.clanone.onedayclan.clazz.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.OnedayclanResponse.PagingResult;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassCopyResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
@@ -107,6 +101,26 @@ public class AdminClassController {
                                                                                                          @RequestParam(defaultValue = "1") int pageNo,
                                                                                                         @RequestParam(defaultValue = "10") int pageSize) {
         Page<AdminClassMemberResponse> result = classPort.getClassMemberList(classSeq, PageRequest.of(pageNo-1, pageSize));
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
+
+    @GetMapping("/member")
+    public ResponseEntity<OnedayclanResponse<PagingResult<AdminClassMemberListResponse>>> searchClassMemberList(@RequestParam(required = false) String className,
+                                                                                                                @RequestParam(required = false) String userId,
+                                                                                                                @RequestParam(required = false) Long organizationSeq,
+                                                                                                                @RequestParam(required = false) Long classCategorySeq,
+                                                                                                                @RequestParam(required = false) String createdStartAt,
+                                                                                                                @RequestParam(required = false) String createdEndAt,
+                                                                                                                @RequestParam(defaultValue = "1") int pageNo,
+                                                                                                                @RequestParam(defaultValue = "10") int pageSize) {
+        Page<AdminClassMemberListResponse> result = classPort.searchClassMemberList(AdminClassMemberSearchRequest.builder()
+                .className(className)
+                .userId(userId)
+                .organizationSeq(organizationSeq)
+                .classCategorySeq(classCategorySeq)
+                .createdStartAt(Objects.isNull(createdStartAt) ? null : LocalDateTime.parse(createdStartAt+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .createdEndAt(Objects.isNull(createdEndAt) ? null : LocalDateTime.parse(createdEndAt+" 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
 }

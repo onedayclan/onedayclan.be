@@ -1,6 +1,5 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
@@ -22,7 +21,6 @@ import java.util.Objects;
 
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity.classEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassMemberEntity.classMemberEntity;
-import static com.clanone.onedayclan.member.adapter.out.persistence.entity.QOrganizationEntity.organizationEntity;
 import static org.hibernate.internal.util.StringHelper.isEmpty;
 
 @Repository
