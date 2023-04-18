@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.application.service;
 
+import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
@@ -147,6 +148,10 @@ public class ClassService implements ClassPort {
     public List<LatestClassResponse> getLatestClass() {
         return getClassPort.getFiveLatestClass().stream().map(LatestClassResponse::of).collect(Collectors.toList());
     }
+
+    @Override
+    public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
+        return getClassPort.getMainClassList(classSearchRequest, pageable);
 
     @Override
     public Page<AdminClassMemberResponse> getClassMemberList(long classSeq, Pageable pageable) {

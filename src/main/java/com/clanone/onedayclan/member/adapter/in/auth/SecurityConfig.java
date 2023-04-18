@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .shouldFilterAllDispatcherTypes(false)
-                        .requestMatchers("/auth/**", "/sms/**", "/health", "/image/upload", "/admin/**").permitAll()
+                        .requestMatchers("/auth/**", "/sms/**", "/health", "/image/upload", "/admin/**", "/class/**").permitAll()
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .anyRequest().authenticated()
                 )
