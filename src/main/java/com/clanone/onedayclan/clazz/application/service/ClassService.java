@@ -153,6 +153,7 @@ public class ClassService implements ClassPort {
     @Override
     public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
         return getClassPort.getMainClassList(classSearchRequest, pageable);
+    }
 
     @Override
     public Page<AdminClassMemberResponse> getClassMemberList(long classSeq, Pageable pageable) {

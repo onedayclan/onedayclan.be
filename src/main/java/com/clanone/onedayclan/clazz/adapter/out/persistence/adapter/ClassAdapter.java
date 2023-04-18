@@ -84,6 +84,7 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
         return classRepository.searchClassList(classSearchRequest, pageable);
+    }
   
      @Override
     public Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable) {
