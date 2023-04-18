@@ -8,6 +8,7 @@ import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchReque
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassCopyResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassDetailResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
@@ -99,5 +100,13 @@ public class AdminClassController {
     public ResponseEntity<OnedayclanResponse<Void>> absentClassMember(@PathVariable long classSeq, @PathVariable long memberSeq) {
         classPort.absentClassMember(classSeq, memberSeq);
         return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
+    @GetMapping("/{classSeq}/member")
+    public ResponseEntity<OnedayclanResponse<PagingResult<AdminClassMemberResponse>>> getClassMemberList(@PathVariable long classSeq,
+                                                                                                         @RequestParam(defaultValue = "1") int pageNo,
+                                                                                                        @RequestParam(defaultValue = "10") int pageSize) {
+        Page<AdminClassMemberResponse> result = classPort.getClassMemberList(classSeq, PageRequest.of(pageNo-1, pageSize));
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
 }

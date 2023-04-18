@@ -21,4 +21,5 @@ public interface GetClassPort {
     Page<AdminClassResponse> searchClassList(ClassSearchModel optionModel, Pageable pageable);
     List<ClassEntity> getFiveLatestClass();
     Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable);
+    Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable);
 }

@@ -1,6 +1,10 @@
 package com.clanone.onedayclan.clazz.application.service;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.request.*;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCancelMemberRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
@@ -15,6 +19,7 @@ import com.clanone.onedayclan.common.application.port.out.ImagePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -147,5 +152,11 @@ public class ClassService implements ClassPort {
     @Override
     public Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable) {
         return getClassPort.getMainClassList(classSearchRequest, pageable);
+
+    @Override
+    public Page<AdminClassMemberResponse> getClassMemberList(long classSeq, Pageable pageable) {
+        Page<ClassMemberEntity> pageClassMemberList = getClassPort.getClassMemberList(classSeq, pageable);
+        List<AdminClassMemberResponse> classMemberList = pageClassMemberList.getContent().stream().map(AdminClassMemberResponse::of).collect(Collectors.toList());
+        return new PageImpl<>(classMemberList,pageable,pageClassMemberList.getTotalElements());
     }
 }
