@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ClassMemberRepository extends JpaRepository<ClassMemberEntity, Long>, ClassMemberCustomRepository {
     Optional<ClassMemberEntity> findByClazzSeqAndMemberSeq(long classSeq, long memberSeq);
     Page<ClassMemberEntity> findByClazzSeq(long classSeq, Pageable pageable);
-    Long countAllByClazzSeq(long classSeq);
+    Long countByClazzSeq(long classSeq);
     boolean existsByMemberSeqAndClazzSeq(Long memberSeq, long clazzSeq);
 }

@@ -108,7 +108,7 @@ public class ClassAdapter implements ManageClassPort, GetClassPort, GetClassMemb
 
     @Override
     public Long getClassApplicationPeople(long classSeq) {
-        return classMemberRepository.countAllByClazzSeq(classSeq);
+        return classMemberRepository.countByClazzSeq(classSeq);
     }
 
     @Override

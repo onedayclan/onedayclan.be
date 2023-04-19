@@ -186,11 +186,12 @@ public class ClassService implements ClassPort {
     public ApplyClassResponse applyClass(String userId, ApplyClassRequest applyClassRequest) {
         MemberEntity memberEntity = getMemberPort.getMemberByUserId(userId);
         ClassEntity classEntity = getClassPort.getClass(applyClassRequest.getSeq());
-        boolean alreadyApplyClass = getClassMemberPort.existsClassMember(memberEntity.getSeq(), classEntity.getSeq());
 
         if (classEntity.getStatus() != ClassStatus.IN_PROGRESS || LocalDateTime.now().isAfter(classEntity.getApplicationEndAt())) {
             throw new ClassNotApplicationException();
         }
+
+        boolean alreadyApplyClass = getClassMemberPort.existsClassMember(memberEntity.getSeq(), classEntity.getSeq());
 
         if (alreadyApplyClass){
             throw new ClassAlreadyApplyException();
@@ -200,14 +201,12 @@ public class ClassService implements ClassPort {
                 .member(memberEntity)
                 .clazz(classEntity)
                 .attendanceCheck(AttendanceCheck.NONE)
-                .cancelYn(false)
-                .cancelMessage(null)
                 .build();
         classManagePort.applyClass(classMemberEntity);
 
         Long classApplicationPeople = getClassMemberPort.getClassApplicationPeople(applyClassRequest.getSeq());
 
-        if (classEntity.getLimitPeople() == classApplicationPeople.intValue()) {
+        if (classEntity.getLimitPeople() <= classApplicationPeople.intValue()) {
             classEntity.limitEnd();
         }
 

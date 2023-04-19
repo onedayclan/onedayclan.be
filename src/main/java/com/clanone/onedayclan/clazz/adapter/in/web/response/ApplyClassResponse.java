@@ -15,7 +15,7 @@ public class ApplyClassResponse {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private int limitPeople;
-    private Long applicationPeople;
+    private long applicationPeople;
     private boolean offlineYn;
     private String offlineLink;
     private double latitude;
