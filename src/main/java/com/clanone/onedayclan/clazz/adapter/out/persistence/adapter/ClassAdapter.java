@@ -1,9 +1,7 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberListResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
@@ -14,6 +12,7 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassCate
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassTagRepository;
+import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassCategoryNotFoundException;
@@ -29,7 +28,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ClassAdapter implements ManageClassPort, GetClassPort {
+public class ClassAdapter implements ManageClassPort, GetClassPort, GetClassMemberPort {
 
     private final ClassRepository classRepository;
     private final ClassCategoryRepository classCategoryRepository;
@@ -49,6 +48,11 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public void deleteClassTagList(long classSeq) {
         classTagRepository.deleteAllByClazzSeq(classSeq);
+    }
+
+    @Override
+    public ClassMemberEntity applyClass(ClassMemberEntity classMemberEntity) {
+        return classMemberRepository.save(classMemberEntity);
     }
 
     @Override
@@ -95,5 +99,20 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable) {
         return classMemberRepository.searchClassMemberList(optionModel, pageable);
+    }
+
+    @Override
+    public ClassDetailResponse getClassDetail(long classSeq) {
+        return classRepository.getClassDetail(classSeq);
+    }
+
+    @Override
+    public Long getClassApplicationPeople(long classSeq) {
+        return classMemberRepository.countByClazzSeq(classSeq);
+    }
+
+    @Override
+    public boolean existsClassMember(long memberSeq, long classSeq) {
+        return classMemberRepository.existsByMemberSeqAndClazzSeq(memberSeq, classSeq);
     }
 }

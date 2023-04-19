@@ -1,19 +1,20 @@
 package com.clanone.onedayclan.clazz.adapter.in.web.controller;
 
 import com.clanone.onedayclan.OnedayclanResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.request.ApplyClassRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.ApplyClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassDetailResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassListSort;
+import com.clanone.onedayclan.common.resolver.LoginUserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,5 +57,15 @@ public class ClassController {
                 .latitude(latitude)
                 .build(), PageRequest.of(pageNo - 1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
+
+    @GetMapping("/{classSeq}")
+    public ResponseEntity<OnedayclanResponse<ClassDetailResponse>> getClassDetail(@PathVariable long classSeq){
+        return ResponseEntity.ok(OnedayclanResponse.of(classPort.getClassDetail(classSeq)));
+    }
+
+    @PostMapping("/apply")
+    public ResponseEntity<OnedayclanResponse<ApplyClassResponse>> applyClass(@LoginUserId String userId, @RequestBody ApplyClassRequest applyClassRequest){
+        return ResponseEntity.ok(OnedayclanResponse.of(classPort.applyClass(userId, applyClassRequest)));
     }
 }
