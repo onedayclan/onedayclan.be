@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,4 +11,6 @@ import java.util.Optional;
 public interface ClassMemberRepository extends JpaRepository<ClassMemberEntity, Long>, ClassMemberCustomRepository {
     Optional<ClassMemberEntity> findByClazzSeqAndMemberSeq(long classSeq, long memberSeq);
     Page<ClassMemberEntity> findByClazzSeq(long classSeq, Pageable pageable);
+    Long countAllByClazzSeq(long classSeq);
+    boolean existsByMemberSeqAndClazzSeq(Long memberSeq, long clazzSeq);
 }
