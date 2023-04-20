@@ -1,7 +1,13 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberListResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.CancelClassMessageResponse;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassCategoryEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassReviewEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
+import com.clanone.onedayclan.clazz.application.model.ScheduledClassModel;
+import com.clanone.onedayclan.common.adapter.out.persistence.entity.QImageEntity;
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.QMemberEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,7 +21,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassCategoryEntity.*;
+import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity.*;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassMemberEntity.classMemberEntity;
+import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassReviewEntity.*;
+import static com.clanone.onedayclan.common.adapter.out.persistence.entity.QImageEntity.*;
+import static com.clanone.onedayclan.member.adapter.out.persistence.entity.QMemberEntity.*;
 import static org.hibernate.internal.util.StringHelper.isEmpty;
 
 @Repository
@@ -53,6 +64,43 @@ public class ClassMemberCustomRepositoryImpl implements ClassMemberCustomReposit
                         betweenCreatedAt(optionModel.getCreatedStartAt(), optionModel.getCreatedEndAt()))
                 .fetchOne();
         return new PageImpl<>(result, pageable, count);
+    }
+
+    @Override
+    public List<CancelClassMessageResponse> getCancelClassMessage(long memberSeq) {
+        return jpaQueryFactory.select(Projections.fields(CancelClassMessageResponse.class,
+                        classEntity.seq.as("classSeq"),
+                        classEntity.name.as("className"),
+                        classMemberEntity.cancelMessage.as("message")
+                ))
+                .from(classMemberEntity)
+                .leftJoin(classEntity).on(classMemberEntity.clazz.seq.eq(classEntity.seq))
+                .where(classMemberEntity.member.seq.eq(memberSeq)
+                        .and(classMemberEntity.cancelYn.eq(true)))
+                .orderBy(classEntity.startAt.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<ScheduledClassModel> getScheduledClassModel(String userId) {
+        return jpaQueryFactory.select(Projections.fields(ScheduledClassModel.class,
+                        classEntity.seq.as("classSeq"),
+                        imageEntity.url.as("thumbnailUrl"),
+                        classMemberEntity.cancelYn,
+                        classMemberEntity.attendanceCheck,
+                        classReviewEntity.seq.as("reviewSeq"),
+                        classEntity.name.as("className"),
+                        classEntity.startAt.as("classStartAt"),
+                        classCategoryEntity.name.as("category")
+                )).from(classMemberEntity)
+                .leftJoin(classReviewEntity).on(classMemberEntity.clazz.seq.eq(classReviewEntity.clazz.seq))
+                .leftJoin(classEntity).on(classMemberEntity.clazz.seq.eq(classEntity.seq))
+                .leftJoin(imageEntity).on(classEntity.thumbnail.seq.eq(imageEntity.seq))
+                .leftJoin(classCategoryEntity).on(classEntity.category.seq.eq(classCategoryEntity.seq))
+                .leftJoin(memberEntity).on(classMemberEntity.member.seq.eq(memberEntity.seq))
+                .where(memberEntity.userId.eq(userId))
+                .orderBy(classEntity.startAt.asc())
+                .fetch();
     }
 
     private BooleanExpression containClassName(String className) {
