@@ -15,4 +15,6 @@ public class ScheduledClassModel {
     private String className;
     private LocalDateTime classStartAt;
     private String category;
+    private LocalDateTime penaltyStartAt;
+    private LocalDateTime penaltyEndAt;
 }

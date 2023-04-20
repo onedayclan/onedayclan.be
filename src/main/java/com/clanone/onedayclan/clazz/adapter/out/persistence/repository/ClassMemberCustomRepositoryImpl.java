@@ -2,12 +2,8 @@ package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberListResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.CancelClassMessageResponse;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassCategoryEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassReviewEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.application.model.ScheduledClassModel;
-import com.clanone.onedayclan.common.adapter.out.persistence.entity.QImageEntity;
-import com.clanone.onedayclan.member.adapter.out.persistence.entity.QMemberEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -91,7 +87,9 @@ public class ClassMemberCustomRepositoryImpl implements ClassMemberCustomReposit
                         classReviewEntity.seq.as("reviewSeq"),
                         classEntity.name.as("className"),
                         classEntity.startAt.as("classStartAt"),
-                        classCategoryEntity.name.as("category")
+                        classCategoryEntity.name.as("category"),
+                        memberEntity.penaltyStartAt,
+                        memberEntity.penaltyEndAt
                 )).from(classMemberEntity)
                 .leftJoin(classReviewEntity).on(classMemberEntity.clazz.seq.eq(classReviewEntity.clazz.seq))
                 .leftJoin(classEntity).on(classMemberEntity.clazz.seq.eq(classEntity.seq))

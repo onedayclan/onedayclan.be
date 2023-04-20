@@ -16,6 +16,8 @@ public class ScheduledClassResponse {
     private long classSeq;
     private String thumbnailUrl;
     private ScheduledClassStatus status;
+    private LocalDateTime penaltyStartAt;
+    private LocalDateTime penaltyEndAt;
     private String name;
     private LocalDateTime startAt;
     private String category;
@@ -44,13 +46,11 @@ public class ScheduledClassResponse {
                 .classSeq(scheduledClassModel.getClassSeq())
                 .thumbnailUrl(ImageUtil.getS3Bucket() + scheduledClassModel.getThumbnailUrl())
                 .status(status)
+                .penaltyStartAt(scheduledClassModel.getPenaltyStartAt())
+                .penaltyEndAt(scheduledClassModel.getPenaltyEndAt())
                 .name(scheduledClassModel.getClassName())
                 .startAt(scheduledClassModel.getClassStartAt())
                 .category(scheduledClassModel.getCategory())
                 .build();
-    }
-
-    public String getStatus(){
-        return this.status.getName();
     }
 }

@@ -1,23 +1,17 @@
 package com.clanone.onedayclan.clazz.application.service;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.response.CancelClassMessageResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ScheduledClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ScheduledClassResponse;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
-import com.clanone.onedayclan.clazz.application.model.ScheduledClassModel;
 import com.clanone.onedayclan.clazz.application.port.in.ScheduledClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassReviewPort;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
