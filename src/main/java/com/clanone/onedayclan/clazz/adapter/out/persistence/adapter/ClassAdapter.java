@@ -28,7 +28,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ClassAdapter implements ManageClassPort, GetClassPort, GetClassMemberPort {
+public class ClassAdapter implements ManageClassPort, GetClassPort {
 
     private final ClassRepository classRepository;
     private final ClassCategoryRepository classCategoryRepository;
@@ -104,15 +104,5 @@ public class ClassAdapter implements ManageClassPort, GetClassPort, GetClassMemb
     @Override
     public ClassDetailResponse getClassDetail(long classSeq) {
         return classRepository.getClassDetail(classSeq);
-    }
-
-    @Override
-    public Long getClassApplicationPeople(long classSeq) {
-        return classMemberRepository.countByClazzSeq(classSeq);
-    }
-
-    @Override
-    public boolean existsClassMember(long memberSeq, long classSeq) {
-        return classMemberRepository.existsByMemberSeqAndClazzSeq(memberSeq, classSeq);
     }
 }
