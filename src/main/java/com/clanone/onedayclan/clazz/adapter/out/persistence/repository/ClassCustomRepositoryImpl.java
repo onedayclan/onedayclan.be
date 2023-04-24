@@ -11,6 +11,7 @@ import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.jsonwebtoken.lang.Collections;
@@ -31,6 +32,7 @@ import java.util.Objects;
 
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity.classEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassMemberEntity.classMemberEntity;
+import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassReviewEntity.classReviewEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassTagEntity.classTagEntity;
 import static org.hibernate.internal.util.StringHelper.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
@@ -155,13 +157,16 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
                 classEntity.thumbnail.url.as("thumbnailUrl"),
                 classEntity.name.as("className"),
                 classEntity.category.name.as("classCategory"),
+                classEntity.startAt,
                 ExpressionUtils.as(
                         JPAExpressions.select(classMemberEntity.seq.count())
                                 .from(classMemberEntity)
-                                .where(classMemberEntity.clazz.seq.eq(classEntity.seq).and(classMemberEntity.attendanceCheck.eq(AttendanceCheck.ATTENDANCE))),
+                                .where(classMemberEntity.clazz.seq.eq(classEntity.seq).and(classMemberEntity.attendanceCheck.eq(Expressions.enumPath(AttendanceCheck.class, "'" + AttendanceCheck.ATTENDANCE + "'")))),
                         "attendanceCount")
+
                 ))
                 .from(classEntity)
+                .innerJoin(classReviewEntity).on(classReviewEntity.clazz.seq.eq(classEntity.seq))
                 .where(containName(optionModel.getName()),
                         eqCategorySeq(optionModel.getCategorySeq()),
                         betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
@@ -169,6 +174,7 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
 
         long count = jpaQueryFactory.select(classEntity.seq.count())
                 .from(classEntity)
+                .innerJoin(classReviewEntity).on(classReviewEntity.clazz.seq.eq(classEntity.seq))
                 .where(containName(optionModel.getName()),
                         eqCategorySeq(optionModel.getCategorySeq()),
                         betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))

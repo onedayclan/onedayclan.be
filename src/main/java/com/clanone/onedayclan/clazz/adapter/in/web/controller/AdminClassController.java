@@ -131,8 +131,14 @@ public class AdminClassController {
                                                                                                             @RequestParam(required = false) String endAt,
                                                                                                             @RequestParam(defaultValue = "1") int pageNo,
                                                                                                             @RequestParam(defaultValue = "10") int pageSize) {
+        Page<AdminClassReviewResponse> result = classPort.searchClassReviewList(AdminClassReviewSearchRequest.builder()
+                .className(className)
+                .classCategorySeq(classCategorySeq)
+                .startAt(Objects.isNull(startAt) ? null : LocalDateTime.parse(startAt+" 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .endAt(Objects.isNull(endAt) ? null : LocalDateTime.parse(endAt+" 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build(), PageRequest.of(pageNo-1, pageSize));
 
-        return null;
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
 
 }

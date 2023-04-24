@@ -24,9 +24,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -169,6 +167,20 @@ public class ClassService implements ClassPort {
 
     @Override
     public Page<AdminClassReviewResponse> searchClassReviewList(AdminClassReviewSearchRequest request, Pageable pageable) {
-        return null;
+        //클래스 목록 조회
+        Page<AdminClassInfoResponse> classListPage = getClassPort.getClassInfoList(ClassSearchModel.of(request), pageable);
+        List<AdminClassInfoResponse> classList = classListPage.getContent();
+
+        //리뷰 조회
+        Map<Long, AdminClassReviewInfoResponse> reviewMap = getClassPort.getClassReviewInfoList(classList.stream().map(AdminClassInfoResponse::getSeq).collect(Collectors.toList()))
+                .stream()
+                .collect(Collectors.toMap(AdminClassReviewInfoResponse::getSeq, i -> i));
+
+        //클래스, 리뷰 정보 조합
+        List<AdminClassReviewResponse> reviewResponseList = classList.stream()
+                .map(c -> AdminClassReviewResponse.of(c, reviewMap.get(c.getSeq())))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(reviewResponseList, pageable, classListPage.getTotalElements());
     }
 }

@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class AdminClassReviewInfoResponse {
     private long seq;
-    private int reviewCount;
-    private int reviewScore;
+    private long reviewCount;
+    private double reviewScore;
 }

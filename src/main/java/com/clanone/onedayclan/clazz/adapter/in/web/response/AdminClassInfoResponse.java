@@ -10,6 +10,6 @@ public class AdminClassInfoResponse {
     private String thumbnailUrl;
     private String className;
     private String classCategory;
-    private int attendanceCount;
+    private long attendanceCount;
     private LocalDateTime startAt;
 }
