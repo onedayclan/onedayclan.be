@@ -1,10 +1,11 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
+import com.clanone.onedayclan.clazz.domain.enums.AttendanceCheck;
 import com.clanone.onedayclan.clazz.domain.enums.ClassListSort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.querydsl.core.types.ExpressionUtils;
@@ -31,7 +32,6 @@ import java.util.Objects;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity.classEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassMemberEntity.classMemberEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassTagEntity.classTagEntity;
-import static com.clanone.onedayclan.member.adapter.out.persistence.entity.QOrganizationEntity.organizationEntity;
 import static org.hibernate.internal.util.StringHelper.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -148,6 +148,34 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
         return new PageImpl<>(classListResponse, pageable, count);
     }
 
+    @Override
+    public Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable) {
+        List<AdminClassInfoResponse> result = jpaQueryFactory.select(Projections.fields(AdminClassInfoResponse.class,
+                classEntity.seq,
+                classEntity.thumbnail.url.as("thumbnailUrl"),
+                classEntity.name.as("className"),
+                classEntity.category.name.as("classCategory"),
+                ExpressionUtils.as(
+                        JPAExpressions.select(classMemberEntity.seq.count())
+                                .from(classMemberEntity)
+                                .where(classMemberEntity.clazz.seq.eq(classEntity.seq).and(classMemberEntity.attendanceCheck.eq(AttendanceCheck.ATTENDANCE))),
+                        "attendanceCount")
+                ))
+                .from(classEntity)
+                .where(containName(optionModel.getName()),
+                        eqCategorySeq(optionModel.getCategorySeq()),
+                        betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
+                .fetch();
+
+        long count = jpaQueryFactory.select(classEntity.seq.count())
+                .from(classEntity)
+                .where(containName(optionModel.getName()),
+                        eqCategorySeq(optionModel.getCategorySeq()),
+                        betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
+                .fetchOne();
+        return new PageImpl<>(result, pageable, count);
+    }
+
     private BooleanExpression containName(String name) {
         return isEmpty(name) ? null : classEntity.name.contains(name);
     }
@@ -166,6 +194,10 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
 
     private BooleanExpression betweenCreatedAt(LocalDateTime from, LocalDateTime to) {
         return (from != null && to != null) ? classEntity.createdAt.between(from, to) : null;
+    }
+
+    private BooleanExpression betweenProcessAt(LocalDateTime from, LocalDateTime to) {
+        return (from != null && to != null) ? classEntity.startAt.between(from, to) : null;
     }
 
     private BooleanExpression eqCategory(Long categorySeq) {

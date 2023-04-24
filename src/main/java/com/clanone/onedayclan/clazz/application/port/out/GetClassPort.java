@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.application.port.out;
 
+import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberListResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
@@ -25,4 +26,5 @@ public interface GetClassPort {
     Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable);
     Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable);
     Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable);
+    Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable);
 }

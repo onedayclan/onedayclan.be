@@ -166,4 +166,9 @@ public class ClassService implements ClassPort {
     public Page<AdminClassMemberListResponse> searchClassMemberList(AdminClassMemberSearchRequest request, Pageable pageable) {
         return getClassPort.searchClassMemberList(ClassMemberSearchModel.of(request), pageable);
     }
+
+    @Override
+    public Page<AdminClassReviewResponse> searchClassReviewList(AdminClassReviewSearchRequest request, Pageable pageable) {
+        return null;
+    }
 }

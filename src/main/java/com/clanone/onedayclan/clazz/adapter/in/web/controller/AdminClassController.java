@@ -123,4 +123,16 @@ public class AdminClassController {
                 .build(), PageRequest.of(pageNo-1, pageSize));
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
+
+    @GetMapping("/review")
+    public ResponseEntity<OnedayclanResponse<PagingResult<AdminClassReviewResponse>>> searchClassReviewList(@RequestParam(required = false) String className,
+                                                                                                            @RequestParam(required = false) Long classCategorySeq,
+                                                                                                            @RequestParam(required = false) String startAt,
+                                                                                                            @RequestParam(required = false) String endAt,
+                                                                                                            @RequestParam(defaultValue = "1") int pageNo,
+                                                                                                            @RequestParam(defaultValue = "10") int pageSize) {
+
+        return null;
+    }
+
 }
