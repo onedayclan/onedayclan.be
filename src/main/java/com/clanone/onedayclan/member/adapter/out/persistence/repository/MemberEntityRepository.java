@@ -19,4 +19,5 @@ public interface MemberEntityRepository extends JpaRepository<MemberEntity, Long
     boolean existsByUserIdAndPassword(String userId, String password);
     long countByConfirmOrganizationSeqAndType(long organizationSeq, MemberType type);
     Page<MemberEntity> findByOrganizationStatus(MemberOrganizationStatus status, Pageable pageable);
+    Optional<MemberEntity> findByUserIdAndNameAndPhone(String userId, String name, String phone);
 }

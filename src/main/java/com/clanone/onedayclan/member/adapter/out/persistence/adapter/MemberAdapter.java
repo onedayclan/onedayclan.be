@@ -56,6 +56,16 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
         return memberEntityRepository.save(member);
     }
 
+    @Override
+    public void saveFindPassword(String email, String authorizationCode) {
+        FindPasswordEntity findPassword = FindPasswordEntity.builder()
+                .email(email)
+                .authorizationCode(authorizationCode)
+                .validAt(LocalDateTime.now().plusMinutes(5L))
+                .build();
+        findPasswordEntityRepository.save(findPassword);
+    }
+
     public Optional<MemberEntity> getMemberById(String id) {
         return memberEntityRepository.findByUserId(id);
     }
@@ -124,6 +134,12 @@ public class MemberAdapter implements SaveMemberPort, GetMemberPort, CheckEmailP
         return memberEntityRepository.findByUserId(userId).orElseThrow(() -> {
             throw new MemberNotFoundException();
         });
+    }
+
+    @Override
+    public MemberEntity getMemberByUserIdAndNameAndPhone(String userId, String name, String phone) {
+        return memberEntityRepository.findByUserIdAndNameAndPhone(userId, name, phone)
+                .orElseThrow(() -> {throw new MemberNotFoundException();});
     }
 
     @Override

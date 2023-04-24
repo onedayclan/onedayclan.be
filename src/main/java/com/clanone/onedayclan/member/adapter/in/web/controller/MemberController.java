@@ -62,6 +62,12 @@ public class MemberController {
         return ResponseEntity.ok(OnedayclanResponse.of(findMemberPort.findId(findIdRequest)));
     }
 
+    @PostMapping("/auth/find/password")
+    public ResponseEntity<OnedayclanResponse<Void>> findPassword(@Valid @RequestBody FindPasswordRequest request) {
+        findMemberPort.findPassword(request);
+        return ResponseEntity.ok(OnedayclanResponse.success());
+    }
+
     @GetMapping("/auth/email/check")
     public ResponseEntity<OnedayclanResponse<EmailCheckResponse>> checkEmail(@RequestParam String email) {
         return ResponseEntity.ok(OnedayclanResponse.of(joinMemberPort.checkAvailableEmail(email)));

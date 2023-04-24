@@ -22,4 +22,5 @@ public interface GetMemberPort {
     long countMemberByOrganizationSeq(long organizationSeq);
     Page<OrganizationConfirmResponse> getOrganizationConfirmList(Pageable pageable);
     MemberEntity getMemberByUserId(String userId);
+    MemberEntity getMemberByUserIdAndNameAndPhone(String userId, String name, String phone);
 }
