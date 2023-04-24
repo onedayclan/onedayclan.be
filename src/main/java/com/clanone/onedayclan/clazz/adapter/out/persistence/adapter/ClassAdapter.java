@@ -2,10 +2,7 @@ package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.*;
@@ -101,6 +98,11 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public List<AdminClassReviewInfoResponse> getClassReviewInfoList(List<Long> classSeqList) {
         return classReviewRepository.getReviewInfoByClassSeq(classSeqList);
+    }
+
+    @Override
+    public Page<ClassReviewEntity> getClassReviewByClassSeq(long classSeq, Pageable pageable) {
+        return classReviewRepository.findByClazzSeq(classSeq,pageable);
     }
 
 

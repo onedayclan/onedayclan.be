@@ -6,10 +6,7 @@ import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateReque
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
@@ -182,5 +179,12 @@ public class ClassService implements ClassPort {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(reviewResponseList, pageable, classListPage.getTotalElements());
+    }
+
+    @Override
+    public Page<AdminClassReviewDetailResponse> getClassReviewDetail(long classSeq, Pageable pageable) {
+        Page<ClassReviewEntity> reviewListPage = getClassPort.getClassReviewByClassSeq(classSeq, pageable);
+        List<AdminClassReviewDetailResponse> reviewResponseList = reviewListPage.getContent().stream().map(AdminClassReviewDetailResponse::of).collect(Collectors.toList());
+        return new PageImpl<>(reviewResponseList, pageable, reviewListPage.getTotalElements());
     }
 }

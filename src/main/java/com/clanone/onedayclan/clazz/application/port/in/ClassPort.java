@@ -27,4 +27,5 @@ public interface ClassPort {
     Page<AdminClassMemberResponse> getClassMemberList(long classSeq, Pageable pageable);
     Page<AdminClassMemberListResponse> searchClassMemberList(AdminClassMemberSearchRequest request, Pageable pageable);
     Page<AdminClassReviewResponse> searchClassReviewList(AdminClassReviewSearchRequest request, Pageable pageable);
+    Page<AdminClassReviewDetailResponse> getClassReviewDetail(long classSeq, Pageable pageable);
 }

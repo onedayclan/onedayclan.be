@@ -141,4 +141,12 @@ public class AdminClassController {
         return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
     }
 
+    @GetMapping("/review/{classSeq}")
+    public ResponseEntity<OnedayclanResponse<PagingResult<AdminClassReviewDetailResponse>>> getClassReviewDetail(@PathVariable long classSeq,
+                                                                                                   @RequestParam(defaultValue = "1") int pageNo,
+                                                                                                   @RequestParam(defaultValue = "3") int pageSize) {
+        Page<AdminClassReviewDetailResponse> result = classPort.getClassReviewDetail(classSeq, PageRequest.of(pageNo-1, pageSize));
+        return ResponseEntity.ok(OnedayclanResponse.of(result.getContent(), pageNo, result.getTotalElements()));
+    }
+
 }

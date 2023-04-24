@@ -2,10 +2,7 @@ package com.clanone.onedayclan.clazz.application.port.out;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import org.springframework.data.domain.Page;
@@ -25,4 +22,5 @@ public interface GetClassPort {
     Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable);
     Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable);
     List<AdminClassReviewInfoResponse> getClassReviewInfoList(List<Long> classSeqList);
+    Page<ClassReviewEntity> getClassReviewByClassSeq(long classSeq, Pageable pageable);
 }
