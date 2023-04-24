@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.application.service;
 
+import com.clanone.onedayclan.clazz.adapter.in.web.response.ScheduledClassDetailResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ScheduledClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ScheduledClassResponse;
 import com.clanone.onedayclan.clazz.application.port.in.ScheduledClassPort;
@@ -42,5 +43,10 @@ public class ScheduledClassService implements ScheduledClassPort {
     @Override
     public List<ScheduledClassResponse> getScheduledClassList(String userId) {
         return getClassMemberPort.getScheduledClassModel(userId).stream().map(ScheduledClassResponse::of).collect(Collectors.toList());
+    }
+
+    @Override
+    public ScheduledClassDetailResponse getScheduledClassDetail(String userId, long classSeq) {
+        return ScheduledClassDetailResponse.of(getClassMemberPort.getScheduledClassDetailModel(userId, classSeq));
     }
 }

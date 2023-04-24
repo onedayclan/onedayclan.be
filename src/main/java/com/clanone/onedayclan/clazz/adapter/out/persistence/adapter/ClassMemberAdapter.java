@@ -1,8 +1,8 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.CancelClassMessageResponse;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
+import com.clanone.onedayclan.clazz.application.model.ScheduledClassDetailModel;
 import com.clanone.onedayclan.clazz.application.model.ScheduledClassModel;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +34,10 @@ public class ClassMemberAdapter implements GetClassMemberPort {
     @Override
     public List<ScheduledClassModel> getScheduledClassModel(String userId) {
         return classMemberRepository.getScheduledClassModel(userId);
+    }
+
+    @Override
+    public ScheduledClassDetailModel getScheduledClassDetailModel(String userId, long classSeq) {
+        return classMemberRepository.getScheduledClassDetailModel(userId, classSeq);
     }
 }

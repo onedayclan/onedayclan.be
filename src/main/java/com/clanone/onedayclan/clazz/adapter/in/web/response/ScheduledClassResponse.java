@@ -24,7 +24,7 @@ public class ScheduledClassResponse {
 
     public static ScheduledClassResponse of(ScheduledClassModel scheduledClassModel){
 
-        ScheduledClassStatus status = ScheduledClassStatus.COMPLETED_APPLY;
+        ScheduledClassStatus status = null;
 
         if (!scheduledClassModel.isCancelYn()) {
             if (scheduledClassModel.getAttendanceCheck() == AttendanceCheck.NONE){
