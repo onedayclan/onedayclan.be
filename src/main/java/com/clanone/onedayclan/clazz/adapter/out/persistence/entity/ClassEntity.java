@@ -175,4 +175,9 @@ public class ClassEntity extends AbstractUpdatableEntity {
         this.status = ClassStatus.END_BEFORE_CHECK;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void limitEnd(){
+        this.status = ClassStatus.LIMIT_END;
+        this.updatedAt = LocalDateTime.now();
+    }
 }

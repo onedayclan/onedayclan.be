@@ -10,10 +10,17 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
+import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
+import com.clanone.onedayclan.clazz.application.service.exception.ClassAlreadyApplyException;
+import com.clanone.onedayclan.clazz.application.service.exception.ClassNotApplicationException;
+import com.clanone.onedayclan.clazz.domain.enums.AttendanceCheck;
+import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import com.clanone.onedayclan.common.application.port.out.ImagePort;
+import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
+import com.clanone.onedayclan.member.application.port.out.GetMemberPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +29,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,8 +42,9 @@ public class ClassService implements ClassPort {
 
     private final ManageClassPort classManagePort;
     private final GetClassPort getClassPort;
+    private final GetClassMemberPort getClassMemberPort;
     private final ImagePort imagePort;
-
+    private final GetMemberPort getMemberPort;
 
     @Override
     public AdminClassDetailResponse insertClass(AdminClassCreateRequest request) {
@@ -186,5 +198,42 @@ public class ClassService implements ClassPort {
         Page<ClassReviewEntity> reviewListPage = getClassPort.getClassReviewByClassSeq(classSeq, pageable);
         List<AdminClassReviewDetailResponse> reviewResponseList = reviewListPage.getContent().stream().map(AdminClassReviewDetailResponse::of).collect(Collectors.toList());
         return new PageImpl<>(reviewResponseList, pageable, reviewListPage.getTotalElements());
+    }
+    
+    @Override
+    public ClassDetailResponse getClassDetail(long classSeq) {
+        return getClassPort.getClassDetail(classSeq);
+    }
+
+    @Override
+    @Transactional
+    public ApplyClassResponse applyClass(String userId, ApplyClassRequest applyClassRequest) {
+        MemberEntity memberEntity = getMemberPort.getMemberByUserId(userId);
+        ClassEntity classEntity = getClassPort.getClass(applyClassRequest.getSeq());
+
+        if (classEntity.getStatus() != ClassStatus.IN_PROGRESS || LocalDateTime.now().isAfter(classEntity.getApplicationEndAt())) {
+            throw new ClassNotApplicationException();
+        }
+
+        boolean alreadyApplyClass = getClassMemberPort.existsClassMember(memberEntity.getSeq(), classEntity.getSeq());
+
+        if (alreadyApplyClass){
+            throw new ClassAlreadyApplyException();
+        }
+
+        ClassMemberEntity classMemberEntity = ClassMemberEntity.builder()
+                .member(memberEntity)
+                .clazz(classEntity)
+                .attendanceCheck(AttendanceCheck.NONE)
+                .build();
+        classManagePort.applyClass(classMemberEntity);
+
+        Long classApplicationPeople = getClassMemberPort.getClassApplicationPeople(applyClassRequest.getSeq());
+
+        if (classEntity.getLimitPeople() <= classApplicationPeople.intValue()) {
+            classEntity.limitEnd();
+        }
+
+        return ApplyClassResponse.of(classEntity, classApplicationPeople);
     }
 }

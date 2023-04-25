@@ -6,6 +6,17 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.*;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassCategoryRepository;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassRepository;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassTagRepository;
+import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassCategoryNotFoundException;
@@ -21,7 +32,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ClassAdapter implements ManageClassPort, GetClassPort {
+public class ClassAdapter implements ManageClassPort, GetClassPort, GetClassMemberPort {
 
     private final ClassRepository classRepository;
     private final ClassCategoryRepository classCategoryRepository;
@@ -42,6 +53,11 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public void deleteClassTagList(long classSeq) {
         classTagRepository.deleteAllByClazzSeq(classSeq);
+    }
+
+    @Override
+    public ClassMemberEntity applyClass(ClassMemberEntity classMemberEntity) {
+        return classMemberRepository.save(classMemberEntity);
     }
 
     @Override
@@ -105,5 +121,18 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
         return classReviewRepository.findByClazzSeq(classSeq,pageable);
     }
 
+    @Override
+    public ClassDetailResponse getClassDetail(long classSeq) {
+        return classRepository.getClassDetail(classSeq);
+    }
 
+    @Override
+    public Long getClassApplicationPeople(long classSeq) {
+        return classMemberRepository.countByClazzSeq(classSeq);
+    }
+
+    @Override
+    public boolean existsClassMember(long memberSeq, long classSeq) {
+        return classMemberRepository.existsByMemberSeqAndClazzSeq(memberSeq, classSeq);
+    }
 }

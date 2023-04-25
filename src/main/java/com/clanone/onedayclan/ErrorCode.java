@@ -20,7 +20,9 @@ public enum ErrorCode {
     INVALID_TOGETHER_CLASS(HttpStatus.NOT_FOUND, "존재하지 않는 게시글입니다."),
     CLASS_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
     CLASS_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 클래스입니다."),
-    CLASS_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "신청하지 않은 회원입니다.");
+    CLASS_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "신청하지 않은 회원입니다."),
+    CLASS_NOT_APPLICATION(HttpStatus.BAD_REQUEST, "신청할 수 없는 클래스입니다."),
+    CLASS_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "이미 신청한 수업입니다.");
 
     private final HttpStatus httpStatus;
     private final String resultMessage;

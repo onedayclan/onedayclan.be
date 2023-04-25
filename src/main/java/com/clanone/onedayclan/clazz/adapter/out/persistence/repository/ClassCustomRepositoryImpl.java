@@ -3,7 +3,9 @@ package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassDetailResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.domain.enums.AttendanceCheck;
 import com.clanone.onedayclan.clazz.domain.enums.ClassListSort;
@@ -180,6 +182,40 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
                         betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
                 .fetchOne();
         return new PageImpl<>(result, pageable, count);
+    }
+    
+    @Override
+    public ClassDetailResponse getClassDetail(long classSeq) {
+        return jpaQueryFactory.select(Projections.fields(ClassDetailResponse.class,
+                        classEntity.seq,
+                        classEntity.thumbnail.fileName,
+                        classEntity.name,
+                        classEntity.category.name.as("category"),
+                        classEntity.status,
+                        classEntity.teacherName,
+                        classEntity.startAt,
+                        classEntity.endAt,
+                        classEntity.limitPeople,
+                        ExpressionUtils.as(
+                                JPAExpressions.select(classMemberEntity.seq.count())
+                                        .from(classMemberEntity)
+                                        .where(classMemberEntity.clazz.seq.eq(classEntity.seq)),
+                                "applicationPeople"),
+                        classEntity.organizationFee,
+                        classEntity.organizationFee,
+                        classEntity.applicationEndAt,
+                        classEntity.offlineYn,
+                        classEntity.offlineLink,
+                        classEntity.description,
+                        classEntity.progress,
+                        classEntity.longitude,
+                        classEntity.latitude,
+                        classEntity.location,
+                        classEntity.locationDetail
+                ))
+                .from(classEntity)
+                .where(classEntity.seq.eq(classSeq))
+                .fetchOne();
     }
 
     private BooleanExpression containName(String name) {
