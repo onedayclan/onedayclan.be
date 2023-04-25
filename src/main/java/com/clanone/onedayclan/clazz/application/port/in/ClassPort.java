@@ -26,6 +26,8 @@ public interface ClassPort {
     Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable);
     Page<AdminClassMemberResponse> getClassMemberList(long classSeq, Pageable pageable);
     Page<AdminClassMemberListResponse> searchClassMemberList(AdminClassMemberSearchRequest request, Pageable pageable);
+    Page<AdminClassReviewResponse> searchClassReviewList(AdminClassReviewSearchRequest request, Pageable pageable);
+    Page<AdminClassReviewDetailResponse> getClassReviewDetail(long classSeq, Pageable pageable);
     ClassDetailResponse getClassDetail(long classSeq);
     ApplyClassResponse applyClass(String userId, ApplyClassRequest applyClassRequest);
 }
