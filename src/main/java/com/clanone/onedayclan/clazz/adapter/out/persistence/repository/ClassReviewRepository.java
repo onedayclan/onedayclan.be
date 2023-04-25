@@ -6,7 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Repository
+public interface ClassReviewRepository extends JpaRepository<ClassReviewEntity, Long> {
+    long countByMemberSeqAndCreatedAtBetween(long memberSeq, LocalDateTime startAt, LocalDateTime endAt);
 public interface ClassReviewRepository extends JpaRepository<ClassReviewEntity, Long>, ClassReviewCustomRepository {
     Page<ClassReviewEntity> findByClazzSeq(long classSeq, Pageable pageable);
 }

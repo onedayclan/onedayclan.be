@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.entity;
 
+import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "class_review")
 @NoArgsConstructor
-public class ClassReviewEntity {
+public class ClassReviewEntity extends AbstractUpdatableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long seq;
