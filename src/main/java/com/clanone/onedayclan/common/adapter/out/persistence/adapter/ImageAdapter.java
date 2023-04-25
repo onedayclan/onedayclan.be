@@ -7,6 +7,8 @@ import com.clanone.onedayclan.common.application.service.exception.ImageNotFound
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class ImageAdapter implements ImagePort {
@@ -31,5 +33,10 @@ public class ImageAdapter implements ImagePort {
     @Override
     public void deleteImage(long imageSeq) {
         imageEntityRepository.deleteById(imageSeq);
+    }
+
+    @Override
+    public List<ImageEntity> getImageListBySeq(List<Long> imageSeqList) {
+        return imageEntityRepository.findBySeqIn(imageSeqList);
     }
 }
