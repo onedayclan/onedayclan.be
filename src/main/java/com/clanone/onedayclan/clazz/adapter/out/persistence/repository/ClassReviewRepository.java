@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Repository
-public interface ClassReviewRepository extends JpaRepository<ClassReviewEntity, Long> {
-    long countByMemberSeqAndCreatedAtBetween(long memberSeq, LocalDateTime startAt, LocalDateTime endAt);
 public interface ClassReviewRepository extends JpaRepository<ClassReviewEntity, Long>, ClassReviewCustomRepository {
+    long countByMemberSeqAndCreatedAtBetween(long memberSeq, LocalDateTime startAt, LocalDateTime endAt);
     Page<ClassReviewEntity> findByClazzSeq(long classSeq, Pageable pageable);
 }
