@@ -1,17 +1,19 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.repository;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassInfoResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassDetailResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
+import com.clanone.onedayclan.clazz.domain.enums.AttendanceCheck;
 import com.clanone.onedayclan.clazz.domain.enums.ClassListSort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.jsonwebtoken.lang.Collections;
@@ -32,8 +34,8 @@ import java.util.Objects;
 
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassEntity.classEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassMemberEntity.classMemberEntity;
+import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassReviewEntity.classReviewEntity;
 import static com.clanone.onedayclan.clazz.adapter.out.persistence.entity.QClassTagEntity.classTagEntity;
-import static com.clanone.onedayclan.member.adapter.out.persistence.entity.QOrganizationEntity.organizationEntity;
 import static org.hibernate.internal.util.StringHelper.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -151,6 +153,38 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
     }
 
     @Override
+    public Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable) {
+        List<AdminClassInfoResponse> result = jpaQueryFactory.select(Projections.fields(AdminClassInfoResponse.class,
+                classEntity.seq,
+                classEntity.thumbnail.url.as("thumbnailUrl"),
+                classEntity.name.as("className"),
+                classEntity.category.name.as("classCategory"),
+                classEntity.startAt,
+                ExpressionUtils.as(
+                        JPAExpressions.select(classMemberEntity.seq.count())
+                                .from(classMemberEntity)
+                                .where(classMemberEntity.clazz.seq.eq(classEntity.seq).and(classMemberEntity.attendanceCheck.eq(Expressions.enumPath(AttendanceCheck.class, "'" + AttendanceCheck.ATTENDANCE + "'")))),
+                        "attendanceCount")
+
+                ))
+                .from(classEntity)
+                .innerJoin(classReviewEntity).on(classReviewEntity.clazz.seq.eq(classEntity.seq))
+                .where(containName(optionModel.getName()),
+                        eqCategorySeq(optionModel.getCategorySeq()),
+                        betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
+                .fetch();
+
+        long count = jpaQueryFactory.select(classEntity.seq.count())
+                .from(classEntity)
+                .innerJoin(classReviewEntity).on(classReviewEntity.clazz.seq.eq(classEntity.seq))
+                .where(containName(optionModel.getName()),
+                        eqCategorySeq(optionModel.getCategorySeq()),
+                        betweenProcessAt(optionModel.getStartAt(), optionModel.getEndAt()))
+                .fetchOne();
+        return new PageImpl<>(result, pageable, count);
+    }
+    
+    @Override
     public ClassDetailResponse getClassDetail(long classSeq) {
         return jpaQueryFactory.select(Projections.fields(ClassDetailResponse.class,
                         classEntity.seq,
@@ -202,6 +236,10 @@ public class ClassCustomRepositoryImpl implements ClassCustomRepository{
 
     private BooleanExpression betweenCreatedAt(LocalDateTime from, LocalDateTime to) {
         return (from != null && to != null) ? classEntity.createdAt.between(from, to) : null;
+    }
+
+    private BooleanExpression betweenProcessAt(LocalDateTime from, LocalDateTime to) {
+        return (from != null && to != null) ? classEntity.startAt.between(from, to) : null;
     }
 
     private BooleanExpression eqCategory(Long categorySeq) {

@@ -2,6 +2,10 @@ package com.clanone.onedayclan.clazz.adapter.out.persistence.adapter;
 
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
@@ -34,6 +38,7 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     private final ClassCategoryRepository classCategoryRepository;
     private final ClassTagRepository classTagRepository;
     private final ClassMemberRepository classMemberRepository;
+    private final ClassReviewRepository classReviewRepository;
 
     @Override
     public ClassEntity insertClass(ClassEntity classEntity) {
@@ -99,6 +104,21 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable) {
         return classMemberRepository.searchClassMemberList(optionModel, pageable);
+    }
+
+    @Override
+    public Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable) {
+        return classRepository.getClassInfoList(optionModel, pageable);
+    }
+
+    @Override
+    public List<AdminClassReviewInfoResponse> getClassReviewInfoList(List<Long> classSeqList) {
+        return classReviewRepository.getReviewInfoByClassSeq(classSeqList);
+    }
+
+    @Override
+    public Page<ClassReviewEntity> getClassReviewByClassSeq(long classSeq, Pageable pageable) {
+        return classReviewRepository.findByClazzSeq(classSeq,pageable);
     }
 
     @Override

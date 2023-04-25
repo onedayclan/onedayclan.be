@@ -33,5 +33,9 @@ public class ClassReviewQuestionCheckEntity {
                 .review(reviewEntity)
                 .question(questionEntity)
                 .build();
+
+    public String getQuestionTitle() {
+        return this.question.getQuestion();
+
     }
 }

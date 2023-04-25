@@ -6,10 +6,7 @@ import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassCreateReque
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassSearchRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.AdminClassUpdateRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategoryEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
@@ -31,6 +28,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -176,6 +174,32 @@ public class ClassService implements ClassPort {
         return getClassPort.searchClassMemberList(ClassMemberSearchModel.of(request), pageable);
     }
 
+    @Override
+    public Page<AdminClassReviewResponse> searchClassReviewList(AdminClassReviewSearchRequest request, Pageable pageable) {
+        //클래스 목록 조회
+        Page<AdminClassInfoResponse> classListPage = getClassPort.getClassInfoList(ClassSearchModel.of(request), pageable);
+        List<AdminClassInfoResponse> classList = classListPage.getContent();
+
+        //리뷰 조회
+        Map<Long, AdminClassReviewInfoResponse> reviewMap = getClassPort.getClassReviewInfoList(classList.stream().map(AdminClassInfoResponse::getSeq).collect(Collectors.toList()))
+                .stream()
+                .collect(Collectors.toMap(AdminClassReviewInfoResponse::getSeq, i -> i));
+
+        //클래스, 리뷰 정보 조합
+        List<AdminClassReviewResponse> reviewResponseList = classList.stream()
+                .map(c -> AdminClassReviewResponse.of(c, reviewMap.get(c.getSeq())))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(reviewResponseList, pageable, classListPage.getTotalElements());
+    }
+
+    @Override
+    public Page<AdminClassReviewDetailResponse> getClassReviewDetail(long classSeq, Pageable pageable) {
+        Page<ClassReviewEntity> reviewListPage = getClassPort.getClassReviewByClassSeq(classSeq, pageable);
+        List<AdminClassReviewDetailResponse> reviewResponseList = reviewListPage.getContent().stream().map(AdminClassReviewDetailResponse::of).collect(Collectors.toList());
+        return new PageImpl<>(reviewResponseList, pageable, reviewListPage.getTotalElements());
+    }
+    
     @Override
     public ClassDetailResponse getClassDetail(long classSeq) {
         return getClassPort.getClassDetail(classSeq);
