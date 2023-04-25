@@ -18,6 +18,7 @@ public class MemberSearchResponse {
     private MemberStatusType status;
     private String memo;
     private long memberCount;
+    private String phone;
 
     public String getOrganizationStatus() {
         if(Objects.isNull(this.organizationStatus)) {

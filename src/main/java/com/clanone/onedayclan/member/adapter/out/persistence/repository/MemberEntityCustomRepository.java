@@ -38,6 +38,7 @@ public class MemberEntityCustomRepository {
                         memberEntity.organizationStatus,
                         memberEntity.createdAt,
                         memberEntity.status,
+                        memberEntity.phone,
                         memberEntity.memo
                 ))
                 .from(memberEntity)
