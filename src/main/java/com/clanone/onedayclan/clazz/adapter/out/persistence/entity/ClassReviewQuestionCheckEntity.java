@@ -27,4 +27,11 @@ public class ClassReviewQuestionCheckEntity {
         this.review = review;
         this.question = question;
     }
+
+    public static ClassReviewQuestionCheckEntity of(ClassReviewEntity reviewEntity, ClassReviewQuestionEntity questionEntity){
+        return ClassReviewQuestionCheckEntity.builder()
+                .review(reviewEntity)
+                .question(questionEntity)
+                .build();
+    }
 }

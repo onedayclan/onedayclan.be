@@ -1,5 +1,6 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.entity;
 
+import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassReviewRepository;
 import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -30,5 +31,12 @@ public class ClassReviewImageEntity {
     public ClassReviewImageEntity(ClassReviewEntity review, ImageEntity image) {
         this.review = review;
         this.image = image;
+    }
+
+    public static ClassReviewImageEntity of(ClassReviewEntity reviewEntity, ImageEntity imageEntity) {
+        return ClassReviewImageEntity.builder()
+                .review(reviewEntity)
+                .image(imageEntity)
+                .build();
     }
 }

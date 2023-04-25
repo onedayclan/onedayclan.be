@@ -27,4 +27,5 @@ public interface GetClassPort {
     Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable);
     Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable);
     ClassDetailResponse getClassDetail(long classSeq);
+    boolean checkMemberAttendClass(String userId,long classSeq);
 }

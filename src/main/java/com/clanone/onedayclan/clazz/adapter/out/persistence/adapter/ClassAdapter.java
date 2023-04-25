@@ -12,12 +12,12 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassCate
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassTagRepository;
-import com.clanone.onedayclan.clazz.application.port.out.GetClassMemberPort;
 import com.clanone.onedayclan.clazz.application.port.out.GetClassPort;
 import com.clanone.onedayclan.clazz.application.port.out.ManageClassPort;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassCategoryNotFoundException;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassInfoNotFoundException;
 import com.clanone.onedayclan.clazz.application.service.exception.ClassMemberNotFoundException;
+import com.clanone.onedayclan.clazz.domain.enums.AttendanceCheck;
 import com.clanone.onedayclan.clazz.domain.enums.ClassStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -104,5 +104,10 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public ClassDetailResponse getClassDetail(long classSeq) {
         return classRepository.getClassDetail(classSeq);
+    }
+
+    @Override
+    public boolean checkMemberAttendClass(String userId, long classSeq) {
+        return classMemberRepository.existsByMemberUserIdAndClazzSeqAndAttendanceCheck(userId, classSeq, AttendanceCheck.ATTENDANCE);
     }
 }

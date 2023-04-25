@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ClassReviewQuestionRepository extends JpaRepository<ClassReviewQuestionEntity,Long> {
     List<ClassReviewQuestionEntity> findByUsedYnOrderByCreatedAtDesc(boolean usedYn);
+    List<ClassReviewQuestionEntity> findBySeqIn(List<Long> questionSeq);
 }

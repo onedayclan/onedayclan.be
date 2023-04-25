@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GetClassReviewQuestionPort {
     List<ClassReviewQuestionEntity> getClassReviewQuestionList();
+    List<ClassReviewQuestionEntity> getClassReviewQuestionBySeqList(List<Long> questionSeq);
 }
