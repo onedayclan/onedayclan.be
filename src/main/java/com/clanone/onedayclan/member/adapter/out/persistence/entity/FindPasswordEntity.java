@@ -3,6 +3,7 @@ package com.clanone.onedayclan.member.adapter.out.persistence.entity;
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,10 @@ public class FindPasswordEntity extends AbstractUpdatableEntity {
         this.usedYn = true;
     }
 
+    @Builder
+    public FindPasswordEntity(String email, String authorizationCode, LocalDateTime validAt) {
+        this.email = email;
+        this.authorizationCode = authorizationCode;
+        this.validAt = validAt;
+    }
 }

@@ -1,11 +1,14 @@
 package com.clanone.onedayclan.clazz.adapter.out.persistence.entity;
 
 import com.clanone.onedayclan.audit.AbstractUpdatableEntity;
+import com.clanone.onedayclan.common.adapter.out.persistence.entity.ImageEntity;
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @Entity
@@ -32,6 +35,12 @@ public class ClassReviewEntity extends AbstractUpdatableEntity {
 
     @Column(nullable = false, length = 500)
     private String wishClass;
+
+    @OneToMany(mappedBy = "review")
+    private List<ClassReviewQuestionCheckEntity> questionCheckList;
+
+    @OneToMany(mappedBy = "review")
+    private List<ClassReviewImageEntity> imageList;
 
     @Builder
     public ClassReviewEntity(ClassEntity clazz, MemberEntity member, String content, int star, String wishClass) {

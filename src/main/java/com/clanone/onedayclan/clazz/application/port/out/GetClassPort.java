@@ -1,7 +1,8 @@
 package com.clanone.onedayclan.clazz.application.port.out;
 
-import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassMemberListResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
+import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.*;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.AdminClassResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassDetailResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
@@ -26,5 +27,8 @@ public interface GetClassPort {
     Page<ClassListResponse> getMainClassList(ClassSearchRequest classSearchRequest, Pageable pageable);
     Page<ClassMemberEntity> getClassMemberList(long classSeq, Pageable pageable);
     Page<AdminClassMemberListResponse> searchClassMemberList(ClassMemberSearchModel optionModel, Pageable pageable);
+    Page<AdminClassInfoResponse> getClassInfoList(ClassSearchModel optionModel, Pageable pageable);
+    List<AdminClassReviewInfoResponse> getClassReviewInfoList(List<Long> classSeqList);
+    Page<ClassReviewEntity> getClassReviewByClassSeq(long classSeq, Pageable pageable);
     ClassDetailResponse getClassDetail(long classSeq);
 }

@@ -27,4 +27,8 @@ public class ClassReviewQuestionCheckEntity {
         this.review = review;
         this.question = question;
     }
+
+    public String getQuestionTitle() {
+        return this.question.getQuestion();
+    }
 }
