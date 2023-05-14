@@ -22,6 +22,7 @@ public class OrganizationConfirmResponse {
                 .userId(member.getUserId())
                 .name(member.getName())
                 .organizationName(member.getRequestOrganization().getName())
+                .phone(member.getPhone())
                 .createdAt(member.getCreatedAt())
                 .build();
     }
