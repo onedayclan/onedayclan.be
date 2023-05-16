@@ -21,6 +21,7 @@ public class MemberDetailResponse {
     private MemberOrganizationStatus organizationStatus;
     private LocalDateTime inactiveAt;
     private LocalDateTime penaltyAt;
+    private LocalDateTime createdAt;
     private String displayMessage;
     private LocalDateTime displayMessageStartAt;
     private LocalDateTime displayMessageEndAt;
@@ -43,6 +44,7 @@ public class MemberDetailResponse {
                 .organizationStatus(member.getOrganizationStatus())
                 .inactiveAt(member.getInactiveAt())
                 .penaltyAt(member.getPenaltyEndAt())
+                .createdAt(member.getCreatedAt())
                 .displayMessage(member.getDisplayMessage())
                 .displayMessageStartAt(member.getDisplayMessageStartAt())
                 .displayMessageEndAt(member.getDisplayMessageEndAt())
