@@ -36,6 +36,7 @@ public class OrganizationMemberDetailResponse {
                 .organization(OrganizationResponse.of(member.getConfirmOrganization()))
                 .phone(member.getPhone())
                 .memberCount(memberCount)
+                .createdAt(member.getCreatedAt())
                 .build();
     }
 }
