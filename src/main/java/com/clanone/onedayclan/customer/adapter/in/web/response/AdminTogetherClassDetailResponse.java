@@ -13,6 +13,7 @@ public class AdminTogetherClassDetailResponse {
     private String title;
     private String organizationName;
     private TogetherClassCategory category;
+    private int limitPeople;
     private String content;
     private String answer;
     private LocalDateTime createdAt;

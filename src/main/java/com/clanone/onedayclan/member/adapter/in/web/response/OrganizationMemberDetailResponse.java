@@ -4,6 +4,8 @@ import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 public class OrganizationMemberDetailResponse {
@@ -13,6 +15,7 @@ public class OrganizationMemberDetailResponse {
     private OrganizationResponse organization;
     private String phone;
     private long memberCount;
+    private LocalDateTime createdAt;
 
     public static OrganizationMemberDetailResponse of(MemberEntity member) {
         return OrganizationMemberDetailResponse.builder()
@@ -21,6 +24,7 @@ public class OrganizationMemberDetailResponse {
                 .name(member.getName())
                 .organization(OrganizationResponse.of(member.getConfirmOrganization()))
                 .phone(member.getPhone())
+                .createdAt(member.getCreatedAt())
                 .build();
     }
 
