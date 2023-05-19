@@ -16,6 +16,7 @@ public class OrganizationMemberDetailResponse {
     private String phone;
     private long memberCount;
     private LocalDateTime createdAt;
+    private String memo;
 
     public static OrganizationMemberDetailResponse of(MemberEntity member) {
         return OrganizationMemberDetailResponse.builder()
@@ -25,6 +26,7 @@ public class OrganizationMemberDetailResponse {
                 .organization(OrganizationResponse.of(member.getConfirmOrganization()))
                 .phone(member.getPhone())
                 .createdAt(member.getCreatedAt())
+                .memo(member.getMemo())
                 .build();
     }
 
@@ -37,6 +39,7 @@ public class OrganizationMemberDetailResponse {
                 .phone(member.getPhone())
                 .memberCount(memberCount)
                 .createdAt(member.getCreatedAt())
+                .memo(member.getMemo())
                 .build();
     }
 }
