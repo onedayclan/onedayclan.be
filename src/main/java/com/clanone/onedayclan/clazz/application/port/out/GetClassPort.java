@@ -32,4 +32,5 @@ public interface GetClassPort {
     Page<ClassReviewEntity> getClassReviewByClassSeq(long classSeq, Pageable pageable);
     ClassDetailResponse getClassDetail(long classSeq);
     boolean checkMemberAttendClass(String userId,long classSeq);
+    List<ClassCategoryEntity> getClassCategoryList();
 }

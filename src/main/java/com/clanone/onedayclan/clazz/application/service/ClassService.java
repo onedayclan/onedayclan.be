@@ -236,4 +236,9 @@ public class ClassService implements ClassPort {
 
         return ApplyClassResponse.of(classEntity, classApplicationPeople);
     }
+
+    @Override
+    public List<ClassCategoryListResponse> getClassCategoryList() {
+        return getClassPort.getClassCategoryList().stream().map(ClassCategoryListResponse::of).collect(Collectors.toList());
+    }
 }

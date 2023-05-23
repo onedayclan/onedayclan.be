@@ -10,8 +10,6 @@ import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassCategory
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassMemberEntity;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.entity.ClassTagEntity;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassMemberSearchModel;
-import com.clanone.onedayclan.clazz.adapter.out.persistence.model.ClassSearchModel;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassCategoryRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassMemberRepository;
 import com.clanone.onedayclan.clazz.adapter.out.persistence.repository.ClassRepository;
@@ -129,5 +127,10 @@ public class ClassAdapter implements ManageClassPort, GetClassPort {
     @Override
     public boolean checkMemberAttendClass(String userId, long classSeq) {
         return classMemberRepository.existsByMemberUserIdAndClazzSeqAndAttendanceCheck(userId, classSeq, AttendanceCheck.ATTENDANCE);
+    }
+
+    @Override
+    public List<ClassCategoryEntity> getClassCategoryList() {
+        return classCategoryRepository.findAll();
     }
 }

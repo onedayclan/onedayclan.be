@@ -3,10 +3,7 @@ package com.clanone.onedayclan.clazz.adapter.in.web.controller;
 import com.clanone.onedayclan.OnedayclanResponse;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ApplyClassRequest;
 import com.clanone.onedayclan.clazz.adapter.in.web.request.ClassSearchRequest;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.ApplyClassResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassDetailResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.ClassListResponse;
-import com.clanone.onedayclan.clazz.adapter.in.web.response.LatestClassResponse;
+import com.clanone.onedayclan.clazz.adapter.in.web.response.*;
 import com.clanone.onedayclan.clazz.application.port.in.ClassPort;
 import com.clanone.onedayclan.clazz.domain.enums.ClassListSort;
 import com.clanone.onedayclan.common.resolver.LoginUserId;
@@ -24,9 +21,15 @@ import java.util.List;
 public class ClassController {
 
     private final ClassPort classPort;
+
     @GetMapping("/main")
     public ResponseEntity<OnedayclanResponse<List<LatestClassResponse>>> getLatestClass(){
         return ResponseEntity.ok(OnedayclanResponse.of(classPort.getLatestClass()));
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<OnedayclanResponse<List<ClassCategoryListResponse>>> getClassCategoryList() {
+        return ResponseEntity.ok(OnedayclanResponse.of(classPort.getClassCategoryList()));
     }
 
     /**
