@@ -1,6 +1,7 @@
 package com.clanone.onedayclan.member.adapter.in.web.response;
 
 import com.clanone.onedayclan.member.adapter.out.persistence.entity.MemberEntity;
+import com.clanone.onedayclan.member.domain.enums.MemberStatusType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,6 +18,7 @@ public class OrganizationMemberDetailResponse {
     private long memberCount;
     private LocalDateTime createdAt;
     private String memo;
+    private MemberStatusType status;
 
     public static OrganizationMemberDetailResponse of(MemberEntity member) {
         return OrganizationMemberDetailResponse.builder()
@@ -27,6 +29,7 @@ public class OrganizationMemberDetailResponse {
                 .phone(member.getPhone())
                 .createdAt(member.getCreatedAt())
                 .memo(member.getMemo())
+                .status(member.getStatus())
                 .build();
     }
 
@@ -40,6 +43,7 @@ public class OrganizationMemberDetailResponse {
                 .memberCount(memberCount)
                 .createdAt(member.getCreatedAt())
                 .memo(member.getMemo())
+                .status(member.getStatus())
                 .build();
     }
 }

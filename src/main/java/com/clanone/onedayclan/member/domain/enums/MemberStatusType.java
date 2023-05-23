@@ -3,7 +3,8 @@ package com.clanone.onedayclan.member.domain.enums;
 import lombok.Getter;
 
 @Getter
-public enum MemberStatusType {
+public enum
+MemberStatusType {
     NORMAL("이용 중"),
     WITHDRAW("탈퇴"),
     STOP("정지"),
