@@ -30,4 +30,5 @@ public interface ClassPort {
     Page<AdminClassReviewDetailResponse> getClassReviewDetail(long classSeq, Pageable pageable);
     ClassDetailResponse getClassDetail(long classSeq);
     ApplyClassResponse applyClass(String userId, ApplyClassRequest applyClassRequest);
+    List<ClassCategoryListResponse> getClassCategoryList();
 }
