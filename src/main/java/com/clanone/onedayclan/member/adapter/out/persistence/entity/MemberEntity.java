@@ -100,6 +100,12 @@ public class MemberEntity extends AbstractUpdatableEntity implements UserDetails
     }
 
     public void updateMemberInfo(MemberUpdateRequest request) {
+        if(!this.status.equals(MemberStatusType.WITHDRAW) && request.getStatus().equals(MemberStatusType.WITHDRAW)) {
+            this.inactiveAt = LocalDateTime.now();
+        } else if (this.status.equals(MemberStatusType.WITHDRAW) && !request.getStatus().equals(MemberStatusType.WITHDRAW)) {
+            this.inactiveAt = null;
+        }
+
         this.status = request.getStatus();
         this.displayMessage = request.getDisplayMessage();
 
