@@ -7,6 +7,7 @@ import com.clanone.onedayclan.customer.adapter.in.web.response.TermsResponse;
 import com.clanone.onedayclan.customer.adapter.out.persistence.entity.TermsEntity;
 import com.clanone.onedayclan.customer.application.port.in.TermsPort;
 import com.clanone.onedayclan.customer.application.port.out.GetTermsPort;
+import com.clanone.onedayclan.customer.application.port.out.ManageTermsPort;
 import com.clanone.onedayclan.customer.domain.enums.TermsType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class TermService implements TermsPort {
 
     private final GetTermsPort getTermsPort;
+    private final ManageTermsPort manageTermsPort;
 
     @Override
     public List<TermsResponse> getTerms() {
@@ -52,5 +54,15 @@ public class TermService implements TermsPort {
         TermsEntity terms = getTermsPort.getTerms(termsSeq);
         terms.update(request);
         return AdminTermsDetailResponse.of(terms);
+    }
+
+    @Override
+    public AdminTermsDetailResponse insertTermsForAdmin(TermsCreateRequest request) {
+        TermsEntity terms = TermsEntity.builder()
+                .type(request.getType())
+                .title(request.getTitle())
+                .content(request.getContent())
+                .build();
+        return AdminTermsDetailResponse.of(manageTermsPort.saveTerms(terms));
     }
 }

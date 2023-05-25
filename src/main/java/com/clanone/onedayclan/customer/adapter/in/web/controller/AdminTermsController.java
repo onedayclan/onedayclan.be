@@ -37,4 +37,9 @@ public class AdminTermsController {
                                                                                     @Valid @RequestBody TermsCreateRequest request) {
         return ResponseEntity.ok(OnedayclanResponse.of(termsPort.updateTermsForAdmin(termsSeq,request)));
     }
+
+    @PostMapping("")
+    public ResponseEntity<OnedayclanResponse<AdminTermsDetailResponse>> insertTerms(@Valid @RequestBody TermsCreateRequest request) {
+        return ResponseEntity.ok(OnedayclanResponse.of(termsPort.insertTermsForAdmin(request)));
+    }
 }
