@@ -14,4 +14,5 @@ public interface TermsPort {
     Page<AdminTermsResponse> getTermsList(Pageable pageable);
     AdminTermsDetailResponse getTermsForAdmin(long termsSeq);
     AdminTermsDetailResponse updateTermsForAdmin(long termsSeq, TermsCreateRequest request);
+    AdminTermsDetailResponse insertTermsForAdmin(TermsCreateRequest request);
 }

@@ -35,7 +35,8 @@ public class TermsEntity extends AbstractImmutableEntity {
     }
 
     public void update(TermsCreateRequest request) {
-        this.title = request.getContent();
+        this.title = request.getTitle();
+        this.content = request.getContent();
         this.type = request.getType();
     }
 }

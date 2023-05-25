@@ -12,4 +12,6 @@ public class TermsCreateRequest {
 
     @NotEmpty(message = "내용을 입력해주세요")
     private String content;
+
+    private String title;
 }

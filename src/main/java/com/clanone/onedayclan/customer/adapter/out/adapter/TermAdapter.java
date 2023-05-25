@@ -5,6 +5,7 @@ import com.clanone.onedayclan.customer.adapter.out.persistence.entity.TermsEntit
 import com.clanone.onedayclan.customer.adapter.out.persistence.repository.TermsRepository;
 import com.clanone.onedayclan.customer.application.exception.TermsNotFoundException;
 import com.clanone.onedayclan.customer.application.port.out.GetTermsPort;
+import com.clanone.onedayclan.customer.application.port.out.ManageTermsPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class TermAdapter implements GetTermsPort {
+public class TermAdapter implements GetTermsPort, ManageTermsPort {
 
     private final TermsRepository termsRepository;
 
@@ -34,5 +35,10 @@ public class TermAdapter implements GetTermsPort {
     @Override
     public TermsEntity getTerms(long termsSeq) {
         return termsRepository.findById(termsSeq).orElseThrow(() -> {throw new TermsNotFoundException();});
+    }
+
+    @Override
+    public TermsEntity saveTerms(TermsEntity terms) {
+        return termsRepository.save(terms);
     }
 }
