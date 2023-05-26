@@ -12,7 +12,9 @@ public class AdminInquiryDetailResponse {
     private String name;
     private String userId;
     private String title;
+    private String content;
     private String answer;
+    private boolean deleteYn;
     private LocalDateTime createdAt;
 
     public static AdminInquiryDetailResponse of(InquiryEntity inquiry, String answer) {
@@ -20,7 +22,9 @@ public class AdminInquiryDetailResponse {
                 .name(inquiry.getMember().getName())
                 .userId(inquiry.getMember().getUserId())
                 .title(inquiry.getTitle())
+                .content(inquiry.getContent())
                 .answer(answer)
+                .deleteYn(inquiry.isDeleteYn())
                 .createdAt(inquiry.getCreatedAt())
                 .build();
     }
