@@ -59,7 +59,7 @@ public class NoticeService implements NoticePort {
 
     @Override
     public AdminNoticeDetailResponse getNoticeForAdmin(long noticeSeq) {
-        return AdminNoticeDetailResponse.of(getNoticePort.getNotice(noticeSeq));
+        return AdminNoticeDetailResponse.of(getNoticePort.getNoticeForAdmin(noticeSeq));
     }
 
     @Override
