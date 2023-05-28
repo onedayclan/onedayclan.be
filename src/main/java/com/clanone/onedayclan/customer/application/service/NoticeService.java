@@ -80,7 +80,7 @@ public class NoticeService implements NoticePort {
     @Override
     @Transactional
     public void deleteNotice(long noticeSeq) {
-        NoticeEntity notice = getNoticePort.getNotice(noticeSeq);
+        NoticeEntity notice = getNoticePort.getNoticeForAdmin(noticeSeq);
         if(notice.hasImage()) {
             imagePort.deleteImage(notice.getImage().getSeq());
         }
