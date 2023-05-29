@@ -31,8 +31,4 @@ public class AdminFaqResponse {
     public String getCategory() {
         return this.category.getName();
     }
-
-    public String isShowYn() {
-        return this.showYn ? "활성화" : "비활성화";
-    }
 }

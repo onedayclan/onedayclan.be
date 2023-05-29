@@ -12,6 +12,7 @@ public class AdminNoticeDetailResponse {
     private String title;
     private String content;
     private String imageUrl;
+    private long imageSeq;
     private boolean showYn;
 
     public static AdminNoticeDetailResponse of(NoticeEntity notice) {
@@ -19,6 +20,7 @@ public class AdminNoticeDetailResponse {
                 .seq(notice.getSeq())
                 .title(notice.getTitle())
                 .content(notice.getContent())
+                .imageSeq(notice.hasImage() ? notice.getImage().getSeq() : null)
                 .imageUrl(notice.hasImage() ? ImageUtil.getS3Bucket() + notice.getImage().getUrl() : null)
                 .showYn(notice.isShowYn())
                 .build();
